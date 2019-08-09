@@ -1,0 +1,66 @@
+{% extends "/backstage/base.html" %}
+
+{% block title %}
+文章管理
+{% endblock %}
+
+{% block style %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block container %}
+
+<form method="post" enctype=multipart/form-data>
+    <script src="/statics/js/tinymce_setup.js"></script>
+    <script src="/statics/tinymce/js/tinymce/tinymce.min.js"></script>
+    <div class="input-group" style="padding: 10px;">
+      <input type="text" class="form-control" name="title"  placeholder="请输入标题" aria-describedby="basic-addon2">
+      <span class="input-group-addon" id="basic-addon2" style="background:gainsboro;">文章标题</span>
+    </div>
+    <div class="input-group" style="padding: 10px;">
+        <textarea type="text" class="form-control" name="description"  placeholder="请输入描述" aria-describedby="basic-addon2"></textarea>
+    </div>
+    <div style="padding: 10px;">
+       <textarea class="content" name="content"></textarea>
+    </div>
+    <div style="padding: 10px">
+        <label style="color: black">文章标签：</label>
+        <input type="checkbox" name="article_tag" value="技术文章">技术文章
+    </div>
+    <div style="padding: 10px;">
+        <label style="color: black">文章类型：</label>
+        <input type="radio" name="acticle_type" value="原创" checked>原创
+        <input type="radio" name="acticle_type" value="转载">转载
+    </div>
+    <div style="padding: 10px">
+        <input type="submit" style="border: 1px solid red;color: red;width: 120px" class="btn btn-default" name="" value="发布文章">
+        <input type="submit" style="border: 1px solid red;color: red;width: 120px;margin-left: 30px" class="btn btn-default" name="" value="保存为草稿">
+        <input type="submit" style="border: 1px solid grey;color: grey;width: 120px;margin-left: 30px" class="btn btn-default" name="" value="返回">
+    </div>
+</form>
+{% endblock %}
+{% block script %}
+    <script>
+        tinymce.init({ selector:'.content',language:'zh_CN',height:400,plugins: [
+            'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'save table contextmenu directionality emoticons template paste textcolor',
+            'codesample',
+    ],toolbar: 'insertfile undo redo | \
+     styleselect | \
+     bold italic | \
+     alignleft aligncenter alignright alignjustify | \
+     bullist numlist outdent indent | \
+     link image | \
+     print preview media fullpage | \
+     forecolor backcolor emoticons |\
+     codesample fontsizeselect fullscreen',
+     fontsize_formats: '10pt 12pt 14pt 18pt 24pt 36pt',nonbreaking_force_tab: true,
+     image_reuse_filename:false,
+     images_upload_url: "/pasteimg/",
+     paste_data_images: true,});
+
+    </script>
+{% endblock %}
