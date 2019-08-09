@@ -1,44 +1,47 @@
-{% extends "/backstage/base.html" %}
+{% extends "backstage/base.html" %}
 
 {% block title %}
-文章管理
-{% endblock %}
-
-{% block style %}
-    <style>
-
-    </style>
+    文章详情
 {% endblock %}
 
 {% block container %}
-
-<form method="post" enctype=multipart/form-data>
+    <form method="post" enctype=multipart/form-data>
+    <input type="hidden" name="article_id" value="{{ article_obj.id }}">
     <script src="/statics/js/tinymce_setup.js"></script>
     <script src="/statics/tinymce/js/tinymce/tinymce.min.js"></script>
     <div class="input-group" style="padding: 10px;">
-      <input type="text" class="form-control" name="title"  placeholder="请输入标题" aria-describedby="basic-addon2">
+      <input type="text" class="form-control" name="title" value="{{ article_obj.title }}" aria-describedby="basic-addon2">
       <span class="input-group-addon" id="basic-addon2" style="background:gainsboro;">文章标题</span>
     </div>
     <div class="input-group" style="padding: 10px;">
-        <input type="text" name="author" class="form-control" placeholder="请输入作者" aria-describedby="basic-addon2">
+        <input type="text" name="author" class="form-control" value="{{ article_obj.author }}" aria-describedby="basic-addon2">
     </div>
     <div class="input-group" style="padding: 10px;">
-        <textarea type="text" class="form-control" name="description"  placeholder="请输入描述" aria-describedby="basic-addon2"></textarea>
+        <textarea type="text" class="form-control" name="description" aria-describedby="basic-addon2">{{ article_obj.description }}</textarea>
     </div>
     <div style="padding: 10px;">
-       <textarea class="content" name="content"></textarea>
+       <textarea class="content" name="content">{{ article_obj.content }}</textarea>
     </div>
 
     <div style="padding: 10px">
         <label style="color: black">文章标签：</label>
         {% for tag_obj in tag_obj_list %}
-        <input type="checkbox" name="article_tag" value="{{ tag_obj.id }}">{{ tag_obj.name }}&nbsp;&nbsp;
+            {% if tag_obj in article_obj.tag %}
+            <input type="checkbox" name="article_tag" value="{{ tag_obj.id }}" checked>{{ tag_obj.name }}&nbsp;&nbsp;
+            {% else %}
+            <input type="checkbox" name="article_tag" value="{{ tag_obj.id }}">{{ tag_obj.name }}&nbsp;&nbsp;
+            {% endif %}
         {% endfor %}
     </div>
     <div style="padding: 10px;">
         <label style="color: black">文章类型：</label>
-        <input type="radio" name="article_type" value="原创" checked>原创&nbsp;&nbsp;
-        <input type="radio" name="article_type" value="转载">转载
+        {% if article_obj.article_type == "原创" %}
+            <input type="radio" name="article_type" value="原创" checked>原创&nbsp;&nbsp;
+            <input type="radio" name="article_type" value="转载">转载
+        {% else %}
+            <input type="radio" name="article_type" value="原创">原创&nbsp;&nbsp;
+            <input type="radio" name="article_type" value="转载" checked>转载
+        {% endif %}
     </div>
     <div style="padding: 10px">
         <input type="submit" style="border: 1px solid red;color: red;width: 120px" class="btn btn-default" name="" value="发布文章">

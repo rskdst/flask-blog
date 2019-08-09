@@ -1,6 +1,5 @@
-from flask import Blueprint
-from myblog import models
-
+from flask import Blueprint,redirect
+from myblog.models import *
 backstage = Blueprint("backstage",__name__)
 
 @backstage.route("/backstage/",methods=["get",])
@@ -10,22 +9,71 @@ def main():
 @backstage.route("/backstage/add_article/",methods=["get","post"])
 def add_article():
     if request.method == "GET":
-        tag_id = models.Tag.query.all()
-        print(tag_id)
-        return render_template("/backstage/add_article.html")
+        tag_obj_list = Tag.query.all()
+        return render_template("/backstage/add_article.html",**{"tag_obj_list":tag_obj_list})
     else:
-        print(request.form)
+        article_tag = request.form.getlist("article_tag")
+        author = request.form.get("author")
         title = request.form.get("title")
         description = request.form.get("description")
-
-
+        content = request.form.get("content")
+        article_type = request.form.get("article_type")
+        try:
+            article_obj = Article(
+                title=title,
+                author=author,
+                description=description,
+                content=content,
+                article_type=article_type
+            )
+            tag_list = [Tag.query.get(int(tag)) for tag in article_tag]
+            article_obj.tag = tag_list
+            db.session.add_all([article_obj,])
+            db.session.commit()
+        except Exception as e:
+            print(e)
+        print(article_tag,author,title,description,content,article_type)
         return render_template("/backstage/add_article.html")
 
 @backstage.route("/backstage/article_list/",methods=["get","post"])
 def article_list():
-    return render_template("/backstage/article_list.html")
+    article_obj_list = Article.query.order_by(db.desc("created_date"))
 
+    return render_template("/backstage/article_list.html",**{"article_obj_list":article_obj_list})
 
+@backstage.route("/backstage/article_detail/",methods=["get","post"])
+def article_detail():
+    if request.method == "GET":
+        tag_obj_list = Tag.query.all()
+        id = int(request.args.get("id"))
+        article_obj = Article.query.get(id)
+        params = {
+            "article_obj": article_obj,
+            "tag_obj_list":tag_obj_list
+        }
+    else:
+        id = int(request.form.get("article_id"))
+        article_tag = request.form.getlist("article_tag")
+        author = request.form.get("author")
+        title = request.form.get("title")
+        description = request.form.get("description")
+        content = request.form.get("content")
+        article_type = request.form.get("article_type")
+        try:
+            article_obj = Article.query.get(id)
+            article_obj.title = title
+            article_obj.author = author
+            article_obj.description = description
+            article_obj.content = content
+            article_obj.article_type = article_type
+            article_obj.title = title
+            tag_list = [Tag.query.get(int(tag)) for tag in article_tag]
+            article_obj.tag = tag_list
+            db.session.commit()
+        except Exception as e:
+            print(e)
+        return redirect("/backstage/article_list/")
+    return render_template("/backstage/article_detail.html",**params)
 
 
 

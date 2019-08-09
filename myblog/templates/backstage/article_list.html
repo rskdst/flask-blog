@@ -5,5 +5,21 @@
 {% endblock %}
 
 {% block container %}
-<h1>文章列表页</h1>
+<div style="padding: 10px">
+      {% for article_obj in article_obj_list %}
+      <li>
+            <h3><a href="/backstage/article_detail/?id={{ article_obj.id }}">{{ article_obj.title }}</a></h3>
+            <p>{{ article_obj.description }}</p>
+            <hr>
+            <span style="font-size: 10px;margin-right: 200px">时间：{{ article_obj.created_date }}&nbsp;&nbsp;&nbsp;&nbsp;
+                作者：{{ article_obj.author }}&nbsp;&nbsp;&nbsp;&nbsp;
+                标签：{% for tag_obj in article_obj.tag %}
+                    {{ tag_obj.name }}&nbsp;
+                    {% endfor %}
+            </span>
+      </li>
+      <br>
+      {% endfor %}
+    <div class="pagelist"><a class="allpage"><b>99</b></a>&nbsp;&nbsp;<a href="#" class="curPage">1</a>&nbsp;&nbsp;<a href="#" onclick="page(2)">2</a>&nbsp;&nbsp;<a href="#" onclick="page(3)">3</a>&nbsp;&nbsp;<a href="#" onclick="page(4)">4</a>&nbsp;&nbsp;<a href="#" onclick="page(5)">5</a>&nbsp;&nbsp;<a href="#" onclick="page(6)">6</a>&nbsp;&nbsp;<a href="#" onclick="page(7)">7</a>&nbsp;&nbsp;<a href="#" onclick="page(8)">8</a>&nbsp;&nbsp;<a href="#" onclick="page(9)">9</a>&nbsp;&nbsp;<a href="#" onclick="page(2)">下一页</a></div>
+  </div>
 {% endblock %}
