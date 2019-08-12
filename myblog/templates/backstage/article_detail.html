@@ -9,6 +9,8 @@
     <input type="hidden" name="article_id" value="{{ article_obj.id }}">
     <script src="/statics/js/tinymce_setup.js"></script>
     <script src="/statics/tinymce/js/tinymce/tinymce.min.js"></script>
+    <link href="/statics/css/prism.css" rel="stylesheet" />
+    <script src="/statics/js/prism.js"></script>
     <div class="input-group" style="padding: 10px;">
       <input type="text" class="form-control" name="title" value="{{ article_obj.title }}" aria-describedby="basic-addon2">
       <span class="input-group-addon" id="basic-addon2" style="background:gainsboro;">文章标题</span>
@@ -52,24 +54,37 @@
 {% endblock %}
 {% block script %}
     <script>
-        tinymce.init({ selector:'.content',language:'zh_CN',height:600,plugins: [
-            'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
-            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-            'save table contextmenu directionality emoticons template paste textcolor',
-            'codesample',
-    ],toolbar: 'insertfile undo redo | \
-     styleselect | \
-     bold italic | \
-     alignleft aligncenter alignright alignjustify | \
-     bullist numlist outdent indent | \
-     link image | \
-     print preview media fullpage | \
-     forecolor backcolor emoticons |\
-     codesample fontsizeselect fullscreen',
-     fontsize_formats: '10pt 12pt 14pt 18pt 24pt 36pt',nonbreaking_force_tab: true,
-     image_reuse_filename:false,
-     images_upload_url: "/pasteimg/",
-     paste_data_images: true,});
+        tinymce.init({
+            selector: ".content",
+            height: 600,
+            plugins: [
+                "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "table contextmenu directionality emoticons template textcolor paste fullpage textcolor codesample"
+            ],
+
+            toolbar1: "undo redo | cut copy paste | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect",
+            toolbar2: " searchreplace | bullist numlist | outdent indent blockquote | link unlink anchor image media code codesample | inserttime preview | forecolor backcolor",
+            toolbar3: "table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl | spellchecker | visualchars visualblocks nonbreaking template pagebreak restoredraft",
+
+            menubar: false,
+            toolbar_items_size: 'small',
+
+            style_formats: [
+                {title: 'Bold text', inline: 'b'},
+                {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+                {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+                {title: 'Example 1', inline: 'span', classes: 'example1'},
+                {title: 'Example 2', inline: 'span', classes: 'example2'},
+                {title: 'Table styles'},
+                {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+            ],
+
+            templates: [
+                {title: 'Test template 1', content: 'Test 1'},
+                {title: 'Test template 2', content: 'Test 2'}],
+            language: 'zh_CN'
+        })
 
     </script>
 {% endblock %}

@@ -30,7 +30,6 @@
       <ul>
           {% for tag_obj in tag_obj_list %}
               {% if tag_obj.name == "站长推荐" %}
-
               {% else %}
               <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
               {% endif %}
@@ -40,14 +39,9 @@
     <div class="tuijian">
       <h2>站长推荐</h2>
       <ul>
-        <li><a href="/">你是什么人便会遇上什么人</a></li>
-        <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-        <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-        <li><a href="/">个人博客模板《绅士》后台管理</a></li>
-        <li><a href="/">你是什么人便会遇上什么人</a></li>
-        <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-        <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-        <li><a href="/">个人博客模板《绅士》后台管理</a></li>
+          {% for article_obj in recommend.article %}
+              <li><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></li>
+          {% endfor %}
       </ul>
     </div>
     <div class="tuijian">
@@ -82,7 +76,7 @@
         <h3 class="news_title">{{ article_obj.title }}</h3>
         <div class="bloginfo">
           <ul>
-            <li class="author">作者：<a href="/">{{ article_obj.author }}</a></li>
+            <li class="author">作者：<a href="/">{{ article_obj.author }}</a><input id="article_id" name="article_id" type="hidden" value="{{ article_obj.id }}"></li>
               {% for tag in article_obj.tag %}
                 <li class="lmname"><a href="/article/type/?tag_id={{ tag.id }}">{{ tag.name }}</a></li>
               {% endfor %}
@@ -100,22 +94,20 @@
         <p>上一篇：<a href="/news/life/2018-03-13/804.html">作为一个设计师,如果遭到质疑你是否能恪守自己的原则?</a></p>
         <p>下一篇：<a href="/news/life/">返回列表</a></p>
       </div>
+      {% raw %}
       <div class="news_pl">
         <h2>文章评论</h2>
         <div class="gbko">
           <script src="/e/pl/more/?classid=77&amp;id=106&amp;num=20"></script>
-          <div class="fb">
+          <div class="fb" v-for='message in messages'>
             <ul>
-              <p class="fbtime"><span>2018-07-24 11:52:38</span>dancesmile</p>
-              <p class="fbinfo">这才是我要的朋友圈</p>
-            </ul>
-          </div>
-          <div class="fb">
-            <ul>
-              <p class="fbtime"><span>2018-07-24 08:52:48</span> 卜野</p>
-              <p class="fbinfo"></p>
-              <div class="ecomment"><span class="ecommentauthor">网友 家蚂蚁 的原文：</span>
-                <p class="ecommenttext">坚持哟!看你每天都有写，请继续加油，再接再厉哦</p>
+              <p class="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
+              <p class="fbinfo">{{ message.parent_comment.content }} </p>
+              <div class="ecomment" v-if="message.son_comment!==undefined&&message.son_comment.length >0">
+                  <div v-for="son_message in message.son_comment">
+                    <span class="ecommentauthor">网友 {{ son_message.username }} 回复 {{ son_message.parent }}：&nbsp;&nbsp;&nbsp;&nbsp;{{ son_message.created_date }}</span>
+                    <p class="ecommenttext">{{ son_message.content }}</p><br>
+                  </div>
               </div>
             </ul>
           </div>
@@ -132,7 +124,7 @@
 		  return true;
 		  }
 		  </script>
-          <form action="/e/pl/doaction.php" method="post" name="saypl" id="saypl" onsubmit="return CheckPl(document.saypl)">
+          <form action="/article/api/comment/" method="post" name="saypl" id="saypl" onsubmit="return CheckPl(document.saypl)">
             <div id="plpost">
               <p class="saying"><span><a href="/e/pl/?classid=77&amp;id=106">共有<script type="text/javascript" src="/e/public/ViewClick/?classid=77&amp;id=106&amp;down=2"></script>2条评论</a></span>来说两句吧...</p>
               <p class="yname"><span>用户名:</span>
@@ -152,8 +144,29 @@
             </div>
           </form>
         </div>
-      </div>
+      </div></div>
+      {% endraw %}
     </div>
   </main>
 </article>
+{% endblock %}
+{% block script %}
+    <script>
+        Vue.use(VueResource);
+        var vue = new Vue({
+            el:".gbko",
+            data:{
+                messages:null,
+            },
+            created:function () {
+                var article_id = $("#article_id").val();
+                this.$http.get("/article/api/comment/",{params: {article_id:article_id}}).then(function (response) {
+                    console.log(response.data.data);
+                    this.messages = response.data.data
+                })
+            }
+        })
+
+
+    </script>
 {% endblock %}

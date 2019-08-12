@@ -19,7 +19,7 @@
     <div class="fenlei">
       <h2>文章分类</h2>
       <ul>
-          {% for tag_obj in tag_obj_list %}
+          {% for tag_obj in data.tag_obj_list %}
               {% if tag_obj.name == "站长推荐" %}
                   <li style="display: none"></li>
               {% else %}
@@ -39,8 +39,8 @@
     <div class="tuijian">
       <h2>站长推荐</h2>
       <ul>
-          {% for tag_obj in recommmend %}
-              <li><a href="/detail/?article_id={{ tag_obj.article[0].id }}">{{ tag_obj.article[0].title }}</a></li>
+          {% for article_obj in data.recommend.article %}
+              <li><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></li>
           {% endfor %}
 
       </ul>
@@ -72,7 +72,7 @@
     </div>
   </aside>
   <main class="r_box">
-      {% for article_obj in article_obj_list %}
+      {% for article_obj in data.article_obj_list %}
       <li><i><a href="/"><img src="/statics/images/1.jpg"></a></i>
             <h3><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h3>
             <p>{{ article_obj.description }}</p><br>
@@ -85,7 +85,25 @@
             </span>
       </li>
       {% endfor %}
-    <div class="pagelist"><a class="allpage"><b>99</b></a>&nbsp;&nbsp;<a href="#" class="curPage">1</a>&nbsp;&nbsp;<a href="#" onclick="page(2)">2</a>&nbsp;&nbsp;<a href="#" onclick="page(3)">3</a>&nbsp;&nbsp;<a href="#" onclick="page(4)">4</a>&nbsp;&nbsp;<a href="#" onclick="page(5)">5</a>&nbsp;&nbsp;<a href="#" onclick="page(6)">6</a>&nbsp;&nbsp;<a href="#" onclick="page(7)">7</a>&nbsp;&nbsp;<a href="#" onclick="page(8)">8</a>&nbsp;&nbsp;<a href="#" onclick="page(9)">9</a>&nbsp;&nbsp;<a href="#" onclick="page(2)">下一页</a></div>
+    <div class="pagelist">
+        {% if pre_page %}
+            <a href="/article/?page={{ pre_page }}">上一页</a>
+        {% else %}
+            <a href="#">上一页</a>
+        {% endif %}
+        {% for page in data.page_range %}
+            {% if page == data.current_page %}
+                <a href="#" class="curPage">{{ page }}</a>&nbsp;&nbsp;
+            {% else %}
+                <a href="/article/?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if next_page %}
+            <a href="/article/?page={{ data.next_page }}">下一页</a>
+        {% else %}
+            <a href="#">下一页</a>
+        {% endif %}
+    </div>
   </main>
 </article>
 {% endblock %}
