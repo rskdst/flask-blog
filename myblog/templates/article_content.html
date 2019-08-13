@@ -10,6 +10,18 @@
             width: auto;
             height: auto;
         }
+        .input-val {
+            width: 200px;
+            height: 32px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+          }
+          #canvas {
+            vertical-align: middle;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            cursor: pointer;
+          }
     </style>
 {% endblock %}
 
@@ -88,7 +100,7 @@
         <div class="news_about"><strong>简介:</strong>{{ article_obj.description }}</div><br>
         <div class="news_con">{{ article_obj.content | safe }}</div>
       <div class="share">
-        <p class="diggit"><a href="JavaScript:makeRequest('/e/public/digg/?classid=3&amp;id=19&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');"> 很赞哦！ </a>(<b id="diggnum"><script type="text/javascript" src="/e/public/ViewClick/?classid=2&id=20&down=5"></script>13</b>)</p>
+        <p class="diggit"><a class="like" href="JavaScript:makeRequest('/e/public/digg/?classid=3&amp;id=19&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');"> 很赞哦！ </a>(<b id="diggnum">13</b>)</p>
       </div>
       <div class="nextinfo">
         <p>上一篇：<a href="/news/life/2018-03-13/804.html">作为一个设计师,如果遭到质疑你是否能恪守自己的原则?</a></p>
@@ -97,75 +109,184 @@
       {% raw %}
       <div class="news_pl">
         <h2>文章评论</h2>
-        <div class="gbko">
-          <script src="/e/pl/more/?classid=77&amp;id=106&amp;num=20"></script>
+        <div class="gbko" id="article_conmment">
+
           <div class="fb" v-for='message in messages'>
             <ul>
               <p class="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
-              <p class="fbinfo">{{ message.parent_comment.content }} </p>
+              <p class="fbinfo">{{ message.parent_comment.content }}</p>
+              <a v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id">回复</a>
               <div class="ecomment" v-if="message.son_comment!==undefined&&message.son_comment.length >0">
                   <div v-for="son_message in message.son_comment">
                     <span class="ecommentauthor">网友 {{ son_message.username }} 回复 {{ son_message.parent }}：&nbsp;&nbsp;&nbsp;&nbsp;{{ son_message.created_date }}</span>
                     <p class="ecommenttext">{{ son_message.content }}</p><br>
+                      <a v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id">回复</a>
                   </div>
+
               </div>
             </ul>
           </div>
-
-          <script>
-		  function CheckPl(obj)
-		  {
-		  if(obj.saytext.value=="")
-		  {
-		  alert("您没什么话要说吗？");
-		  obj.saytext.focus();
-		  return false;
-		  }
-		  return true;
-		  }
-		  </script>
-          <form action="/article/api/comment/" method="post" name="saypl" id="saypl" onsubmit="return CheckPl(document.saypl)">
+            <hr>
+            <form method="post" action="/article/comment/">
             <div id="plpost">
-              <p class="saying"><span><a href="/e/pl/?classid=77&amp;id=106">共有<script type="text/javascript" src="/e/public/ViewClick/?classid=77&amp;id=106&amp;down=2"></script>2条评论</a></span>来说两句吧...</p>
-              <p class="yname"><span>用户名:</span>
+              <p class="saying">来说两句吧...</p>
+                {% endraw %}
+              <p class="yname"><span>昵&nbsp;&nbsp;&nbsp;&nbsp;称:</span>
                 <input name="username" type="text" class="inputText" id="username" value="" size="16">
               </p>
+                <p class="yemail"><span>邮&nbsp;&nbsp;&nbsp;&nbsp;箱:</span>
+                <input name="email" type="email" class="inputText" id="email" value="" size="16">
+              </p>
               <p class="yzm"><span>验证码:</span>
-                <input name="key" type="text" class="inputText" size="16">
+                  <input type="text" value="" placeholder="请输入验证码（不区分大小写）" class="input-val">
+                  <canvas id="canvas" width="100" height="30"></canvas>
               </p>
               <input name="nomember" type="hidden" id="nomember" value="1" checked="checked">
-              <textarea name="saytext" rows="6" id="saytext"></textarea>
-              <input name="imageField" type="submit" value="提交">
-              <input name="id" type="hidden" id="id" value="106">
-              <input name="classid" type="hidden" id="classid" value="77">
-              <input name="enews" type="hidden" id="enews" value="AddPl">
-              <input name="repid" type="hidden" id="repid" value="0">
+              <textarea name="content" rows="6" id="saytext"></textarea>
+              <input class="add_comment" name="imageField" type="button" value="提交" onclick="return validated()">
+                <input name="article_id" type="hidden" id="article_id" value="{{ article_obj.id }}">
+                {% raw %}
+              <input name="parent_id" type="hidden" id="parent_id" :value="parent_id">
+              <input name="reply_id" type="hidden" id="reply_id" :value="reply_id">
+              <input name="repid" type="hidden" id="repid" value="">
               <input type="hidden" name="ecmsfrom" value="/joke/talk/2018-07-23/106.html">
             </div>
-          </form>
+            </form>
         </div>
-      </div></div>
+      </div>
       {% endraw %}
+      </div>
     </div>
   </main>
 </article>
 {% endblock %}
 {% block script %}
+    <script src="/e/pl/more/?classid=77&amp;id=106&amp;num=20"></script>
+    <script type="text/javascript" src="/e/public/ViewClick/?classid=2&id=20&down=5"></script>
+    <script type="text/javascript" src="/e/public/ViewClick/?classid=77&amp;id=106&amp;down=2"></script>
     <script>
         Vue.use(VueResource);
-        var vue = new Vue({
+        //向后台请求评论数据
+        var vue1 = new Vue({
             el:".gbko",
             data:{
                 messages:null,
+                reply_id:null,
+                parent_id:null
+            },
+            methods:{
+                reply_to:function(event) {
+                    var target = event.target || window.event.srcElement;
+                    var reply_id = target.getAttribute("reply_id");
+                    var parent_id = target.getAttribute("parent_id");
+                    const returnEle = document.querySelector("#plpost");
+                    this.reply_id = reply_id;
+                    this.parent_id = parent_id;
+                    if (!!returnEle) {
+                        returnEle.scrollIntoView(true);
+
+
+                    }
+                }
             },
             created:function () {
                 var article_id = $("#article_id").val();
                 this.$http.get("/article/api/comment/",{params: {article_id:article_id}}).then(function (response) {
                     console.log(response.data.data);
-                    this.messages = response.data.data
+                    this.messages = response.data.data;
                 })
-            }
-        })
+            },
+
+        });
+
+        //提交验证
+        $(function(){
+            var show_num = [];
+            draw(show_num);
+            $("#canvas").on('click',function(){
+                draw(show_num);
+            });
+
+            $(".add_comment").on('click',function(){
+                var num = show_num.join("");
+                var val = $(".input-val").val().toLowerCase();
+                if($("#username").val().length == 0){
+                   alert("请填写昵称");
+                }else if($("#email").val().length == 0){
+                   alert("请填写电子邮箱");
+                }else if($("#saytext").val().length == 0){
+                   alert("说两句在提交吧");
+                }else if(val==''){
+                    alert('请输入验证码！');
+                } else if(val!=num){
+                    alert('验证码错误！请重新输入！');
+                    $(".input-val").val('');
+                    draw(show_num);
+                }else {
+                    $(this).attr("type","submit")
+                }
+            })
+
+        });
+
+    //生成并渲染出验证码图形
+    function draw(show_num) {
+        var canvas_width=$('#canvas').width();
+        var canvas_height=$('#canvas').height();
+        var canvas = document.getElementById("canvas");//获取到canvas的对象，演员
+        var context = canvas.getContext("2d");//获取到canvas画图的环境，演员表演的舞台
+        canvas.width = canvas_width;
+        canvas.height = canvas_height;
+        var sCode = "a,b,c,d,e,f,g,h,i,j,k,m,n,p,q,r,s,t,u,v,w,x,y,z,A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0";
+        var aCode = sCode.split(",");
+        var aLength = aCode.length;//获取到数组的长度
+
+        for (var i = 0; i < 4; i++) {  //这里的for循环可以控制验证码位数（如果想显示6位数，4改成6即可）
+            var j = Math.floor(Math.random() * aLength);//获取到随机的索引值
+            // var deg = Math.random() * 30 * Math.PI / 180;//产生0~30之间的随机弧度
+            var deg = Math.random() - 0.5; //产生一个随机弧度
+            var txt = aCode[j];//得到随机的一个内容
+            show_num[i] = txt.toLowerCase();
+            var x = 10 + i * 20;//文字在canvas上的x坐标
+            var y = 20 + Math.random() * 8;//文字在canvas上的y坐标
+            context.font = "bold 23px 微软雅黑";
+
+            context.translate(x, y);
+            context.rotate(deg);
+
+            context.fillStyle = randomColor();
+            context.fillText(txt, 0, 0);
+
+            context.rotate(-deg);
+            context.translate(-x, -y);
+        }
+        for (var i = 0; i <= 5; i++) { //验证码上显示线条
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.stroke();
+        }
+        for (var i = 0; i <= 30; i++) { //验证码上显示小点
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            var x = Math.random() * canvas_width;
+            var y = Math.random() * canvas_height;
+            context.moveTo(x, y);
+            context.lineTo(x + 1, y + 1);
+            context.stroke();
+        }
+    }
+
+    //得到随机的颜色值
+    function randomColor() {
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+
+
 
 
     </script>

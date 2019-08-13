@@ -86,8 +86,8 @@
       </li>
       {% endfor %}
     <div class="pagelist">
-        {% if pre_page %}
-            <a href="/article/?page={{ pre_page }}">上一页</a>
+        {% if data.pre_page %}
+            <a href="/article/?page={{ data.pre_page }}">上一页</a>
         {% else %}
             <a href="#">上一页</a>
         {% endif %}
@@ -98,7 +98,7 @@
                 <a href="/article/?page={{ page }}">{{ page }}</a>
             {% endif %}
         {% endfor %}
-        {% if next_page %}
+        {% if data.next_page %}
             <a href="/article/?page={{ data.next_page }}">下一页</a>
         {% else %}
             <a href="#">下一页</a>

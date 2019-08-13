@@ -48,9 +48,9 @@ class Tag(BaseModel):
 class Comment(BaseModel):
     __tablename__ = "comment"
     user_id = db.Column(db.Integer,db.ForeignKey("user.id")) # 用户id
-    parent_id = db.Column(db.Integer,db.ForeignKey("user.id")) # 评论的父id
+    parent_id = db.Column(db.Integer) # 评论的父id
     article_id = db.Column(db.Integer,db.ForeignKey("article.id")) # 评论的文章id
-    reply_id = db.Column(db.Integer,nullable=True) # 回复的评论id
+    reply_id = db.Column(db.Integer,db.ForeignKey("user.id")) # 回复的评论id
     content = db.Column(db.String(320)) # 评论的内容
     created_date =db.Column(db.DateTime, default=datetime.datetime.now) # 评论时间
 
@@ -66,10 +66,10 @@ class User(BaseModel):
         lazy='dynamic',
         backref="user_comment",
     )
-    parent = db.relationship(
+    reply = db.relationship(
         "Comment",
-        foreign_keys = [Comment.parent_id],
+        foreign_keys=[Comment.reply_id],
         lazy='dynamic',
-        backref="parent_comment",
+        backref="reply_comment",
     )
 
