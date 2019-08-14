@@ -16,7 +16,7 @@ Article_Tag = db.Table(
 
 )
 
-
+# 文章
 class Article(BaseModel):
     __tablename__ = "article"
     title = db.Column(db.String(100))
@@ -39,12 +39,13 @@ class Article(BaseModel):
     )
 
 
-
+# 文章标签
 class Tag(BaseModel):
     __tablename__ = "tag"
     name = db.Column(db.String(32), unique=True)
 
 
+# 文章评论
 class Comment(BaseModel):
     __tablename__ = "comment"
     user_id = db.Column(db.Integer,db.ForeignKey("user.id")) # 用户id
@@ -55,6 +56,7 @@ class Comment(BaseModel):
     created_date =db.Column(db.DateTime, default=datetime.datetime.now) # 评论时间
 
 
+# 用户
 class User(BaseModel):
     __tablename__ = "user"
     username = db.Column(db.String(32),unique=True)
@@ -73,6 +75,9 @@ class User(BaseModel):
         backref="reply_comment",
     )
 
+
+
+# 留言
 class LeaveMessage(BaseModel):
     __tablename__ = "leave_message"
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))

@@ -1,11 +1,15 @@
 from flask import Blueprint,redirect
 from myblog.models import *
+from myblog.views.article import pagination
 backstage = Blueprint("backstage",__name__)
+
 
 @backstage.route("/backstage/",methods=["get",])
 def main():
     return render_template("/backstage/index.html")
 
+
+# 添加文章
 @backstage.route("/backstage/add_article/",methods=["get","post"])
 def add_article():
     if request.method == "GET":
@@ -35,12 +39,16 @@ def add_article():
         print(article_tag,author,title,description,content,article_type)
         return render_template("/backstage/add_article.html")
 
+
+# 文章列表页
 @backstage.route("/backstage/article_list/",methods=["get","post"])
 def article_list():
-    article_obj_list = Article.query.order_by(db.desc("created_date"))
+    article_obj_list = Article.query.order_by(db.desc("created_date")).all()
+    data = pagination(article_obj_list)
+    return render_template("/backstage/article_list.html",**locals())
 
-    return render_template("/backstage/article_list.html",**{"article_obj_list":article_obj_list})
 
+# 文章详情页
 @backstage.route("/backstage/article_detail/",methods=["get","post"])
 def article_detail():
     if request.method == "GET":

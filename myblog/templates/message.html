@@ -37,10 +37,21 @@
     <div class="fenlei">
       <h2>文章分类</h2>
       <ul>
-        <li><a href="/">学无止境（33）</a></li>
-        <li><a href="/">日记（19）</a></li>
-        <li><a href="/">慢生活（520）</a></li>
-        <li><a href="/">美文欣赏（40）</a></li>
+          {% for tag_obj in data.tag_obj_list %}
+              {% if tag_obj.name == "站长推荐" %}
+                  <li style="display: none"></li>
+              {% else %}
+                  {% if tag_id %}
+                      {% if tag_obj.id == tag_id %}
+                          <li><a style="color: red" href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
+                      {% else %}
+                          <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
+                      {% endif %}
+                  {% else %}
+                      <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
+                  {% endif %}
+              {% endif %}
+          {% endfor %}
       </ul>
     </div>
     <div class="guanzhu">
@@ -53,7 +64,7 @@
   <main class="r_box">
       <a href="#msg">留言</a>
 <div class="gbook">
-    {% for messages in data.all_data %}
+    {% for messages in data.data_list %}
       <div class="fb">
         <ul>
           <p class="fbtime"><span> {{ messages.message.created_date }} </span> {{ messages.message.user.username }}</p>
@@ -71,7 +82,7 @@
     {% endfor %}
      <div class="pagelist">
         {% if data.pre_page %}
-            <a href="/article/?page={{ data.pre_page }}">上一页</a>
+            <a href="/message/?page={{ data.pre_page }}">上一页</a>
         {% else %}
             <a href="#">上一页</a>
         {% endif %}
@@ -79,11 +90,11 @@
             {% if page == data.current_page %}
                 <a href="#" class="curPage">{{ page }}</a>&nbsp;&nbsp;
             {% else %}
-                <a href="/article/?page={{ page }}">{{ page }}</a>
+                <a href="/message/?page={{ page }}">{{ page }}</a>
             {% endif %}
         {% endfor %}
         {% if data.next_page %}
-            <a href="/article/?page={{ data.next_page }}">下一页</a>
+            <a href="/message/?page={{ data.next_page }}">下一页</a>
         {% else %}
             <a href="#">下一页</a>
         {% endif %}

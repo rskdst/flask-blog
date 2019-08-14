@@ -72,7 +72,7 @@
     </div>
   </aside>
   <main class="r_box">
-      {% for article_obj in data.article_obj_list %}
+      {% for article_obj in data.data_list %}
       <li><i><a href="/"><img src="/statics/images/1.jpg"></a></i>
             <h3><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h3>
             <p>{{ article_obj.description }}</p><br>

@@ -25,7 +25,7 @@ def pagination(all_data):
         pre_page = None
     start = (current_page - 1) * 7
     end = current_page * 7
-    article_obj_list = all_data[start:end]
+    data_list = all_data[start:end]
     tag_obj_list = Tag.query.all()
     recommend = Tag.query.filter_by(name="站长推荐").first()
     return locals()

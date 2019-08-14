@@ -17,5 +17,4 @@ def main():
                 message_dict["reply"] = LeaveMessage.query.filter_by(reply_id=leave_message_obj.id).first()
                 message_list.append(message_dict)
         data = pagination(message_list)
-        print(data)
         return render_template("message.html",**locals())
