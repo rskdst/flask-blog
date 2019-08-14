@@ -13,12 +13,12 @@
             top: 30%;
             left: 35%;
         }
-        a{
+        .msg{
             position: absolute;
             margin-left: 30px;
             margin-top: 5px;
         }
-        .main{
+        .tit-des{
             position: absolute;
             width: 550px;
             height: 210px;
@@ -26,14 +26,14 @@
             margin-top: 40px;
             background-color: rgb(245, 246, 247);
         }
-        .title{
+        .a-title{
             position: relative;
             margin-top: 10px;
             margin-left: 20px;
             font-size: 21px;
             color: black;
         }
-        .description{
+        .a-description{
             position: relative;
             margin-left: 20px;
         }
@@ -54,12 +54,12 @@
 
 {% block container %}
     <div class="content">
-    <a href="/backstage/article_list/"><< 管理博文</a>
-        <div class="main">
-            <div class="title">
+    <a class="msg" href="/backstage/article_list/"><< 管理博文</a>
+        <div class="tit-des">
+            <div class="a-title">
                 <p>{{ data.title }}</p>
             </div>
-            <div class="description">
+            <div class="a-description">
                 <p>{{ data.description }}</p>
                 <p class="word">仗剑走天涯，从你的摘要开始</p>
             </div>

@@ -43,15 +43,40 @@
         <input type="radio" name="article_type" value="转载">转载
     </div>
     <div style="padding: 10px">
-        <input type="submit" style="border: 1px solid red;color: red;width: 120px" class="btn btn-default" name="" value="发布文章">
-        <input type="submit" style="border: 1px solid red;color: red;width: 120px;margin-left: 30px" class="btn btn-default" name="" value="保存为草稿">
-        <input type="submit" style="border: 1px solid grey;color: grey;width: 120px;margin-left: 30px" class="btn btn-default" name="" value="返回">
+        <input type="submit" style="border: 1px solid red;color: red;width: 120px" class="btn btn-default" name="submit" value="发布文章">
+        <input type="submit" style="border: 1px solid red;color: red;width: 120px;margin-left: 30px" class="btn btn-default" name="submit" value="保存为草稿">
+        <input type="button" style="border: 1px solid black;color: black;width: 120px;margin-left: 30px" class="btn btn-default back" name="submit" value="返回" data-toggle="modal" data-target="#myModal">
     </div>
 </form>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">您确定要&nbsp;<span style="color: black;font-size: 22px" class="text-sure"></span>&nbsp;吗</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary sure">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 {% endblock %}
 {% block script %}
     <script>
+        $(function () {
+            $(".back").click(function () {
+                var text_sure = $(this).val();
+                $(".text-sure").text(text_sure);
+                $(".sure").click(function () {
+                    $(".back").attr("type", "submit");
+                    $(".back").click()
+                });
+            });
+        });
         tinymce.init({
             selector: ".content",
             height: 600,
