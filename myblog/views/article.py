@@ -92,7 +92,7 @@ def add_comment():
         db.session.commit()
     return redirect("/detail/?article_id={}/#article_conmment".format(article_id))
 
-
+# 评论模块
 class _Comment(Resource):
     def get(self):
         article_id = int(request.args.get("params[article_id]"))

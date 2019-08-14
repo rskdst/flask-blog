@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block container %}
-<div style="padding: 10px">
+<div style="padding: 10px" class="r_box">
       {% for article_obj in data.data_list %}
-      <li>
-            <h3><a href="/backstage/article_detail/?id={{ article_obj.id }}">{{ article_obj.title }}</a></h3>
+          <li>
+            <a href="/backstage/article_detail/?id={{ article_obj.id }}"><h3><strong>{{ article_obj.title }}</strong></h3></a>
             <p>{{ article_obj.description }}</p>
+            <p style="margin-left: 600px;"><a href="/backstage/article_detail/?id={{ article_obj.id }}">编辑</a></p>
             <hr>
             <span style="font-size: 10px;margin-right: 200px">时间：{{ article_obj.created_date }}&nbsp;&nbsp;&nbsp;&nbsp;
                 作者：{{ article_obj.author }}&nbsp;&nbsp;&nbsp;&nbsp;
@@ -17,7 +18,7 @@
                     {{ tag_obj.name }}&nbsp;
                     {% endfor %}
             </span>
-      </li>
+          </li>
       <br>
       {% endfor %}
     <div class="pagelist">

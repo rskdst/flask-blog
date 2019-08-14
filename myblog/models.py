@@ -19,13 +19,14 @@ Article_Tag = db.Table(
 # 文章
 class Article(BaseModel):
     __tablename__ = "article"
-    title = db.Column(db.String(100))
-    author = db.Column(db.String(20))
-    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
-    update_date = db.Column(db.DateTime, nullable=False,default=datetime.datetime.now,onupdate=datetime.datetime.now)
-    description = db.Column(db.String(200))
-    content = db.Column(db.Text)
-    article_type = db.Column(db.String(3))
+    title = db.Column(db.String(100)) # 文章标题
+    author = db.Column(db.String(20)) # 文章作者
+    created_date = db.Column(db.DateTime, default=datetime.datetime.now) # 文章创建日期
+    update_date = db.Column(db.DateTime, nullable=False,default=datetime.datetime.now,onupdate=datetime.datetime.now) # 文章更新日期
+    description = db.Column(db.String(200)) # 文章描述
+    content = db.Column(db.Text) # 文章内容
+    article_type = db.Column(db.String(3)) # 文章类型
+    article_status = db.Column(db.String(10)) # 文章状态
 
     tag = db.relationship("Tag",
         secondary=Article_Tag,

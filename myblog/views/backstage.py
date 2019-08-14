@@ -3,6 +3,40 @@ from myblog.models import *
 from myblog.views.article import pagination
 backstage = Blueprint("backstage",__name__)
 
+def save_article(request):
+    id = int(request.form.get("article_id"))
+    article_tag = request.form.getlist("article_tag")
+    author = request.form.get("author")
+    title = request.form.get("title")
+    description = request.form.get("description")
+    content = request.form.get("content")
+    article_type = request.form.get("article_type")
+    article_status = request.form.get("submit")
+    try:
+        article_obj = Article.query.get(id)
+        article_obj.title = title
+        article_obj.author = author
+        article_obj.description = description
+        article_obj.content = content
+        article_obj.article_type = article_type
+        article_obj.title = title
+        if article_status == "发布文章":
+            article_obj.article_status = "发布"
+        else:
+            article_obj.article_status = "草稿"
+        tag_list = [Tag.query.get(int(tag)) for tag in article_tag]
+        article_obj.tag = tag_list
+        db.session.commit()
+    except Exception as e:
+        print(e)
+    data = {
+        "title":title,
+        "description":description,
+        "article_status":article_status
+
+    }
+    return data
+
 
 @backstage.route("/backstage/",methods=["get",])
 def main():
@@ -59,29 +93,28 @@ def article_detail():
             "article_obj": article_obj,
             "tag_obj_list":tag_obj_list
         }
+        return render_template("/backstage/article_detail.html", **params)
     else:
-        id = int(request.form.get("article_id"))
-        article_tag = request.form.getlist("article_tag")
-        author = request.form.get("author")
-        title = request.form.get("title")
-        description = request.form.get("description")
-        content = request.form.get("content")
-        article_type = request.form.get("article_type")
-        try:
-            article_obj = Article.query.get(id)
-            article_obj.title = title
-            article_obj.author = author
-            article_obj.description = description
-            article_obj.content = content
-            article_obj.article_type = article_type
-            article_obj.title = title
-            tag_list = [Tag.query.get(int(tag)) for tag in article_tag]
-            article_obj.tag = tag_list
+        if request.form.get("submit") == "发布文章":
+            data = save_article(request)
+            return render_template("/backstage/article_result.html", **locals())
+        elif request.form.get("submit") == "保存为草稿":
+            data = save_article(request)
+            return render_template("/backstage/article_result.html", **locals())
+        elif request.form.get("submit") == "返回":
+            return redirect("/backstage/article_list/")
+        else:
+            id = int(request.form.get("article_id"))
+            article = Article.query.filter_by(id=id).first()
+            data = {
+                "title": article.title,
+                "description": article.description,
+                "article_status": "删除"
+            }
+            db.session.delete(article)
             db.session.commit()
-        except Exception as e:
-            print(e)
-        return redirect("/backstage/article_list/")
-    return render_template("/backstage/article_detail.html",**params)
+            return render_template("/backstage/article_result.html",**locals())
+
 
 
 

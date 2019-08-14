@@ -1,0 +1,71 @@
+{% extends "/backstage/base.html" %}
+{% block title %}
+    操作结果
+{% endblock %}
+
+{% block style %}
+    <style>
+        .content{
+            width: 600px;
+            height: 350px;
+            position: absolute;
+            background-color: white;
+            top: 30%;
+            left: 35%;
+        }
+        a{
+            position: absolute;
+            margin-left: 30px;
+            margin-top: 5px;
+        }
+        .main{
+            position: absolute;
+            width: 550px;
+            height: 210px;
+            margin-left: 30px;
+            margin-top: 40px;
+            background-color: rgb(245, 246, 247);
+        }
+        .title{
+            position: relative;
+            margin-top: 10px;
+            margin-left: 20px;
+            font-size: 21px;
+            color: black;
+        }
+        .description{
+            position: relative;
+            margin-left: 20px;
+        }
+        .status{
+            position: absolute;
+            margin-left: 50px;
+            margin-top: 260px;
+        }
+        .word{
+            position: absolute;
+            font-size: 13px;
+            color: black;
+            margin-top: 90px;
+            margin-left: 350px;
+        }
+    </style>
+{% endblock %}
+
+{% block container %}
+    <div class="content">
+    <a href="/backstage/article_list/"><< 管理博文</a>
+        <div class="main">
+            <div class="title">
+                <p>{{ data.title }}</p>
+            </div>
+            <div class="description">
+                <p>{{ data.description }}</p>
+                <p class="word">仗剑走天涯，从你的摘要开始</p>
+            </div>
+        </div>
+        <div class="status">
+            <p>您已成功&nbsp;&nbsp;<span style="font-size: 17px;color: black">{{ data.article_status }}</span></p>
+        </div>
+    </div>
+{% endblock %}
