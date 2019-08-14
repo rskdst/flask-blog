@@ -31,7 +31,7 @@ class Article(BaseModel):
     tag = db.relationship("Tag",
         secondary=Article_Tag,
         lazy='dynamic',
-        backref="article",
+        backref=db.backref('article',lazy="dynamic") # 多对多时想让反向查询查询也显示查询语句要这样写
     )
     comment = db.relationship(
         "Comment",

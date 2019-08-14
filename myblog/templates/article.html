@@ -25,12 +25,12 @@
               {% else %}
                   {% if tag_id %}
                       {% if tag_obj.id == tag_id %}
-                          <li><a style="color: red" href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
+                          <li><a style="color: red" href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                       {% else %}
-                          <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
+                          <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                       {% endif %}
                   {% else %}
-                      <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
+                      <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                   {% endif %}
               {% endif %}
           {% endfor %}

@@ -27,6 +27,7 @@ def pagination(all_data):
     end = current_page * 7
     data_list = all_data[start:end]
     tag_obj_list = Tag.query.all()
+    print(tag_obj_list)
     recommend = Tag.query.filter_by(name="站长推荐").first()
     return locals()
 
@@ -34,7 +35,7 @@ def pagination(all_data):
 # 文章首页
 @article.route("/article/",methods=["get",])
 def main():
-    all_article_obj_list = Article.query.order_by(db.desc("created_date")).all()
+    all_article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     data = pagination(all_article_obj_list)
     return render_template("article.html",**locals())
 
@@ -52,7 +53,7 @@ def detail():
 def article_type():
     tag_id = int(request.args.get("tag_id"))
     tag_obj = Tag.query.get(tag_id)
-    all_article_obj_list = tag_obj.article
+    all_article_obj_list = tag_obj.article.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     data = pagination(all_article_obj_list)
 
     return render_template("article.html",**locals())
