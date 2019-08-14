@@ -60,16 +60,30 @@ class User(BaseModel):
     username = db.Column(db.String(32),unique=True)
     email = db.Column(db.String(100),unique=True)
 
-    user = db.relationship(
+    comment_user = db.relationship(
         "Comment",
         foreign_keys = [Comment.user_id],
         lazy='dynamic',
         backref="user_comment",
     )
-    reply = db.relationship(
+    comment_reply = db.relationship(
         "Comment",
         foreign_keys=[Comment.reply_id],
         lazy='dynamic',
         backref="reply_comment",
     )
+
+class LeaveMessage(BaseModel):
+    __tablename__ = "leave_message"
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    reply_id = db.Column(db.Integer)
+    content = db.Column(db.String(320))
+    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    user = db.relationship(
+        "User",
+        backref='leave_message'
+    )
+
+
 

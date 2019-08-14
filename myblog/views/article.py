@@ -67,13 +67,11 @@ def add_comment():
     article_id = request.form.get("article_id")
     parent_id = request.form.get("parent_id")
     reply_id = request.form.get("reply_id")
-    print(username,email,content,article_id,parent_id,reply_id)
     if not User.query.filter(username==username):
         user = User(username=username,email=email)
         db.session.add(user)
         db.session.commit()
     user_id = User.query.filter_by(username=username).first().id
-    print(user_id)
     if parent_id:
         comment = Comment(
             user_id=user_id,
@@ -98,10 +96,8 @@ def add_comment():
 class _Comment(Resource):
     def get(self):
         article_id = int(request.args.get("params[article_id]"))
-        print(article_id)
         data = {}
         comment_obj_list = Comment.query.filter_by(article_id=article_id).order_by(db.desc("created_date")).all()
-        print(comment_obj_list)
         comment_list = []
         for comment_obj in comment_obj_list:
             comment_dict = {}

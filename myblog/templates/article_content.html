@@ -15,13 +15,18 @@
             height: 32px;
             border: 1px solid #ddd;
             box-sizing: border-box;
-          }
-          #canvas {
+        }
+        #canvas {
             vertical-align: middle;
             box-sizing: border-box;
             border: 1px solid #ddd;
             cursor: pointer;
-          }
+        }
+        .reply{
+            cursor: pointer;
+            color: black;
+        }
+
     </style>
 {% endblock %}
 
@@ -115,12 +120,12 @@
             <ul>
               <p class="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
               <p class="fbinfo">{{ message.parent_comment.content }}</p>
-              <a v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id">回复</a>
+              <a class="reply" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id">回复</a>
               <div class="ecomment" v-if="message.son_comment!==undefined&&message.son_comment.length >0">
                   <div v-for="son_message in message.son_comment">
                     <span class="ecommentauthor">网友 {{ son_message.username }} 回复 {{ son_message.parent }}：&nbsp;&nbsp;&nbsp;&nbsp;{{ son_message.created_date }}</span>
                     <p class="ecommenttext">{{ son_message.content }}</p><br>
-                      <a v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id">回复</a>
+                      <a class="reply" v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id">回复</a>
                   </div>
 
               </div>
