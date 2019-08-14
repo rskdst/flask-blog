@@ -48,7 +48,7 @@
           {% for tag_obj in tag_obj_list %}
               {% if tag_obj.name == "站长推荐" %}
               {% else %}
-              <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article | length }})</a></li>
+              <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
               {% endif %}
           {% endfor %}
       </ul>
