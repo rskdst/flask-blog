@@ -19,7 +19,20 @@ def main():
 
 
 # 搜索
-@index.route("/search/",methods=["get",])
+@index.route("/search/",methods=["get","post"])
 def search():
-    key_word = request.args.get("key")
-    article_obj_list = Article.query.filter_by()
+    key_word = request.args.get("keyboard")
+    try:
+        tag_article_obj_list = Tag.query.filter(Tag.name.like("%" + key_word + "%")).first().article.all()
+    except:
+        tag_article_obj_list = []
+    finally:
+        article_obj_list = Article.query.filter(db.or_(
+            Article.title.like("%" + key_word + "%"),
+            Article.author.like("%" + key_word + "%"),
+            Article.description.like("%" + key_word + "%"),
+            Article.article_type.like("%" + key_word + "%"),
+        )).all()
+        article_obj_list += tag_article_obj_list
+        data = pagination(article_obj_list)
+        return render_template("article.html",**locals())

@@ -8,11 +8,12 @@
 <article>
   <aside class="l_box">
  <div class="search">
-      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
-        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
-        <input name="show" value="title" type="hidden">
-        <input name="tempid" value="1" type="hidden">
-        <input name="tbname" value="news" type="hidden">
+      <form action="/search/" method="get" name="searchform" id="searchform">
+          {% if key_word %}
+            <input name="keyboard" id="keyboard" class="input_text" value={{ key_word }} style="color: rgb(153, 153, 153);" onfocus="if(value=={{ key_word }}){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value={{ key_word }}" type="text">
+          {% else %}
+              <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+          {% endif %}
         <input name="Submit" class="input_submit" value="搜索" type="submit">
       </form>
     </div>
@@ -71,9 +72,13 @@
       </ul>
     </div>
   </aside>
+
   <main class="r_box">
+      {% if data.data_list == [] %}
+          <h3>抱歉，没有找到您想要的结果！</h3>
+      {% else %}
       {% for article_obj in data.data_list %}
-      <li><i><a href="/"><img src="/statics/images/1.jpg"></a></i>
+        <li><i><a href="/"><img src="/statics/images/1.jpg"></a></i>
             <h3><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h3>
             <p>{{ article_obj.description }}</p><br>
             <hr>
@@ -85,6 +90,8 @@
             </span>
       </li>
       {% endfor %}
+      {% endif %}
+    {% if not data.data_list == [] %}
     <div class="pagelist">
         {% if data.pre_page %}
             <a href="/article/?page={{ data.pre_page }}">上一页</a>
@@ -104,6 +111,17 @@
             <a href="#">下一页</a>
         {% endif %}
     </div>
+    {% endif %}
+
   </main>
 </article>
+{% endblock %}
+{% block script %}
+    <script>
+        $(function () {
+            var str = $(".r_box").html();
+            str = str.replace(/{{ key_word }}/ig,"<span style='color:red'>{{ key_word }}</span>");
+            $(".r_box").html(str)
+        })
+    </script>
 {% endblock %}
