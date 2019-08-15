@@ -57,6 +57,6 @@ nav { width: 100%; position: relative }
 .picinfo { display: none }
 .picshowlist, .pictxt { display: none }
 .lmname, .view { display: none }
-.r_box li i { float: none; margin: 0 auto 20px; width: 100%; max-height: initial }
+.r_box li i { float: none; margin: 0 auto 20px; width: 100%; max-height: initial; }
 .newsview { padding: 0 15px; }
 }

@@ -78,7 +78,7 @@
           <h3>抱歉，没有找到您想要的结果！</h3>
       {% else %}
       {% for article_obj in data.data_list %}
-        <li><i><a href="/"><img src="/statics/images/1.jpg"></a></i>
+        <li><i><a href="/"><img style="width: 150px;height: 100px" src="/statics/images/article_picture/{{ article_obj.article_picture }}"></a></i>
             <h3><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h3>
             <p>{{ article_obj.description }}</p><br>
             <hr>

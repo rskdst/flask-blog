@@ -1,8 +1,29 @@
 from flask import Blueprint,redirect
 from myblog.models import *
 from myblog.views.article import pagination
+from werkzeug.utils import secure_filename
+import os
+
 backstage = Blueprint("backstage",__name__)
 
+
+
+# 图片上传
+def up_picture(image_obj):
+    image = image_obj.filename
+    image = image.rsplit(".")
+    image_str = image[0]
+    time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    picture_name = image_str.replace(image_str,"img" + "%s"%time + "." + image[1])
+    image_obj.filename = picture_name
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/images"))
+    upload_path = os.path.join(base_path, "article_picture",secure_filename(image_obj.filename))
+    image_obj.save(upload_path)
+    return picture_name
+
+
+
+# 保存文章
 def save_article(request):
     article_tag = request.form.getlist("article_tag")
     author = request.form.get("author")
@@ -13,6 +34,7 @@ def save_article(request):
     article_status = request.form.get("submit")
     if request.form.get("article_id"):
         id = int(request.form.get("article_id"))
+        image_obj = request.files.get("article_picture")
         try:
             article_obj = Article.query.get(id)
             article_obj.title = title
@@ -21,6 +43,11 @@ def save_article(request):
             article_obj.content = content
             article_obj.article_type = article_type
             article_obj.title = title
+            if image_obj:
+                picture_name = up_picture(image_obj)
+                article_obj.article_picture = picture_name
+            else:
+                pass
             if article_status == "发布文章":
                 article_obj.article_status = "发布"
             else:
@@ -31,6 +58,11 @@ def save_article(request):
         except Exception as e:
             print(e)
     else:
+        image_obj = request.files.get("article_picture")
+        if image_obj:
+            picture_name = up_picture(image_obj)
+        else:
+            picture_name = None
         try:
             if article_status == "发布文章":
                 article_obj = Article(
@@ -39,7 +71,8 @@ def save_article(request):
                     description=description,
                     content=content,
                     article_type=article_type,
-                    article_status="发布"
+                    article_status="发布",
+                    article_picture=picture_name
                 )
             else:
                 article_obj = Article(
@@ -48,7 +81,8 @@ def save_article(request):
                     description=description,
                     content=content,
                     article_type=article_type,
-                    article_status="草稿"
+                    article_status="草稿",
+                    article_picture=picture_name
                 )
             tag_list = [Tag.query.get(int(tag)) for tag in article_tag]
             article_obj.tag = tag_list
@@ -77,6 +111,7 @@ def add_article():
         tag_obj_list = Tag.query.all()
         return render_template("/backstage/add_article.html",**{"tag_obj_list":tag_obj_list})
     else:
+
         if request.form.get("submit") == "发布文章":
             data = save_article(request)
             return render_template("/backstage/article_result.html", **locals())

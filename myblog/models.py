@@ -27,6 +27,7 @@ class Article(BaseModel):
     content = db.Column(db.Text) # 文章内容
     article_type = db.Column(db.String(3)) # 文章类型
     article_status = db.Column(db.String(10)) # 文章状态
+    article_picture = db.Column(db.String(100)) # 文章图片
 
     tag = db.relationship("Tag",
         secondary=Article_Tag,
