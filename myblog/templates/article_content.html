@@ -91,19 +91,20 @@
   <main>
     <div class="infosbox">
       <div class="newsview">
-        <h3 class="news_title">{{ article_obj.title }}</h3>
-        <div class="bloginfo">
-          <ul>
-            <li class="author">作者：<a href="/">{{ article_obj.author }}</a><input id="article_id" name="article_id" type="hidden" value="{{ article_obj.id }}"></li>
-              {% for tag in article_obj.tag %}
-                <li class="lmname"><a href="/article/type/?tag_id={{ tag.id }}">{{ tag.name }}</a></li>
-              {% endfor %}
-            <li class="timer">时间：{{ article_obj.created_date }}</li>
-            <li class="view">4567人已阅读</li>
-          </ul>
+          <div class=" navigation"><a href="/article/">我的文章</a> > <span>{{ article_obj.title }}</span></div>
+      <div class="bloginfo">
+        <header class="article-header">
+            <h3 class="news_title">{{ article_obj.title }}</h3>
+                <span class="author"><img src="/statics/images/author.png"><a href="/search/?keyboard={{ article_obj.author }}">{{ article_obj.author }}</a><input id="article_id" name="article_id" type="hidden" value="{{ article_obj.id }}"></span>
+                <span class="tags"><img src="/statics/images/tag.png">
+                    {% for tag in article_obj.tag %}
+                    <a href="/article/type/?tag_id={{ tag.id }}" target="_blank">{{ tag.name }}</a>
+                    {% endfor %}
+                </span>
+                <span class="timer"><img src="/statics/images/time.png">{{ article_obj.created_date }}</span>
+                <span class="view"><img src="/statics/images/read.png">4567人已阅读</span>
+        </header>
         </div>
-        <div class="tags">{% for tag in article_obj.tag %}<a href="/article/type/?tag_id={{ tag.id }}" target="_blank">{{ tag.name }}</a> &nbsp; {% endfor %}</div>
-        <div class="news_about"><strong>简介:</strong>{{ article_obj.description }}</div><br>
         <div class="news_con">{{ article_obj.content | safe }}</div>
       <div class="share">
         <p class="diggit"><a class="like" href="JavaScript:makeRequest('/e/public/digg/?classid=3&amp;id=19&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');"> 很赞哦！ </a>(<b id="diggnum">13</b>)</p>

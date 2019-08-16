@@ -39,9 +39,10 @@ obj.id='selected';
 
 	  new_scroll_position = last_scroll_position;
 	});
+
 	
 	
-	//»Øµ½¶¥²¿
+	//ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
     // browser window scroll (in pixels) after which the "back to top" link is shown
     var offset = 300,
         //browser window scroll (in pixels) after which the "back to top" link opacity is reduced
@@ -67,7 +68,7 @@ obj.id='selected';
         );
     });
 	
-	//²àÀ¸¹Ì¶¨
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½
 		   
 	//aside
     var Sticky = new hcSticky('aside', {

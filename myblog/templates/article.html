@@ -78,16 +78,18 @@
           <h3>抱歉，没有找到您想要的结果！</h3>
       {% else %}
       {% for article_obj in data.data_list %}
-        <li><i><a href="/"><img style="width: 150px;height: 100px" src="/statics/images/article_picture/{{ article_obj.article_picture }}"></a></i>
-            <h3><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h3>
+        <li class="alt-list"><i><a href="/"><img class="article-image" src="/statics/images/article_picture/{{ article_obj.article_picture }}"></a></i>
+            <h4><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h4>
             <p>{{ article_obj.description }}</p><br>
             <hr>
-            <span style="font-size: 10px;margin-right: 200px">时间：{{ article_obj.created_date }}&nbsp;&nbsp;&nbsp;&nbsp;
-                作者：{{ article_obj.author }}&nbsp;&nbsp;&nbsp;&nbsp;
-                标签：{% for tag_obj in article_obj.tag %}
-                    {{ tag_obj.name }}&nbsp;
-                    {% endfor %}
-            </span>
+          <span><img src="/statics/images/time.png">{{ article_obj.created_date }}</span>
+              <span><img src="/statics/images/author.png">{{ article_obj.author }}</span>
+              <span><img src="/statics/images/tag.png">
+              {% for tag_obj in article_obj.tag %}
+                  {{ tag_obj.name }}&nbsp;
+              {% endfor %}
+          </span>
+
       </li>
       {% endfor %}
       {% endif %}
