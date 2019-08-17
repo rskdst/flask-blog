@@ -14,6 +14,7 @@
       <div class="about_me">
           <div>
               <h2>关于我</h2>
+              <hr>
               <a style="left: 25px" href="https://weibo.com/liujing0824" target="_blank"><img src="/statics/images/weibo.png"></a>
               <a style="left: 110px" href="#"><img src="/statics/images/email.png"></a></span>
               <a style="left: 195px" id="littleimg" onmouseleave="hoverHiddendiv()" onmouseenter="hoverShowDiv()" href=""><img src="/statics/images/weixin.png"></a>
@@ -48,45 +49,57 @@
           <input name="Submit" class="input_submit" value="搜索" type="submit">
         </form>
       </div>
-      <div class="fenlei">
-        <h2>文章分类</h2>
-        <ul>
-          {% for tag_obj in data.tag_obj_list %}
-              {% if tag_obj.name == "站长推荐" %}
-                  <li style="display: none"></li>
-              {% else %}
-                  {% if tag_id %}
-                      {% if tag_obj.id == tag_id %}
-                          <li><a style="color: red" href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+      <div class="fenlei" style="overflow: visible">
+          <div>
+            <h2>文章分类</h2>
+            <hr>
+            <ul>
+              {% for tag_obj in data.tag_obj_list %}
+                  {% if tag_obj.name == "站长推荐" %}
+                      <li style="display: none"></li>
+                  {% else %}
+                      {% if tag_id %}
+                          {% if tag_obj.id == tag_id %}
+                              <li><a style="color: red" href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                          {% else %}
+                              <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                          {% endif %}
                       {% else %}
                           <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                       {% endif %}
-                  {% else %}
-                      <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                   {% endif %}
-              {% endif %}
-          {% endfor %}
-        </ul>
+              {% endfor %}
+            </ul>
+          </div>
       </div>
-      <div class="tuijian">
-        <h2>站长推荐</h2>
-        <ul>
-          {% for article_obj in data.recommend.article %}
-              <li><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></li>
-          {% endfor %}
-        </ul>
+      <div class="tuijian" style="overflow: visible">
+          <div>
+            <h2>站长推荐</h2>
+            <hr>
+            <ul>
+              {% for article_obj in data.recommend.article %}
+                  <li><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
       </div>
-      <div class="links">
-        <h2>友情链接</h2>
-        <ul>
-          <a href="http://www.yangqq.com">杨青个人博客</a> <a href="http://www.yangqq.com">杨青博客</a>
-        </ul>
+      <div class="links" style="overflow: visible">
+        <div>
+            <h2>友情链接</h2>
+            <hr>
+            <ul>
+              <a href="http://www.yangqq.com">杨青个人博客</a> <a href="http://www.yangqq.com">杨青博客</a>
+            </ul>
+        </div>
       </div>
-      <div class="guanzhu">
-        <h2>关注我 么么哒</h2>
-        <ul>
-          <img src="/statics/images/wx.jpg">
-        </ul>
+      <div class="guanzhu" style="overflow: visible">
+        <div>
+            <h2>关注我 么么哒</h2>
+            <hr>
+            <ul>
+              <img src="/statics/images/wx.jpg">
+            </ul>
+         </div>
       </div>
   </aside>
   <main class="r_box">
