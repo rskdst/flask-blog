@@ -7,32 +7,6 @@
     <link href="/statics/css/zzsc.css" rel="stylesheet" type="text/css"   />
 {% endblock %}
 
-{% block style %}
-    <style>
-        .infosbox img{
-            width: auto;
-            height: auto;
-        }
-        .input-val {
-            width: 200px;
-            height: 32px;
-            border: 1px solid #ddd;
-            box-sizing: border-box;
-        }
-        #canvas {
-            vertical-align: middle;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            cursor: pointer;
-        }
-        .reply{
-            cursor: pointer;
-            color: black;
-        }
-
-    </style>
-{% endblock %}
-
 {% block container %}
 <article>
   <aside class="l_box">
@@ -93,28 +67,28 @@
             <hr>
             <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2" >网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc5" >网页小图标</a>
             <a href="http://sc.chinaz.com/" class="tagc1" >网站常用代码</a>
             <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">代码笔记</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">js特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc5">代码笔记</a>
+            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码表</a>
             <a href="http://sc.chinaz.com/" class="tagc2">jquery特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc2" >网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc1" >网站常用代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc3" >网站常用代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc1">网页小图标</a>
             <a href="http://sc.chinaz.com/" class="tagc2">相册代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">js特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">jquery特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">jquery特效代码表</a>
         </div>
     </div>
     <div class="guanzhu" style="overflow: visible">
@@ -122,7 +96,7 @@
             <h2>关注我 么么哒</h2>
             <hr>
             <ul>
-              <img src="/statics/images/wx.jpg">
+              <img src="/statics/images/wxqr.jpg">
             </ul>
         </div>
     </div>
@@ -136,14 +110,14 @@
       <div class="bloginfo">
         <header class="article-header">
             <h3 class="news_title">{{ article_obj.title }}</h3>
-                <span class="author"><img src="/statics/images/author.png"><a href="/search/?keyboard={{ article_obj.author }}">{{ article_obj.author }}</a><input id="article_id" name="article_id" type="hidden" value="{{ article_obj.id }}"></span>
-                <span class="tags"><img src="/statics/images/tag.png">
+                <span class="author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;<a href="/search/?keyboard={{ article_obj.author }}">{{ article_obj.author }}</a><input id="article_id" name="article_id" type="hidden" value="{{ article_obj.id }}"></span>
+                <span class="tags"><i class="iconfont icon-tags"></i>&nbsp;&nbsp;
                     {% for tag in article_obj.tag %}
                     <a href="/article/type/?tag_id={{ tag.id }}" target="_blank">{{ tag.name }}</a>
                     {% endfor %}
                 </span>
-                <span class="timer"><img src="/statics/images/time.png">{{ article_obj.created_date }}</span>
-                <span class="view"><img src="/statics/images/read.png">4567人已阅读</span>
+                <span class="timer"><i class="iconfont icon-time"></i>&nbsp;&nbsp;{{ article_obj.created_date }}</span>
+                <span class="view"><i class="iconfont icon-view"></i>&nbsp;&nbsp;4567人已阅读</span>
         </header>
         </div>
         <div class="news_con">{{ article_obj.content | safe }}</div>
@@ -215,6 +189,8 @@
     <script src="/statics/js/jquery.min.js" type="text/javascript"></script>
     <script src='/statics/js/zzsc.js' type="text/javascript"></script>
     <script>
+        $("#header a[href='/index/']").css("color","#00a67c");
+        $("#header a[href='/article/']").css("color","#f65a8a");
         Vue.use(VueResource);
         //向后台请求评论数据
         var vue1 = new Vue({

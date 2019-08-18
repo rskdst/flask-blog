@@ -77,28 +77,28 @@
             <hr>
             <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2" >网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc5" >网页小图标</a>
             <a href="http://sc.chinaz.com/" class="tagc1" >网站常用代码</a>
             <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">代码笔记</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">js特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc5">代码笔记</a>
+            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码表</a>
             <a href="http://sc.chinaz.com/" class="tagc2">jquery特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc2" >网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc1" >网站常用代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc3" >网站常用代码</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
             <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
+            <a href="http://sc.chinaz.com/" class="tagc1">网页小图标</a>
             <a href="http://sc.chinaz.com/" class="tagc2">相册代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">js特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">jquery特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码表</a>
+            <a href="http://sc.chinaz.com/" class="tagc4">jquery特效代码表</a>
         </div>
     </div>
     <div class="guanzhu" style="overflow: visible">
@@ -106,7 +106,7 @@
             <h2>关注我 么么哒</h2>
             <hr>
             <ul>
-              <img src="/statics/images/wx.jpg">
+              <img src="/statics/images/wxqr.jpg">
             </ul>
         </div>
     </div>
@@ -121,9 +121,9 @@
             <h4><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h4>
             <p>{{ article_obj.description }}</p><br>
             <hr>
-          <span><img src="/statics/images/time.png">{{ article_obj.created_date }}</span>
-              <span><img src="/statics/images/author.png">{{ article_obj.author }}</span>
-              <span><img src="/statics/images/tag.png">
+          <span class="a-time"><i class="iconfont icon-time"></i>&nbsp;&nbsp;{{ article_obj.created_date }}</span>
+          <span class="a-author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;{{ article_obj.author }}</span>
+          <span class="a-tags"><i class="iconfont icon-tags"></i>&nbsp;&nbsp;
               {% for tag_obj in article_obj.tag %}
                   {{ tag_obj.name }}&nbsp;
               {% endfor %}

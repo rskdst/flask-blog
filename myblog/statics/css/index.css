@@ -1,17 +1,19 @@
  @charset "gb2312";
 .l_box h2 { color: #333; font-size: 18px; line-height: 30px; padding-left: 20px; background: #fff }
 
-.l_box div { background: rgba(255,255,255,0.5); margin-bottom: 10px; overflow: hidden }
+.l_box div { background: rgba(255,255,255,0.5); margin-bottom: 20px; overflow: hidden }
 
 .l_box div ul { padding: 10px; overflow: hidden }
 .about_me { height: 125px; }
 .about_me div { padding: 10px;height: 100% }
 .about_me a { width: 45px;height: 45px;display: inline-block;z-index: 999;position: absolute;top: 67px  }
 .about_me img { width: 45px;height: 45px; }
-
+.icon-time:before { content: "\e667"; }
+.icon-author:before { content: "\e67b"; }
+.icon-tags:before { content: "\e627"; }
+.icon-view:before { content: "\e63a"; }
 .hover-img { position: absolute;top: 60px;left: 60px;width: 300px;height: 300px;z-index: 9 }
-.weixin { position: absolute;top:120px;left:130px;width: 160px;height: 160px;z-index: 10 }
-
+.weixin { position: absolute;top:140px;left:130px;width: 160px;height: 160px;z-index: 10 }
 
 /*.hover-image img { width: 250px;height: 250px }*/
 
@@ -30,12 +32,15 @@
 .l_box .search { border: 1px solid #000; background: #000; border-radius: 2em; position: relative; }
 .search input.input_submit { border: 0; background: 0; color: #fff; outline: none; position: absolute; top: 7px; right: 10% }
 .search input.input_text { border: 0; line-height: 36px; height: 36px; width: 72%; padding-left: 10px; outline: none }
-.r_box .alt-list { background: rgba(255,255,255,0.8); padding: 15px; overflow: hidden; color: #797b7c; margin-bottom: 20px }
+.r_box .alt-list { background: rgba(255,255,255,0.8); padding: 15px; overflow: hidden; color: #797b7c; margin-bottom: 20px;height: 220px }
 .r_box li h3 { line-height: 25px; text-shadow: #FFF 1px 1px 1px }
 .r_box li h3 a:hover { color: #000; }
 .r_box li .article-image { float: right; clear: right; width: 200px;height: 123px; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; transition: all 0.5s; }
 .r_box li p { margin: 20px 0 45px 0; line-height: 22px; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 2; }
-.r_box li span { font-size: 10px;margin-right: 200px;  }
+.r_box li span { position:absolute; font-size: 12px;  }
+.r_box li .a-time { margin-left: 10px; }
+.r_box li .a-author { margin-left: 300px }
+.r_box li .a-tags { margin-left: 500px }
 .r_box li span img { width: 18px;height: 16px;display: inline;padding-right: 3px }
 .r_box li:hover img { transform: scale(1.05) }
 .r_box li:hover h3 a { color: #19585d; }
@@ -114,7 +119,7 @@ textarea#saytext { width: 100%; }
 .newsview .news_title { color: #444;font-weight: 400;font-size: 24px;line-height: 40px; }
 .article-header { padding: 2px 20px 12px;border-bottom: 1px solid #eee; }
 .navigation { margin: 0 0 1px;padding: 9px 20px 7px;background-color: #fff;border-bottom: 1px solid #eee; }
-.article-header span { font-size: 10px;margin-right: 60px; }
+.article-header span { font-size: 12px;margin-right: 60px; }
 .article-header span img { width: 18px;height: 16px;display: inline;padding-right: 3px }
 .navigation span { color: #999 }
 .news_con { padding: 10px 20px 20px 20px; }
@@ -122,3 +127,7 @@ textarea#saytext { width: 100%; }
 .leaveword-header a { color: black }
 .comments { background-color: #f7f7f7;padding: 12px 20px;line-height: 14px;color: #5fbaac;font-weight: 400;border-bottom: 1px solid #dbece8;border-radius: 0em }
 .article-list { margin-top: 20px }
+.infosbox img { width: auto;height: auto; }
+.input-val { width: 200px;height: 32px;border: 1px solid #ddd;box-sizing: border-box; }
+#canvas {vertical-align: middle;box-sizing: border-box;border: 1px solid #ddd;cursor: pointer;}
+.reply{cursor: pointer;color: black;}

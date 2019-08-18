@@ -7,9 +7,10 @@
 <meta name="description" content="杨青个人博客，是一个站在web前端设计之路的女程序员个人网站，提供个人博客模板免费资源下载的个人原创网站。" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="/statics/css/sb-admin-2.css" rel="stylesheet">
-<link href="/statics/css/base.css" rel="stylesheet">
 <link href="/statics/css/index.css" rel="stylesheet">
+<link href="/statics/css/base.css" rel="stylesheet">
 <link href="/statics/css/m.css" rel="stylesheet">
+<link href="/statics/icon/iconfont.css" rel="stylesheet">
 
 {% block link %}
 {% endblock %}
@@ -25,6 +26,7 @@
 <![endif]-->
 {% block style %}
 {% endblock %}
+
 </head>
 <body>
 <header class="header-navigation" id="header">
@@ -32,8 +34,14 @@
     <h2 id="mnavh"><span class="navicon"></span></h2>
     <ul id="starlist">
       <li><a href="/index/">网站首页</a></li>
-      <li><a href="share.html">我的相册</a></li>
-      <li><a href="/article/">我的文章</a></li>
+      <li><a href="/music/">我的音乐</a></li>
+      <li class="current dropdown" ><a href="/article/" class="dropbtn">我的文章</a>
+          <div class="dropdown-content">
+              <a href="/article/type/?tag_id=3">个人分享</a>
+              <a href="/article/type/?tag_id=1">技术文章</a>
+              <a href="/article/type/?tag_id=2">美文精选</a>
+          </div>
+      </li>
       <li><a href="about.html">关于我</a></li>
       <li><a href="/message/">留言</a></li>
       <li><a href="article_content.html">内容页</a></li>
@@ -48,6 +56,9 @@
 </footer>
 <a href="#" class="cd-top">Top</a>
 </body>
+<script>
+
+</script>
 {% block script %}
 {% endblock %}
 </html>

@@ -6,6 +6,7 @@
 {% block link %}
     <link href="/statics/css/pgwslider.css" rel="stylesheet">
     <link href="/statics/css/jquery.slideBox.css" rel="stylesheet" type="text/css" />
+
 {% endblock %}
 
 {% block container %}
@@ -88,7 +89,7 @@
             <h2>友情链接</h2>
             <hr>
             <ul>
-              <a href="http://www.yangqq.com">杨青个人博客</a> <a href="http://www.yangqq.com">杨青博客</a>
+              <a href="http://www.yangqq.com" target="_blank">杨青个人博客</a>
             </ul>
         </div>
       </div>
@@ -97,7 +98,7 @@
             <h2>关注我 么么哒</h2>
             <hr>
             <ul>
-              <img src="/statics/images/wx.jpg">
+              <img src="/statics/images/wxqr.jpg">
             </ul>
          </div>
       </div>
@@ -121,9 +122,9 @@
             <h4><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h4>
             <p>{{ article_obj.description }}</p><br>
             <hr>
-          <span><img src="/statics/images/time.png">{{ article_obj.created_date }}</span>
-              <span><img src="/statics/images/author.png">{{ article_obj.author }}</span>
-              <span><img src="/statics/images/tag.png">
+          <span class="a-time"><i class="iconfont icon-time"></i>&nbsp;&nbsp;{{ article_obj.created_date }}</span>
+          <span class="a-author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;{{ article_obj.author }}</span>
+          <span class="a-tags"><i class="iconfont icon-tags"></i>&nbsp;&nbsp;
               {% for tag_obj in article_obj.tag %}
                   {{ tag_obj.name }}&nbsp;
               {% endfor %}

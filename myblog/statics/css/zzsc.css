@@ -6,7 +6,9 @@
 /* tagscloud */
 #tagscloud{position:relative;font-size:12px;color:#333;text-align:center;}
 #tagscloud a{position:absolute;top:0px;left:0px;color:#333;font-family:Arial;text-decoration:none;margin:20px 10px 15px 0;line-height:18px;text-align:center;font-size:12px;padding:1px 5px;display:inline-block;border-radius:3px;}
-#tagscloud a.tagc1{background:#666;color:#fff;}
-#tagscloud a.tagc2{background:#F16E50;color:#fff;}
-#tagscloud a.tagc5{background:#006633;color:#fff;}
+#tagscloud a.tagc1{background:#0099CC;color:#CCCCCC}
+#tagscloud a.tagc2{background:#CC0066;color:#FFCC33;}
+#tagscloud a.tagc3{background:#009933;color:#FF6600;}
+#tagscloud a.tagc4{background:#FF0033;color:#333399;}
+#tagscloud a.tagc5{background:#663399;color:#CCCC00;}
 #tagscloud a:hover{color:#fff;background:#0099ff;}

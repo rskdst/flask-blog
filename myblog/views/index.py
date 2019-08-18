@@ -36,3 +36,7 @@ def search():
         article_obj_list += tag_article_obj_list
         data = pagination(article_obj_list)
         return render_template("article.html",**locals())
+
+@index.route("/music/",methods=["get",])
+def music():
+    return render_template("music.html")
