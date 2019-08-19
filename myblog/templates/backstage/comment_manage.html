@@ -23,6 +23,16 @@
                         <button type="button" value="{{ comment.parent_comment.id }}" class="btn btn-default reply_to">回复</button>
                         <input type="button" id="{{ comment.parent_comment.id }}" class="btn btn-default son_comment" value="查看子评论">
                     </div>
+                    <div class="reply-content{{ comment.parent_comment.id }}" style="display: none">
+                        <form method="post">
+                            <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
+                            <input type="hidden" name="article_id" value="{{ comment_tuple[0] }}">
+                            <input type="hidden" name="reply_id" value="{{ comment.parent_comment.user_id }}">
+                            <input type="hidden" name="reply_comment_id" value="{{ comment.parent_comment.id }}">
+                            <textarea name="content" cols="70" rows="6"></textarea>
+                            <input type="submit" class="btn" name="submit" value="回复">
+                        </form>
+                    </div>
                     <div class="ecomment{{ comment.parent_comment.id }}" style="display: none">
                         {% for son_comment in comment.son_comment %}
                           <div>
@@ -31,7 +41,6 @@
                             <div class="editor" style="margin-left: 400px">
                                 <form method="post" style="display: inline;">
                                     <input type="hidden" name="son_comment" value="{{ son_comment.id }}">
-                                    <input type="hidden" name="user_id" value="{{ son_comment.user_id }}">
                                     <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
                                     <input type="button" id="{{ son_comment.id }}" class="btn btn-default delete" name="submit" value="删除" data-toggle="modal" data-target="#myModal">
                                 </form>
@@ -42,6 +51,7 @@
                                     <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
                                     <input type="hidden" name="article_id" value="{{ comment_tuple[0] }}">
                                     <input type="hidden" name="reply_id" value="{{ son_comment.user_id }}">
+                                    <input type="hidden" name="reply_comment_id" value="{{ son_comment.id }}">
                                     <textarea name="content" cols="70" rows="6"></textarea>
                                     <input type="submit" class="btn" name="submit" value="回复">
                                 </form>
@@ -50,15 +60,7 @@
                           </div>
                       {% endfor %}
                     </div>
-                    <div class="reply-content{{ comment.parent_comment.id }}" style="display: none">
-                        <form method="post">
-                            <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
-                            <input type="hidden" name="article_id" value="{{ comment_tuple[0] }}">
-                            <input type="hidden" name="reply_id" value="{{ comment.parent_comment.user_id }}">
-                            <textarea name="content" cols="70" rows="6"></textarea>
-                            <input type="submit" class="btn" name="submit" value="回复">
-                        </form>
-                    </div>
+
                 </ul>
 
             </div>

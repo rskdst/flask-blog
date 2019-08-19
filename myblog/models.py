@@ -55,7 +55,8 @@ class Comment(BaseModel):
     user_id = db.Column(db.Integer,db.ForeignKey("user.id")) # 用户id
     parent_id = db.Column(db.Integer) # 评论的父id
     article_id = db.Column(db.Integer,db.ForeignKey("article.id")) # 评论的文章id
-    reply_id = db.Column(db.Integer,db.ForeignKey("user.id")) # 回复的评论id
+    reply_comment_id = db.Column(db.Integer) # 回复的评论id
+    reply_id = db.Column(db.Integer,db.ForeignKey("user.id")) # 回复的评论的用户id
     content = db.Column(db.String(320)) # 评论的内容
     created_date =db.Column(db.DateTime, default=datetime.datetime.now) # 评论时间
 

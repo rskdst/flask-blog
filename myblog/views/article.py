@@ -60,10 +60,12 @@ def article_type():
 # 文章评论
 @article.route("/article/comment/",methods=["get","post"])
 def add_comment():
+    print(request.form)
     username = request.form.get("username")
     email = request.form.get("email")
     content = request.form.get("content")
     article_id = request.form.get("article_id")
+    reply_comment_id = request.form.get("reply_comment_id")
     parent_id = request.form.get("parent_id")
     reply_id = request.form.get("reply_id")
     if not User.query.filter(username==username):
@@ -76,6 +78,7 @@ def add_comment():
             user_id=user_id,
             parent_id=parent_id,
             article_id=article_id,
+            reply_comment_id=reply_comment_id,
             reply_id=reply_id,
             content=content
         )
@@ -105,6 +108,7 @@ class _Comment(Resource):
                 parent_dict["id"] = comment_obj.id
                 parent_dict["username"] = comment_obj.user_comment.username
                 parent_dict["parent_id"] = comment_obj.parent_id
+                parent_dict["reply_comment_id"] = comment_obj.reply_comment_id
                 parent_dict["article_id"] = article_id
                 parent_dict["reply_id"] = comment_obj.user_comment.id
                 parent_dict["content"] = comment_obj.content
@@ -118,6 +122,7 @@ class _Comment(Resource):
                     son_dict["username"] = son_comment.user_comment.username
                     son_dict["parent"] = son_comment.reply_comment.username
                     son_dict["parent_id"] = son_comment.parent_id
+                    son_dict["reply_comment_id"] = son_comment.reply_comment_id
                     son_dict["article_id"] = article_id
                     son_dict["reply_id"] = son_comment.user_comment.id
                     son_dict["content"] = son_comment.content
@@ -128,6 +133,7 @@ class _Comment(Resource):
             if comment_dict:
                 comment_list.append(comment_dict)
         data["data"] = comment_list
+        print(data)
         return data
 
     def post(self):

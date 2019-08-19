@@ -231,7 +231,7 @@ def message_manage():
             reply_id = request.form.get("reply_id")
             LeaveMessage.query.filter_by(id=reply_id).delete(synchronize_session=False)
             db.session.commit()
-        return redirect("/manage/message/")
+        return redirect(request.headers.get("Referer"))
 
 
 # 评论管理
@@ -253,6 +253,7 @@ def comment_manage():
                     parent_dict["user_id"] = comment_obj.user_id
                     parent_dict["username"] = comment_obj.user_comment.username
                     parent_dict["parent_id"] = comment_obj.parent_id
+                    parent_dict["reply_comment_id"] = comment_obj.reply_comment_id
                     parent_dict["article_id"] = article_id
                     parent_dict["reply_id"] = comment_obj.user_comment.id
                     parent_dict["content"] = comment_obj.content
@@ -268,6 +269,7 @@ def comment_manage():
                         son_dict["username"] = son_comment.user_comment.username
                         son_dict["parent"] = son_comment.reply_comment.username
                         son_dict["parent_id"] = son_comment.parent_id
+                        son_dict["reply_comment_id"] = son_comment.reply_comment_id
                         son_dict["article_id"] = article_id
                         son_dict["reply_id"] = son_comment.user_comment.id
                         son_dict["content"] = son_comment.content
@@ -298,6 +300,7 @@ def comment_manage():
             db.session.add(comment_obj)
             db.session.commit()
         else:
+            print(request.headers)
             if request.form.get("parent_comment"):
                 comment_id = request.form.get("parent_comment")
                 Comment.query.filter_by(id=comment_id).delete(synchronize_session=False)
@@ -305,10 +308,9 @@ def comment_manage():
                 db.session.commit()
             else:
                 comment_id = request.form.get("son_comment")
-                user_id = request.form.get("user_id")
                 parent_id = request.form.get("parent_id")
-                print(comment_id,user_id,parent_id)
+                print(comment_id,parent_id)
                 Comment.query.filter_by(id=comment_id).delete(synchronize_session=False)
-                Comment.query.filter(db.and_(Comment.parent_id==parent_id,Comment.user_id==user_id)).delete(synchronize_session=False)
+                Comment.query.filter(db.and_(Comment.parent_id==parent_id,Comment.reply_comment_id==comment_id)).delete(synchronize_session=False)
                 db.session.commit()
-        return redirect("/manage/comment/")
+        return redirect(request.headers.get("Referer"))

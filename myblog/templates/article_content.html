@@ -137,12 +137,12 @@
             <ul>
               <p class="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
               <p class="fbinfo">{{ message.parent_comment.content }}</p>
-              <a class="reply" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id">回复</a>
+              <a class="reply" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id" :reply_comment_id="message.parent_comment.id">回复</a>
               <div class="ecomment" v-if="message.son_comment!==undefined&&message.son_comment.length >0">
                   <div v-for="son_message in message.son_comment">
                     <span class="ecommentauthor">网友 {{ son_message.username }} 回复 {{ son_message.parent }}：&nbsp;&nbsp;&nbsp;&nbsp;{{ son_message.created_date }}</span>
                     <p class="ecommenttext">{{ son_message.content }}</p><br>
-                      <a class="reply" v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id">回复</a>
+                      <a class="reply" v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id" :reply_comment_id="son_message.id">回复</a>
                   </div>
 
               </div>
@@ -169,6 +169,7 @@
                 <input name="article_id" type="hidden" id="article_id" value="{{ article_obj.id }}">
                 {% raw %}
               <input name="parent_id" type="hidden" id="parent_id" :value="parent_id">
+              <input name="reply_comment_id" type="hidden" id="reply_comment_id" :value="reply_comment_id">
               <input name="reply_id" type="hidden" id="reply_id" :value="reply_id">
               <input name="repid" type="hidden" id="repid" value="">
               <input type="hidden" name="ecmsfrom" value="/joke/talk/2018-07-23/106.html">
@@ -198,16 +199,19 @@
             data:{
                 messages:null,
                 reply_id:null,
-                parent_id:null
+                parent_id:null,
+                reply_comment_id:null
             },
             methods:{
                 reply_to:function(event) {
                     var target = event.target || window.event.srcElement;
                     var reply_id = target.getAttribute("reply_id");
                     var parent_id = target.getAttribute("parent_id");
+                    var reply_comment_id = target.getAttribute("reply_comment_id");
                     const returnEle = document.querySelector("#plpost");
                     this.reply_id = reply_id;
                     this.parent_id = parent_id;
+                    this.reply_comment_id = reply_comment_id;
                     if (!!returnEle) {
                         returnEle.scrollIntoView(true);
 
