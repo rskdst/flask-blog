@@ -5,27 +5,60 @@
 
 {% block container %}
     <div class="news_pl">
-        {% for comment_tuple in data.all_data %}
+        {% for comment_tuple in data.data_list %}
         <div class="gbko comment_manage" id="article_conmment">
             <div style="padding: 10px">
-                <h3>{{ comment_tuple[0] }}</h3>
+                <h3>{{ comment_tuple[1] }}</h3>
             </div>
-            {% for comment in comment_tuple[1] %}
+            {% for comment in comment_tuple[2] %}
                 <div class="fb" style="margin-left: 30px">
                 <ul>
-                    <p class="fbtime"><span>{{ comment.parent_comment.created_date }}</span></p>
+                    <p class="fbtime"><span>{{ comment.parent_comment.created_date }}</span>{{ comment.parent_comment.username }}</p>
                     <p class="fbinfo">{{ comment.parent_comment.content }}</p>
-                    <div class="ecomment" style="display: none">
+                    <div class="editor" style="margin-left: 400px">
+                        <form method="post" style="display: inline;">
+                            <input type="hidden" name="parent_comment" value="{{ comment.parent_comment.id }}">
+                            <input type="button" id="{{ comment.parent_comment.id }}" class="btn btn-default delete" name="submit" value="删除" data-toggle="modal" data-target="#myModal">
+                        </form>
+                        <button type="button" value="{{ comment.parent_comment.id }}" class="btn btn-default reply_to">回复</button>
+                        <input type="button" id="{{ comment.parent_comment.id }}" class="btn btn-default son_comment" value="查看子评论">
+                    </div>
+                    <div class="ecomment{{ comment.parent_comment.id }}" style="display: none">
                         {% for son_comment in comment.son_comment %}
-                          <div >
+                          <div>
                             <span class="ecommentauthor">网友&nbsp;&nbsp;{{ son_comment.username }}  回复&nbsp;&nbsp;&nbsp;{{ son_comment.parent }} ：</span>
                             <p class="ecommenttext">{{ son_comment.content }}</p><br>
-                            <p class="editor"><a href="">回复</a><a href="">删除</a></p>
+                            <div class="editor" style="margin-left: 400px">
+                                <form method="post" style="display: inline;">
+                                    <input type="hidden" name="son_comment" value="{{ son_comment.id }}">
+                                    <input type="hidden" name="user_id" value="{{ son_comment.user_id }}">
+                                    <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
+                                    <input type="button" id="{{ son_comment.id }}" class="btn btn-default delete" name="submit" value="删除" data-toggle="modal" data-target="#myModal">
+                                </form>
+                                <button type="button" value="{{ son_comment.id }}" class="btn btn-default reply_to">回复</button>
+                            </div>
+                            <div class="reply-content{{ son_comment.id }}" style="display: none">
+                                <form method="post">
+                                    <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
+                                    <input type="hidden" name="article_id" value="{{ comment_tuple[0] }}">
+                                    <input type="hidden" name="reply_id" value="{{ son_comment.user_id }}">
+                                    <textarea name="content" cols="70" rows="6"></textarea>
+                                    <input type="submit" class="btn" name="submit" value="回复">
+                                </form>
+                            </div>
                             <hr>
                           </div>
                       {% endfor %}
                     </div>
-                    <p class="editor"><a href="">回复</a><a href="">删除</a></p>
+                    <div class="reply-content{{ comment.parent_comment.id }}" style="display: none">
+                        <form method="post">
+                            <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
+                            <input type="hidden" name="article_id" value="{{ comment_tuple[0] }}">
+                            <input type="hidden" name="reply_id" value="{{ comment.parent_comment.user_id }}">
+                            <textarea name="content" cols="70" rows="6"></textarea>
+                            <input type="submit" class="btn" name="submit" value="回复">
+                        </form>
+                    </div>
                 </ul>
 
             </div>
@@ -35,7 +68,7 @@
     </div>
     <div class="pagelist">
         {% if data.pre_page %}
-            <a href="/comment/manage/?page={{ data.pre_page }}">上一页</a>
+            <a href="/manage/comment/?page={{ data.pre_page }}">上一页</a>
         {% else %}
             <a href="#">上一页</a>
         {% endif %}
@@ -43,15 +76,61 @@
             {% if page == data.current_page %}
                 <a href="#" class="curPage">{{ page }}</a>&nbsp;&nbsp;
             {% else %}
-                <a href="/comment/manage/?page={{ page }}">{{ page }}</a>
+                <a href="/manage/comment/?page={{ page }}">{{ page }}</a>
             {% endif %}
         {% endfor %}
         {% if data.next_page %}
-            <a href="/comment/manage/?page={{ data.next_page }}">下一页</a>
+            <a href="/manage/comment/?page={{ data.next_page }}">下一页</a>
         {% else %}
             <a href="#">下一页</a>
         {% endif %}
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">您确定要&nbsp;<span style="color: black;font-size: 22px" class="text-sure"></span>&nbsp;吗</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary sure">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 {% endblock %}
+{% block script %}
+    <script>
+         $(function () {
+             $(".son_comment").click(function () {
+                 var comment_id = $(this).attr("id");
+                 if ($("." + "ecomment" + comment_id).css("display") == "none") {
+                     $("." + "ecomment" + comment_id).css("display", "inline")
+                 } else {
+                     $("." + "ecomment" + comment_id).css("display", "none")
+                 }
+             });
+             $(".reply_to").click(function () {
+                 var comment_id = $(this).val();
+                 if ($("." + "reply-content" + comment_id).css("display") == "none") {
+                     $("." + "reply-content" + comment_id).css("display", "inline")
+                 } else {
+                     $("." + "reply-content" + comment_id).css("display", "none")
+                 }
 
+             });
+             $(".delete").click(function () {
+                var id = $(this).attr("id");
+                var text_sure = $(this).val();
+                $(".text-sure").text(text_sure);
+                $(".sure").click(function () {
+                    $("#"+id).attr("type","submit");
+                    $("#"+id).click()
+                });
+            });
+         })
+    </script>
+{% endblock %}
 

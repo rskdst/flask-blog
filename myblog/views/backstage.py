@@ -25,6 +25,7 @@ def comment_pagination(all_data):
     end = current_page * 7
     data_list = all_data[start:end]
 
+
     return locals()
 
 
@@ -249,6 +250,7 @@ def comment_manage():
                 if comment_obj.parent_id == None:
                     parent_dict = {}
                     parent_dict["id"] = comment_obj.id
+                    parent_dict["user_id"] = comment_obj.user_id
                     parent_dict["username"] = comment_obj.user_comment.username
                     parent_dict["parent_id"] = comment_obj.parent_id
                     parent_dict["article_id"] = article_id
@@ -262,6 +264,7 @@ def comment_manage():
                     for son_comment in son_comment_list:
                         son_dict = {}
                         son_dict["id"] = son_comment.id
+                        son_dict["user_id"] = son_comment.user_id
                         son_dict["username"] = son_comment.user_comment.username
                         son_dict["parent"] = son_comment.reply_comment.username
                         son_dict["parent_id"] = son_comment.parent_id
@@ -274,10 +277,38 @@ def comment_manage():
                     comment_dict["son_comment"] = son_list
                 if comment_dict:
                     comment_list.append(comment_dict)
-            comments_tuple = (article_title,comment_list)
+            comments_tuple = (article_id,article_title,comment_list)
             comments_list.append(comments_tuple)
         data = comment_pagination(comments_list)
-        print(data)
         return render_template("/backstage/comment_manage.html",**locals())
 
-
+    else:
+        if request.form.get("submit") == "回复":
+            parent_id = request.form.get("parent_id")
+            article_id = request.form.get("article_id")
+            reply_id = request.form.get("reply_id")
+            content = request.form.get("content")
+            comment_obj = Comment(
+                user_id=1,
+                parent_id=parent_id,
+                article_id=article_id,
+                reply_id=reply_id,
+                content=content
+            )
+            db.session.add(comment_obj)
+            db.session.commit()
+        else:
+            if request.form.get("parent_comment"):
+                comment_id = request.form.get("parent_comment")
+                Comment.query.filter_by(id=comment_id).delete(synchronize_session=False)
+                Comment.query.filter_by(parent_id=comment_id).delete(synchronize_session=False)
+                db.session.commit()
+            else:
+                comment_id = request.form.get("son_comment")
+                user_id = request.form.get("user_id")
+                parent_id = request.form.get("parent_id")
+                print(comment_id,user_id,parent_id)
+                Comment.query.filter_by(id=comment_id).delete(synchronize_session=False)
+                Comment.query.filter(db.and_(Comment.parent_id==parent_id,Comment.user_id==user_id)).delete(synchronize_session=False)
+                db.session.commit()
+        return redirect("/manage/comment/")
