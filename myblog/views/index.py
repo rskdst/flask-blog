@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,jsonify
 from myblog.models import *
 from myblog.views.article import pagination
 
@@ -37,6 +37,18 @@ def search():
         data = pagination(article_obj_list)
         return render_template("article.html",**locals())
 
-@index.route("/music/",methods=["get",])
+@index.route("/music/",methods=["get","post"])
 def music():
-    return render_template("music.html")
+    if request.method == "GET":
+        return render_template("music.html")
+    else:
+        music_obj_list = Music.query.all()
+        music_list = []
+        for music_obj in music_obj_list:
+            dict = {}
+            dict["title"] = music_obj.title
+            dict["singer"] = music_obj.singer
+            dict["image"] = music_obj.image
+            dict["src"] = music_obj.src
+            music_list.append(dict)
+        return jsonify(music_list)

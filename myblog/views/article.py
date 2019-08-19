@@ -3,7 +3,6 @@ from flask import Flask,render_template,request,redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api,Resource
 from myblog.models import *
-
 article = Blueprint("article",__name__)
 api = Api(article)
 

@@ -131,3 +131,8 @@ textarea#saytext { width: 100%; }
 .input-val { width: 200px;height: 32px;border: 1px solid #ddd;box-sizing: border-box; }
 #canvas {vertical-align: middle;box-sizing: border-box;border: 1px solid #ddd;cursor: pointer;}
 .reply{cursor: pointer;color: black;}
+.comment_manage { background: rgba(255,255,255,0.8);margin: 10px 10px 20px }
+.editor { margin-left: 750px }
+.editor button { margin-right: 20px;border: 1px solid black }
+.editor input { margin-right: 20px;border: 1px solid black }
+.reply-content input { border: 1px solid black }

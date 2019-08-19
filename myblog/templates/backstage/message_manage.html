@@ -1,0 +1,105 @@
+{% extends "backstage/base.html" %}
+{% block title %}
+    留言管理
+{% endblock %}
+
+{% block container %}
+    <div class="gbook">
+
+    {% for messages in data.data_list %}
+    <form method="post">
+      <div class="fb">
+        <ul>
+            <li class="fbtime"><span> {{ messages.message.created_date }} </span> {{ messages.message.user.username }}</li>
+            <li class="fbinfo">{{ messages.message.content }}</li>
+            <li class="editor"><input type="button" id="{{ messages.message.id }}" class="btn btn-default user_delete" name="submit" value="删除1" data-toggle="modal" data-target="#myModal"><button type="button" value="{{ messages.message.id }}" class="btn btn-default reply_to">回复</button></li>
+
+            <li class="reply-content{{ messages.message.id }}" style="display: none">
+                <input type="hidden" name="message_id" value="{{ messages.message.id }}">
+                <textarea name="reply" cols="70" rows="6"></textarea>
+                <input type="submit" class="btn" name="submit" value="回复">
+            </li>
+        </ul>
+      </div>
+        {% if messages.reply == None %}
+        {% else %}
+          <div class="hf" style="padding-left: 20px">
+          <input type="hidden" name="reply_id" value="{{ messages.reply.id }}">
+            <ul>
+                <li class="zzhf"><font color="#FF0000">站长回复:</font>{{ messages.reply.content }}</li>
+                <li class="editor"><input type="button" id="{{ messages.reply.id }}" class="btn btn-default zhanzhang_delete" name="submit" value="删除2" data-toggle="modal" data-target="#myModal"></li>
+            </ul>
+          </div>
+        {% endif %}
+    </form>
+    {% endfor %}
+
+     <div class="pagelist">
+        {% if data.pre_page %}
+            <a href="/message/?page={{ data.pre_page }}">上一页</a>
+        {% else %}
+            <a href="#">上一页</a>
+        {% endif %}
+        {% for page in data.page_range %}
+            {% if page == data.current_page %}
+                <a href="#" class="curPage">{{ page }}</a>&nbsp;&nbsp;
+            {% else %}
+                <a href="/message/?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if data.next_page %}
+            <a href="/message/?page={{ data.next_page }}">下一页</a>
+        {% else %}
+            <a href="#">下一页</a>
+        {% endif %}
+    </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">您确定要&nbsp;<span style="color: black;font-size: 22px" class="text-sure"></span>&nbsp;吗</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary sure">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(function () {
+            $(".reply_to").click(function () {
+                var message_id = $(this).val();
+                if ($("."+"reply-content"+message_id).css("display") == "none"){
+                    $("."+"reply-content"+message_id).css("display","inline")
+                }else {
+                     $("."+"reply-content"+message_id).css("display","none")
+                }
+
+            });
+            $(".user_delete").click(function () {
+                var id = $(this).attr("id");
+                var text_sure = $(this).val();
+                $(".text-sure").text(text_sure);
+                $(".sure").click(function () {
+                    $("#"+id).attr("type","submit");
+                    $("#"+id).click()
+                });
+            });
+            $(".zhanzhang_delete").click(function () {
+                var id = $(this).attr("id");
+                var text_sure = $(this).val();
+                $(".text-sure").text(text_sure);
+                $(".sure").click(function () {
+                    $("#"+id).attr("type","submit");
+                    $("#"+id).click()
+                });
+            })
+        })
+    </script>
+{% endblock %}

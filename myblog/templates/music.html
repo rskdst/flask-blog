@@ -9,8 +9,9 @@
 <link href="/statics/css/index.css" rel="stylesheet">
 <link href="/statics/css/m.css" rel="stylesheet">
 <link href="/statics/css/base.css" rel="stylesheet">
-<script type="text/javascript" src="/statics/js/comm.js"></script>
 <script src="/statics/js/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/statics/js/comm.js"></script>
+
 
 </head>
 <body>
@@ -70,35 +71,28 @@
 </div>
 <script src="/statics/music/src/js/smusic.min.js"></script>
 <script>
-var musicList = [
-	{
-		title : 'Sugar',
-		singer : 'Maroon 5',
-		cover  : 'images/Maroon5.jpg',
-		src    : 'http://zjdx1.sc.chinaz.com/Files/DownLoad/sound1/201506/6039.mp3'
-	},
-	{
-		title : '洋葱',
-		singer : '平安',
-		cover  : '/statics/music/images/yangcong.jpg',
-		src    : 'http://zjdx1.sc.chinaz.com/Files/DownLoad/sound1/201506/6039.mp3'
-	},
-	{
-		title : '她说',
-		singer : '张碧晨',
-		cover  : '/statics/music/images/yangcong.jpg',
-		src    : 'http://zjdx1.sc.chinaz.com/Files/DownLoad/sound1/201506/6039.mp3'
-	},
-	{
-		title : '海阔天空',
-		singer : 'beyond',
-		cover  : '/statics/music/images/yangcong.jpg',
-		src    : '/statics/music/images/Transformers2.mp3'
-	}
-];
-new SMusic({
-	musicList:musicList
-});
+
+    $(function () {
+        $.post("/music/",{},function (data) {
+            var musicList = [];
+            for (music of data) {
+                var musicDict = {
+                    title:music.title,
+                    singer:music.singer,
+                    cover:"/statics/music/images/"+music.image,
+                    src:"/statics/music/music/"+music.src
+                };
+                musicList.push(musicDict)
+
+            }
+            new SMusic({
+                musicList:musicList
+            });
+        });
+
+
+    })
+
 </script>
 
 <footer>

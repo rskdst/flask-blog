@@ -1,10 +1,31 @@
-from flask import Blueprint,redirect
+from flask import Blueprint,redirect,request,render_template
 from myblog.models import *
-from myblog.views.article import pagination
 from werkzeug.utils import secure_filename
+from myblog.views.article import pagination
 import os
 
 backstage = Blueprint("backstage",__name__)
+
+# 评论留言分类
+def comment_pagination(all_data):
+    try:
+        current_page = int(request.args.get("page", 1))
+    except:
+        current_page = 1
+    page_range = [i + 1 for i in range((len(list(all_data)) + 7 - 1) // 7)]
+    if current_page not in page_range:
+        current_page = 1
+    next_page = current_page + 1
+    if next_page not in page_range:
+        next_page = None
+    pre_page = current_page - 1
+    if pre_page not in page_range:
+        pre_page = None
+    start = (current_page - 1) * 7
+    end = current_page * 7
+    data_list = all_data[start:end]
+
+    return locals()
 
 
 
@@ -168,37 +189,95 @@ def article_detail():
             return render_template("/backstage/article_result.html",**locals())
 
 
+# 留言管理
+@backstage.route("/manage/message/",methods=["get","post"])
+def message_manage():
+    if request.method == "GET":
+        message_list = []
+        leave_message_obj_list = LeaveMessage.query.order_by(db.desc("created_date")).all()
+        for leave_message_obj in leave_message_obj_list:
+            message_dict = {}
+            if leave_message_obj.reply_id == None:
+                message_dict["message"] = leave_message_obj
+                message_dict["reply"] = LeaveMessage.query.filter_by(reply_id=leave_message_obj.id).first()
+                message_list.append(message_dict)
+        data = comment_pagination(message_list)
+        return render_template("/backstage/message_manage.html", **locals())
+    else:
+        if request.form.get("submit") == "回复":
+            reply_id = request.form.get("message_id")
+            user_id = 1
+            content = request.form.get("reply")
+            leave_message_obj = LeaveMessage(
+                user_id=user_id,
+                reply_id=reply_id,
+                content=content
+            )
+            db.session.add(leave_message_obj)
+            db.session.commit()
+        elif request.form.get("submit") == "删除1":
+            if request.form.get("reply_id"):
+                message_id = request.form.get("message_id")
+                reply_id = request.form.get("reply_id")
+                LeaveMessage.query.filter_by(id=message_id).delete(synchronize_session=False)
+                LeaveMessage.query.filter_by(id=reply_id).delete(synchronize_session=False)
+                db.session.commit()
+            else:
+                message_id = request.form.get("message_id")
+                LeaveMessage.query.filter_by(id=message_id).delete(synchronize_session=False)
+                db.session.commit()
+        else:
+            reply_id = request.form.get("reply_id")
+            LeaveMessage.query.filter_by(id=reply_id).delete(synchronize_session=False)
+            db.session.commit()
+        return redirect("/manage/message/")
 
 
+# 评论管理
+@backstage.route("/manage/comment/",methods=["get","post"])
+def comment_manage():
+    if request.method == "GET":
+        all_article_id = Article.query.with_entities(Article.id,Article.title).all()
+        comments_list = []
+        for article_id_tuple in all_article_id:
+            article_id = article_id_tuple[0]
+            article_title = article_id_tuple[1]
+            comment_obj_list = Comment.query.filter_by(article_id=article_id).order_by(db.desc("created_date")).all()
+            comment_list = []
+            for comment_obj in comment_obj_list:
+                comment_dict = {}
+                if comment_obj.parent_id == None:
+                    parent_dict = {}
+                    parent_dict["id"] = comment_obj.id
+                    parent_dict["username"] = comment_obj.user_comment.username
+                    parent_dict["parent_id"] = comment_obj.parent_id
+                    parent_dict["article_id"] = article_id
+                    parent_dict["reply_id"] = comment_obj.user_comment.id
+                    parent_dict["content"] = comment_obj.content
+                    parent_dict["created_date"] = str(comment_obj.created_date)
+                    comment_dict["parent_comment"] = parent_dict
+                    son_comment_list = [son_comment for son_comment in comment_obj_list if
+                                        son_comment.parent_id == comment_obj.id]
+                    son_list = []
+                    for son_comment in son_comment_list:
+                        son_dict = {}
+                        son_dict["id"] = son_comment.id
+                        son_dict["username"] = son_comment.user_comment.username
+                        son_dict["parent"] = son_comment.reply_comment.username
+                        son_dict["parent_id"] = son_comment.parent_id
+                        son_dict["article_id"] = article_id
+                        son_dict["reply_id"] = son_comment.user_comment.id
+                        son_dict["content"] = son_comment.content
+                        son_dict["created_date"] = str(son_comment.created_date)
+                        son_list.append(son_dict)
+                    son_list.reverse()
+                    comment_dict["son_comment"] = son_list
+                if comment_dict:
+                    comment_list.append(comment_dict)
+            comments_tuple = (article_title,comment_list)
+            comments_list.append(comments_tuple)
+        data = comment_pagination(comments_list)
+        print(data)
+        return render_template("/backstage/comment_manage.html",**locals())
 
 
-# ueditor富文本编辑器配置
-from flask import render_template, request
-from flask import Response
-import datetime
-import os
-
-
-def setImage(image):
-    image = image.rsplit(".")
-    image_str = image[0]
-    time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    new_name = image_str.replace(image_str,"img" + "%s"%time + "." + image[1])
-    return new_name
-
-
-@backstage.route('/pasteimg/', methods=['GET', 'POST'])
-def paste_upload():
-    if request.method == 'POST':
-        image = request.files.get("file")
-        print(request.files.get("file"))
-        # image_name = setImage(image)
-        image_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"../statics/media"))
-        image.save(image_path)
-
-        imgdata = request.get_data()
-        file = open('test.png', 'wb')
-        file.write(imgdata)
-        file.close()
-    imgsrc = "/static/img/60_1.png"
-    return Response(imgsrc, mimetype='application/text')

@@ -1,6 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint,redirect
 from flask import Flask,render_template,request
-from myblog.models import LeaveMessage,db
+from myblog.models import *
 from myblog.views.article import pagination
 
 message = Blueprint("message",__name__)
@@ -18,3 +18,19 @@ def main():
                 message_list.append(message_dict)
         data = pagination(message_list)
         return render_template("message.html",**locals())
+    else:
+        username = request.form.get("username")
+        email = request.form.get("email")
+        content = request.form.get("content")
+        if not User.query.filter(username == username):
+            user = User(username=username, email=email)
+            db.session.add(user)
+            db.session.commit()
+        user_id = User.query.filter_by(username=username).first().id
+        leave_message_obj = LeaveMessage(
+            user_id=user_id,
+            content=content
+        )
+        db.session.add(leave_message_obj)
+        db.session.commit()
+        return redirect("/message/")

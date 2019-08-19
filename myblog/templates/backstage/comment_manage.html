@@ -1,0 +1,57 @@
+{% extends "backstage/base.html" %}
+{% block title %}
+    评论管理
+{% endblock %}
+
+{% block container %}
+    <div class="news_pl">
+        {% for comment_tuple in data.all_data %}
+        <div class="gbko comment_manage" id="article_conmment">
+            <div style="padding: 10px">
+                <h3>{{ comment_tuple[0] }}</h3>
+            </div>
+            {% for comment in comment_tuple[1] %}
+                <div class="fb" style="margin-left: 30px">
+                <ul>
+                    <p class="fbtime"><span>{{ comment.parent_comment.created_date }}</span></p>
+                    <p class="fbinfo">{{ comment.parent_comment.content }}</p>
+                    <div class="ecomment" style="display: none">
+                        {% for son_comment in comment.son_comment %}
+                          <div >
+                            <span class="ecommentauthor">网友&nbsp;&nbsp;{{ son_comment.username }}  回复&nbsp;&nbsp;&nbsp;{{ son_comment.parent }} ：</span>
+                            <p class="ecommenttext">{{ son_comment.content }}</p><br>
+                            <p class="editor"><a href="">回复</a><a href="">删除</a></p>
+                            <hr>
+                          </div>
+                      {% endfor %}
+                    </div>
+                    <p class="editor"><a href="">回复</a><a href="">删除</a></p>
+                </ul>
+
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="pagelist">
+        {% if data.pre_page %}
+            <a href="/comment/manage/?page={{ data.pre_page }}">上一页</a>
+        {% else %}
+            <a href="#">上一页</a>
+        {% endif %}
+        {% for page in data.page_range %}
+            {% if page == data.current_page %}
+                <a href="#" class="curPage">{{ page }}</a>&nbsp;&nbsp;
+            {% else %}
+                <a href="/comment/manage/?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if data.next_page %}
+            <a href="/comment/manage/?page={{ data.next_page }}">下一页</a>
+        {% else %}
+            <a href="#">下一页</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+

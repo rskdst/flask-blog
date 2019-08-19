@@ -124,7 +124,7 @@
         {% endif %}
     </div>
       <div class="gbox" id="msg">
-        <form action="../../enews/index.php" method="post" name="form1" id="form1">
+        <form method="post">
           <p> <strong>来说点儿什么吧...</strong></p>
           <p class="yname"><span>昵&nbsp;&nbsp;&nbsp;&nbsp;称:</span>
             <input name="username" type="text" class="inputText" id="username" value="" size="16">
@@ -137,11 +137,10 @@
               <canvas id="canvas" width="100" height="30"></canvas>
           </p>
           <p><span class="tnr">留言内容:</span>
-            <textarea name="lytext" cols="60" rows="12" id="lytext"></textarea>
+            <textarea name="content" cols="60" rows="12" id="lytext"></textarea>
           </p>
           <p>
             <input type="submit" name="Submit3" value="提交">
-            <input name="enews" type="hidden" id="enews" value="AddGbook">
           </p>
         </form>
       </div>

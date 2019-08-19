@@ -28,6 +28,8 @@ class Article(BaseModel):
     article_type = db.Column(db.String(3)) # 文章类型
     article_status = db.Column(db.String(10)) # 文章状态
     article_picture = db.Column(db.String(100)) # 文章图片
+    article_browse = db.Column(db.Integer,default=10) # 文章浏览量
+    article_praise = db.Column(db.Integer,default=1) # 文章点赞数
 
     tag = db.relationship("Tag",
         secondary=Article_Tag,
@@ -92,5 +94,10 @@ class LeaveMessage(BaseModel):
         backref='leave_message'
     )
 
-
+# 音乐
+class Music(BaseModel):
+    title = db.Column(db.String(300))
+    singer = db.Column(db.String(100))
+    image = db.Column(db.String(200))
+    src = db.Column(db.String(300))
 
