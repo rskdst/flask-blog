@@ -1,0 +1,28 @@
+{% extends "backstage/base.html" %}
+{% block title %}
+    添加音乐
+{% endblock %}
+
+
+{% block container %}
+    <form method="post" enctype=multipart/form-data>
+        <div class="input-group" style="padding: 10px;">
+            <input class="form-control" type="text" name="title" placeholder="请添加标题">
+        </div>
+        <div class="input-group" style="padding: 10px;">
+            <input class="form-control" type="text" name="singer" placeholder="请添加歌手">
+        </div>
+        <div class="input-group" style="padding: 10px;">
+            <span>图片<input class="form-control" type="file" accept="image/*" name="image" placeholder="请添加图片"></span>
+        </div>
+        <div class="input-group" style="padding: 10px;">
+            <span>音乐
+                <input class="form-control" type="file" name="music">
+            </span>
+        </div>
+        <div class="input-group" style="padding: 10px;">
+            <input type="submit" name="submit" value="提交">
+        </div>
+
+    </form>
+{% endblock %}

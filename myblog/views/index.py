@@ -37,6 +37,8 @@ def search():
         data = pagination(article_obj_list)
         return render_template("article.html",**locals())
 
+
+# 音乐
 @index.route("/music/",methods=["get","post"])
 def music():
     if request.method == "GET":

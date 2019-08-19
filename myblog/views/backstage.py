@@ -1,3 +1,4 @@
+
 from flask import Blueprint,redirect,request,render_template
 from myblog.models import *
 from werkzeug.utils import secure_filename
@@ -24,8 +25,6 @@ def comment_pagination(all_data):
     start = (current_page - 1) * 7
     end = current_page * 7
     data_list = all_data[start:end]
-
-
     return locals()
 
 
@@ -42,8 +41,6 @@ def up_picture(image_obj):
     upload_path = os.path.join(base_path, "article_picture",secure_filename(image_obj.filename))
     image_obj.save(upload_path)
     return picture_name
-
-
 
 # 保存文章
 def save_article(request):
@@ -309,8 +306,87 @@ def comment_manage():
             else:
                 comment_id = request.form.get("son_comment")
                 parent_id = request.form.get("parent_id")
-                print(comment_id,parent_id)
                 Comment.query.filter_by(id=comment_id).delete(synchronize_session=False)
                 Comment.query.filter(db.and_(Comment.parent_id==parent_id,Comment.reply_comment_id==comment_id)).delete(synchronize_session=False)
                 db.session.commit()
         return redirect(request.headers.get("Referer"))
+
+
+# 添加音乐
+@backstage.route("/backstage/add_music/",methods=["get","post"])
+def add_music():
+    if request.method == "GET":
+        return render_template("/backstage/add_music.html")
+    else:
+        title = request.form.get("title")
+        singer = request.form.get("singer")
+        image_obj = request.files.get("image")
+        music_obj = request.files.get("music")
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/music"))
+        image_upload_path = os.path.join(base_path, "images", secure_filename(image_obj.filename))
+        image_obj.save(image_upload_path)
+        music_upload_path = os.path.join(base_path, "music", secure_filename(music_obj.filename))
+        music_obj.save(music_upload_path)
+        music_obj = Music(
+            title=title,
+            singer=singer,
+            image=image_obj.filename,
+            src=music_obj.filename
+        )
+        db.session.add(music_obj)
+        db.session.commit()
+        return render_template("/backstage/add_music.html")
+
+
+# 编辑音乐
+@backstage.route("/backstage/music_list/",methods=["get","post"])
+def editor_music():
+    if request.method == "GET":
+        music_obj_list = Music.query.all()
+        data = comment_pagination(music_obj_list)
+        return render_template("/backstage/music_list.html",**locals())
+    else:
+        print(request.form)
+        id = request.form.get("id")
+        image = request.form.get("image")
+        src = request.form.get("music")
+
+        Music.query.filter_by(id=id).delete(synchronize_session=False)
+        db.session.commit()
+        image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/music/images/{}".format(image)))
+        os.remove(image_path)
+        music_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/music/music/{}".format(src)))
+        os.remove(music_path)
+        return redirect("/backstage/music_list/")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
