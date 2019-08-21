@@ -1,5 +1,5 @@
 
-from flask import Blueprint,redirect,request,render_template
+from flask import Blueprint,redirect,request,render_template,jsonify
 from myblog.models import *
 from werkzeug.utils import secure_filename
 from myblog.views.article import pagination
@@ -45,11 +45,12 @@ def up_picture(image_obj):
 # 保存文章
 def save_article(request):
     article_tag = request.form.getlist("article_tag")
+    article_type = request.form.get("article_type")
     author = request.form.get("author")
     title = request.form.get("title")
     description = request.form.get("description")
     content = request.form.get("content")
-    article_type = request.form.get("article_type")
+    article_source = request.form.get("article_source")
     article_status = request.form.get("submit")
     if request.form.get("article_id"):
         id = int(request.form.get("article_id"))
@@ -61,6 +62,7 @@ def save_article(request):
             article_obj.description = description
             article_obj.content = content
             article_obj.article_type = article_type
+            article_obj.article_source = article_source
             article_obj.title = title
             if image_obj:
                 picture_name = up_picture(image_obj)
@@ -90,6 +92,7 @@ def save_article(request):
                     description=description,
                     content=content,
                     article_type=article_type,
+                    article_source=article_source,
                     article_status="发布",
                     article_picture=picture_name
                 )
@@ -100,6 +103,7 @@ def save_article(request):
                     description=description,
                     content=content,
                     article_type=article_type,
+                    article_source=article_source,
                     article_status="草稿",
                     article_picture=picture_name
                 )
@@ -113,7 +117,6 @@ def save_article(request):
         "title":title,
         "description":description,
         "article_status":article_status
-
     }
     return data
 
@@ -127,8 +130,9 @@ def main():
 @backstage.route("/backstage/add_article/",methods=["get","post"])
 def add_article():
     if request.method == "GET":
+        type_obj_list = Type.query.all()
         tag_obj_list = Tag.query.all()
-        return render_template("/backstage/add_article.html",**{"tag_obj_list":tag_obj_list})
+        return render_template("/backstage/add_article.html",**{"type_obj_list":type_obj_list,"tag_obj_list":tag_obj_list})
     else:
 
         if request.form.get("submit") == "发布文章":
@@ -140,6 +144,37 @@ def add_article():
         else:
             return redirect("/backstage/article_list/")
 
+# 添加类型
+@backstage.route("/backstage/add_type/",methods=["get","post"])
+def add_type():
+    if request.method == "GET": # get请求删除类型
+        type_id = int(request.args.get("type_id"))
+        Type.query.filter_by(id=type_id).delete(synchronize_session=False)
+        return "删除成功"
+    else:  # post请求增加类型
+        type = request.form.get("type")
+        type_obj = Type(name=type)
+        db.session.add(type_obj)
+        db.session.commit()
+        type_id = Type.query.filter(Type.name==type).first().id
+        return jsonify({"type_id":type_id,"type_name":type})
+
+
+# 添加标签
+@backstage.route("/backstage/add_tag/",methods=["get","post"])
+def add_tag():
+    if request.method == "GET": # get请求删除标签
+        tag_id = int(request.args.get("tag_id"))
+        print(tag_id)
+        Tag.query.filter_by(id=tag_id).delete(synchronize_session=False)
+        return "删除成功"
+    else: # post请求增加标签
+        tag = request.form.get("tag")
+        tag_obj = Tag(name=tag)
+        db.session.add(tag_obj)
+        db.session.commit()
+        tag_id = Tag.query.filter(Tag.name==tag).first().id
+        return jsonify({"tag_id":tag_id,"tag_name":tag})
 
 
 
@@ -158,9 +193,11 @@ def article_detail():
         tag_obj_list = Tag.query.all()
         id = int(request.args.get("id"))
         article_obj = Article.query.get(id)
+        type_obj_list = Type.query.all()
         params = {
             "article_obj": article_obj,
-            "tag_obj_list":tag_obj_list
+            "tag_obj_list":tag_obj_list,
+            "type_obj_list":type_obj_list
         }
         return render_template("/backstage/article_detail.html", **params)
     else:
@@ -183,7 +220,6 @@ def article_detail():
                 "description": article.description,
                 "article_status": "删除"
             }
-
             return render_template("/backstage/article_result.html",**locals())
 
 
@@ -360,7 +396,15 @@ def editor_music():
         return redirect("/backstage/music_list/")
 
 
-
+# tinyMEC富文本编辑其图片上传
+@backstage.route("/image/upload",methods=["get","post"])
+def image_upload():
+    response = {}
+    picture_obj = request.files.get("file")
+    picture_name = up_picture(picture_obj)
+    location = "/statics/images/article_picture/{}".format(picture_name)
+    response["location"] = location
+    return jsonify(response)
 
 
 

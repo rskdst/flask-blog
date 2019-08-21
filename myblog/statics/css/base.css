@@ -1,7 +1,7 @@
 @charset "gb2312";
 /* css */
 * { margin: 0; padding: 0 }
-body { font: 15px "Microsoft YaHei", Arial, Helvetica, sans-serif; color: #555; background: #efefef; line-height: 1.5;background-image: url(../images/backgroud.jpg) }
+body { font: 15px "Microsoft YaHei", Arial, Helvetica, sans-serif; color: #555; background: #5DD0C0; line-height: 1.5; }
 
 div { border-radius: 2em }
 li { border-radius: 2em }

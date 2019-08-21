@@ -12,16 +12,19 @@
 .icon-author:before { content: "\e67b"; }
 .icon-tags:before { content: "\e627"; }
 .icon-view:before { content: "\e63a"; }
+.icon-comment:before { content: "\e635" }
+.icon-praise:before { content: "\e633";color: red }
+.icon-praise1:before { content: "\e605";color: red }
 .hover-img { position: absolute;top: 60px;left: 60px;width: 300px;height: 300px;z-index: 9 }
 .weixin { position: absolute;top:140px;left:130px;width: 160px;height: 160px;z-index: 10 }
 
 /*.hover-image img { width: 250px;height: 250px }*/
 
-.wdxc { height: 330px;width: 375px }
-.wdxc li { width: 352px; overflow: hidden; float: left; height: 247px; margin-bottom: 2px; margin-right: 2px }
-.wdxc li img { width:352px;height: 247px }
+.rmwz { height: 330px;width: 375px }
+.rmwz li { width: 352px; overflow: hidden; float: left; height: 247px; margin-bottom: 2px; margin-right: 2px }
+.rmwz li img { width:352px;height: 247px }
 .hot-article { padding: 10px }
-.fenlei li { margin-bottom: 10px; margin-left: 10px }
+.fenlei li { margin-bottom: 10px; margin-left: 10px;margin-right: 80px;display: inline-block; }
 .fenlei div { padding: 10px;height: 100% }
 .tuijian li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; margin-bottom: 5px; background: url(../images/li.png) left center no-repeat; padding-left: 20px }
 .tuijian div { padding: 10px;height: 100% }
@@ -37,10 +40,7 @@
 .r_box li h3 a:hover { color: #000; }
 .r_box li .article-image { float: right; clear: right; width: 200px;height: 123px; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; transition: all 0.5s; }
 .r_box li p { margin: 20px 0 45px 0; line-height: 22px; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 2; }
-.r_box li span { position:absolute; font-size: 12px;  }
-.r_box li .a-time { margin-left: 10px; }
-.r_box li .a-author { margin-left: 300px }
-.r_box li .a-tags { margin-left: 500px }
+.r_box li span { position:relative; font-size: 13px;padding-right: 50px   }
 .r_box li span img { width: 18px;height: 16px;display: inline;padding-right: 3px }
 .r_box li:hover img { transform: scale(1.05) }
 .r_box li:hover h3 a { color: #19585d; }
@@ -119,7 +119,7 @@ textarea#saytext { width: 100%; }
 .newsview .news_title { color: #444;font-weight: 400;font-size: 24px;line-height: 40px; }
 .article-header { padding: 2px 20px 12px;border-bottom: 1px solid #eee; }
 .navigation { margin: 0 0 1px;padding: 9px 20px 7px;background-color: #fff;border-bottom: 1px solid #eee; }
-.article-header span { font-size: 12px;margin-right: 60px; }
+.article-header span { font-size: 13px;margin-right: 60px; }
 .article-header span img { width: 18px;height: 16px;display: inline;padding-right: 3px }
 .navigation span { color: #999 }
 .news_con { padding: 10px 20px 20px 20px; }

@@ -25,6 +25,7 @@ def pagination(all_data):
     start = (current_page - 1) * 7
     end = current_page * 7
     data_list = all_data[start:end]
+
     tag_obj_list = Tag.query.all()
     recommend = Tag.query.filter_by(name="站长推荐").first()
     return locals()
@@ -34,27 +35,42 @@ def pagination(all_data):
 @article.route("/article/",methods=["get",])
 def main():
     all_article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
+    type_obj_list = Type.query.all()
     data = pagination(all_article_obj_list)
     return render_template("article.html",**locals())
 
 # 文章详情页
 @article.route("/detail/",methods=["get","post"])
 def detail():
-    tag_obj_list = Tag.query.all()
     article_id = request.args.get("article_id")
     article_obj = Article.query.get(article_id)
+    article_browse = article_obj.article_browse
+    article_browse += 1
+    type_obj_list = Type.query.all()
+    tag_obj_list = Tag.query.all()
+    Article.query.filter_by(id=article_id).update({"article_browse":article_browse})
     recommend = Tag.query.filter_by(name="站长推荐").first()
     return render_template("article_content.html",**locals())
 
 # 文章分类页
 @article.route("/article/type/",methods=["get","post"])
 def article_type():
+    type_id = int(request.args.get("type_id"))
+    type_obj = Type.query.get(type_id)
+    type_obj_list = Type.query.all()
+    all_article_obj_list = type_obj.article.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
+    data = pagination(all_article_obj_list)
+    return render_template("article.html",**locals())
+
+# 文章标签页
+@article.route("/article/tag/",methods=["get","post"])
+def article_tag():
     tag_id = int(request.args.get("tag_id"))
     tag_obj = Tag.query.get(tag_id)
+    type_obj_list = Type.query.all()
     all_article_obj_list = tag_obj.article.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     data = pagination(all_article_obj_list)
-
-    return render_template("article.html",**locals())
+    return render_template("article.html", **locals())
 
 
 # 文章评论
@@ -68,7 +84,7 @@ def add_comment():
     reply_comment_id = request.form.get("reply_comment_id")
     parent_id = request.form.get("parent_id")
     reply_id = request.form.get("reply_id")
-    if not User.query.filter(username==username):
+    if not User.query.filter_by(username=username).first():
         user = User(username=username,email=email)
         db.session.add(user)
         db.session.commit()

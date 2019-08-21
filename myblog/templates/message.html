@@ -24,21 +24,19 @@
         <img style="display: none" id="divHover" img src="/statics/images/hover.png">
         <img style="display: none" id="weixin" src="/statics/images/wxqr.jpg">
     </div>
-    <div class="wdxc">
-      <div class="hot-article">
-            <h2>我的相册</h2>
+    <div class="rmwz">
+          <div class="hot-article">
+            <h2>热门文章</h2>
               <hr>
             <div id="demo1" class="slideBox">
               <ul class="items">
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题一"><img src="/statics/images/1.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题二"><img src="/statics/images/2.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题三"><img src="/statics/images/3.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题四"><img src="/statics/images/4.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题五"><img src="/statics/images/5.jpg"></a></li>
+                  {% for hot_article in hot_article_list %}
+                    <li><a href="/detail/?article_id={{ hot_article.id }}" title="{{ hot_article.title }}" target="_blank"><img src="/statics/images/article_picture/{{ hot_article.article_picture }}"></a></li>
+                  {% endfor %}
               </ul>
             </div>
           </div>
-    </div>
+      </div>
      <div class="search">
       <form action="/search/" method="get" name="searchform" id="searchform">
           {% if key_word %}
@@ -60,12 +58,12 @@
               {% else %}
                   {% if tag_id %}
                       {% if tag_obj.id == tag_id %}
-                          <li><a style="color: red" href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                          <li><a style="color: red" href="/article/tag/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                       {% else %}
-                          <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                          <li><a href="/article/tag/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                       {% endif %}
                   {% else %}
-                      <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                      <li><a href="/article/tag/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                   {% endif %}
               {% endif %}
           {% endfor %}
@@ -173,7 +171,7 @@
             $('#demo3').slideBox({
                 duration : 1,//滚动持续时间，单位：秒
                 easing : 'linear',//swing,linear//滚动特效
-                delay : 5,//滚动延迟时间，单位：秒
+                delay : 10,//滚动延迟时间，单位：秒
                 hideClickBar : false,//不自动隐藏点选按键
                 clickBarRadius : 10
             });

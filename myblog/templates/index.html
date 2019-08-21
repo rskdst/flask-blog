@@ -26,17 +26,15 @@
             <img style="display: none" id="divHover" img src="/statics/images/hover.png">
             <img style="display: none" id="weixin" src="/statics/images/wxqr.jpg">
         </div>
-      <div class="wdxc">
+      <div class="rmwz">
           <div class="hot-article">
-            <h2>我的相册</h2>
+            <h2>热门文章</h2>
               <hr>
             <div id="demo1" class="slideBox">
               <ul class="items">
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题一"><img src="/statics/images/1.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题二"><img src="/statics/images/2.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题三"><img src="/statics/images/3.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题四"><img src="/statics/images/4.jpg"></a></li>
-                <li><a href="http://sc.chianz.com/" title="这里是测试标题五"><img src="/statics/images/5.jpg"></a></li>
+                  {% for hot_article in hot_article_list %}
+                    <li><a href="/detail/?article_id={{ hot_article.id }}" title="{{ hot_article.title }}" target="_blank"><img src="/statics/images/article_picture/{{ hot_article.article_picture }}"></a></li>
+                  {% endfor %}
               </ul>
             </div>
           </div>
@@ -45,8 +43,6 @@
         <form action="/search/" method="get" name="searchform" id="searchform">
           <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
           <input name="show" value="title" type="hidden">
-          <input name="tempid" value="1" type="hidden">
-          <input name="tbname" value="news" type="hidden">
           <input name="Submit" class="input_submit" value="搜索" type="submit">
         </form>
       </div>
@@ -55,18 +51,18 @@
             <h2>文章分类</h2>
             <hr>
             <ul>
-              {% for tag_obj in data.tag_obj_list %}
+              {% for tag_obj in tag_obj_list %}
                   {% if tag_obj.name == "站长推荐" %}
                       <li style="display: none"></li>
                   {% else %}
                       {% if tag_id %}
                           {% if tag_obj.id == tag_id %}
-                              <li><a style="color: red" href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                              <li><a style="color: red" href="/article/tag/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                           {% else %}
-                              <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                              <li><a href="/article/tag/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                           {% endif %}
                       {% else %}
-                          <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                          <li><a href="/article/tag/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                       {% endif %}
                   {% endif %}
               {% endfor %}
@@ -78,7 +74,7 @@
             <h2>站长推荐</h2>
             <hr>
             <ul>
-              {% for article_obj in data.recommend.article %}
+              {% for article_obj in recommend.article %}
                   <li><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></li>
               {% endfor %}
             </ul>
@@ -105,30 +101,24 @@
   </aside>
   <main class="r_box">
    <div class="m">
-        <div >
-            <a style="width: 629px;height: 419px;position: absolute;display: block;z-index: 999 " href="/article/" target="_blank"></a>
-        </div>
 		<ul class="pgwSlider">
-
-            <li><a> <img src="/statics/images/1.jpg" alt="Paris, France" data-description="Eiffel Tower and Champ de Mars"></a></li>
-            <li><a><img src="/statics/images/2.jpg" alt="Montréal, QC, Canada" data-large-src="/statics/images/2.jpg"></a></li>
-            <li><a><img src="/statics/images/3.jpg"> <span>Shanghai, China</span></a> </li>
-            <li> <a href="http://sc.chinaz.com/" target="_blank"> <img src="/statics/images/4.jpg"> <span>New York, NY, USA</span> </a> </li>
+        {% for praise_show in praise_show_list %}
+            <li><a href="/detail/?article_id={{ praise_show.id }}" target="_blank"> <img src="/statics/images/article_picture/{{ praise_show.article_picture }}" alt="{{ praise_show.title }}" data-description="{{ praise_show.description }}"></a></li>
+        {% endfor %}
 		</ul>
     </div>
   <div class="article-list">
-     {% for article_obj in data.data_list %}
+     {% for article_obj in article_obj_list %}
       <li class="alt-list"><i><a href="/"><img class="article-image" src="/statics/images/article_picture/{{ article_obj.article_picture }}"></a></i>
             <h4><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h4>
             <p>{{ article_obj.description }}</p><br>
             <hr>
-          <span class="a-time"><i class="iconfont icon-time"></i>&nbsp;&nbsp;{{ article_obj.created_date }}</span>
+          <span class="a-time"><i class="iconfont icon-time"></i>&nbsp;{{ article_obj.created_date }}</span>
           <span class="a-author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;{{ article_obj.author }}</span>
-          <span class="a-tags"><i class="iconfont icon-tags"></i>&nbsp;&nbsp;
-              {% for tag_obj in article_obj.tag %}
-                  {{ tag_obj.name }}&nbsp;
-              {% endfor %}
-          </span>
+          <span class="a-view"><i class="iconfont icon-view"></i>&nbsp;{{ article_obj.article_browse }}浏览</span>
+          <span class="a-comment"><i class="iconfont icon-comment"></i>&nbsp;<a style="color: #00a67c" href="/detail/?article_id={{ article_obj.id }}/#plpost">{{ article_obj.comment.count() }}评论</a></span>
+          <a style="cursor: pointer"><span class="a-praise1 like1" id="{{ article_obj.id }}" value="{{ article_obj.article_praise }}"><i class="iconfont icon-praise1"></i>&nbsp;{{ article_obj.article_praise }}喜欢</span></a>
+          <a><span style="display: none" class="a-praise like2"><i class="iconfont icon-praise"></i>&nbsp;{{ article_obj.article_praise+1 }}喜欢</span></a>
       </li>
       {% endfor %}
   </div>
@@ -139,8 +129,16 @@
     <script src="/statics/js/jquery.min.js"></script>
     <script src="/statics/js/pgwslider.js"></script>
     <script src="/statics/js/jquery.slideBox.min.js" type="text/javascript"></script>
-
     <script type="text/javascript">
+        $(".like1").click(function () {
+            var id = $(this).attr("id");
+            var article_praise = $(this).attr("value");
+            $(this).css("display","none");
+            $(this).parent().next().children().css("display","inline");
+            $.get("/add_praise/",{"id":id,"article_praise":article_praise},function (data) {
+                console.log(data)
+            })
+        });
         let divHover = $("#divHover");
         let weixin = $("#weixin");
         function hoverShowDiv() {
@@ -161,13 +159,11 @@
             $('#demo3').slideBox({
                 duration : 1,//滚动持续时间，单位：秒
                 easing : 'linear',//swing,linear//滚动特效
-                delay : 5,//滚动延迟时间，单位：秒
+                delay : 10,//滚动延迟时间，单位：秒
                 hideClickBar : false,//不自动隐藏点选按键
                 clickBarRadius : 10
             });
 
         });
-
-
     </script>
 {% endblock %}

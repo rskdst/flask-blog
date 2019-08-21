@@ -16,6 +16,17 @@ Article_Tag = db.Table(
 
 )
 
+# 文章类型
+class Type(BaseModel):
+    __tablename__ = "type"
+    name = db.Column(db.String(10),unique=True)
+    article = db.relationship(
+        "Article",
+        lazy='dynamic',
+        backref="type",
+    )
+
+
 # 文章
 class Article(BaseModel):
     __tablename__ = "article"
@@ -25,7 +36,8 @@ class Article(BaseModel):
     update_date = db.Column(db.DateTime, nullable=False,default=datetime.datetime.now,onupdate=datetime.datetime.now) # 文章更新日期
     description = db.Column(db.String(200)) # 文章描述
     content = db.Column(db.Text) # 文章内容
-    article_type = db.Column(db.String(3)) # 文章类型
+    article_source = db.Column(db.String(3)) # 文章来源
+    article_type = db.Column(db.Integer,db.ForeignKey("type.id")) # 文章类型
     article_status = db.Column(db.String(10)) # 文章状态
     article_picture = db.Column(db.String(100)) # 文章图片
     article_browse = db.Column(db.Integer,default=10) # 文章浏览量
@@ -42,6 +54,10 @@ class Article(BaseModel):
         backref="article",
     )
 
+
+
+
+    
 
 # 文章标签
 class Tag(BaseModel):

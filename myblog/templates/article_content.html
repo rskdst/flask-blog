@@ -28,7 +28,7 @@
               {% for tag_obj in tag_obj_list %}
                   {% if tag_obj.name == "站长推荐" %}
                   {% else %}
-                  <li><a href="/article/type/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
+                  <li><a href="/article/tag/?tag_id={{ tag_obj.id }}">{{ tag_obj.name }}({{ tag_obj.article.filter_by(article_status="发布").all() | length }})</a></li>
                   {% endif %}
               {% endfor %}
           </ul>
@@ -110,19 +110,19 @@
       <div class="bloginfo">
         <header class="article-header">
             <h3 class="news_title">{{ article_obj.title }}</h3>
-                <span class="author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;<a href="/search/?keyboard={{ article_obj.author }}">{{ article_obj.author }}</a><input id="article_id" name="article_id" type="hidden" value="{{ article_obj.id }}"></span>
-                <span class="tags"><i class="iconfont icon-tags"></i>&nbsp;&nbsp;
+                <span class="author"><i class="iconfont icon-author"></i>&nbsp;<a href="/search/?keyboard={{ article_obj.author }}">{{ article_obj.author }}</a><input id="article_id" name="article_id" type="hidden" value="{{ article_obj.id }}"></span>
+                <span class="tags"><i class="iconfont icon-tags"></i>&nbsp;
                     {% for tag in article_obj.tag %}
-                    <a href="/article/type/?tag_id={{ tag.id }}" target="_blank">{{ tag.name }}</a>
+                        <a href="/article/tag/?tag_id={{ tag.id }}" target="_blank">{{ tag.name }}</a>
                     {% endfor %}
                 </span>
-                <span class="timer"><i class="iconfont icon-time"></i>&nbsp;&nbsp;{{ article_obj.created_date }}</span>
-                <span class="view"><i class="iconfont icon-view"></i>&nbsp;&nbsp;4567人已阅读</span>
+                <span class="timer"><i class="iconfont icon-time"></i>&nbsp;{{ article_obj.created_date }}</span>
+                <span class="view"><i class="iconfont icon-view"></i>&nbsp;{{ article_obj.article_browse }}浏览</span>
         </header>
         </div>
         <div class="news_con">{{ article_obj.content | safe }}</div>
       <div class="share">
-        <p class="diggit"><a class="like" href="JavaScript:makeRequest('/e/public/digg/?classid=3&amp;id=19&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');"> 很赞哦！ </a>(<b id="diggnum">13</b>)</p>
+        <p class="diggit"><a class="like" href="/add_praise/?id={{ article_obj.id }}&praise={{ article_obj.article_praise }}"> 很赞哦！ </a>(<b id="diggnum">{{ article_obj.article_browse }}</b>)</p>
       </div>
       <div class="nextinfo">
         <p>上一篇：<a href="/news/life/2018-03-13/804.html">作为一个设计师,如果遭到质疑你是否能恪守自己的原则?</a></p>

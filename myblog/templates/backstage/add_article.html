@@ -34,15 +34,35 @@
        <input type="file" class="article_img" name="article_picture">
     </div>
     <div style="padding: 10px">
-        <label style="color: black">文章标签：</label>
-        {% for tag_obj in tag_obj_list %}
-        <input type="checkbox" name="article_tag" value="{{ tag_obj.id }}">{{ tag_obj.name }}&nbsp;&nbsp;
+        <label class="type_article" style="color: black">文章类型：</label>
+        {% for type_obj in type_obj_list %}
+            {% if type_obj.name == "技术文章" %}
+                <input type="radio" name="article_type" value="{{ type_obj.id }}" checked><span>{{ type_obj.name }}</span><span class="delete_type" id="type{{ type_obj.id }}" style="color: red;cursor: pointer">×</span>&nbsp;
+            {% else %}
+                <input type="radio" name="article_type" value="{{ type_obj.id }}"><span>{{ type_obj.name }}</span><span class="delete_type" id="type{{ type_obj.id }}" style="color: red;cursor: pointer">×</span>&nbsp;&nbsp;
+            {% endif %}
         {% endfor %}
+        <button style="margin-left: 50px" type="button" class="add_type">增加类型</button>
+    </div>
+    <div style="display: none" class="add-type">
+        <input id="type" value="" type="text" name="type" placeholder="填写类型">
+        <button class="submit_type" type="button">提交</button>
+    </div>
+    <div style="padding: 10px">
+        <label class="tag_article" style="color: black">文章标签：</label>
+        {% for tag_obj in tag_obj_list %}
+            <input type="checkbox" name="article_tag" value="{{ tag_obj.id }}"><span>{{ tag_obj.name }}</span><span class="delete_tag" id="tag{{ tag_obj.id }}" style="color: red;cursor: pointer">×</span>&nbsp;&nbsp;
+        {% endfor %}
+        <button style="margin-left: 50px" type="button" class="add_tag">增加标签</button>
+    </div>
+    <div style="display: none" class="add-tag">
+        <input type="text" id="tag" value="" name="tag" placeholder="填写标签">
+        <button class="submit_tag" type="button">提交</button>
     </div>
     <div style="padding: 10px;">
-        <label style="color: black">文章类型：</label>
-        <input type="radio" name="article_type" value="原创" checked>原创&nbsp;&nbsp;
-        <input type="radio" name="article_type" value="转载">转载
+        <label style="color: black">文章来源：</label>
+        <input type="radio" name="article_source" value="原创" checked>原创&nbsp;&nbsp;
+        <input type="radio" name="article_source" value="转载">转载
     </div>
     <div style="padding: 10px">
         <input type="submit" style="border: 1px solid red;color: red;width: 120px" class="btn btn-default" name="submit" value="发布文章">
@@ -78,6 +98,66 @@
                     $(".back").click()
                 });
             });
+            $(".add_type").click(function () {
+                if($(".add-type").css("display") == "none"){
+                    $(".add-type").css("display","inline");
+                    $(".submit_type").click(function () {
+                        if($("#type").val() == ""){
+                            alert("请填写类型")
+                        }else {
+                            var type = $("#type").val();
+                            $.post("/backstage/add_type/",{"type":type},function (data) {
+                                var type_id = data.type_id;
+                                var type_name = data.type_name;
+                                var html = '<input type="radio" name="article_type" value="'+type_id+'"><span>'+type_name+'</span><span class="delete_type" style="color: red;cursor: pointer">×</span>&nbsp;&nbsp;';
+                                $(".type_article").after(html);
+                                $(".add-type").css("display","none")
+                            })
+                        }
+                    })
+                }else {
+                    $(".add-type").css("display","none")
+                }
+                });
+                $(".delete_type").click(function () {
+                    var type_id = $(this).prev().prev().val();
+                    var type = $(this).attr("id");
+                    $.get("/backstage/add_type/",{"type_id":type_id},function (data) {
+                        $("span[id="+type+"]").prev().prev().remove();
+                        $("span[id="+type+"]").prev().remove();
+                        $("span[id="+type+"]").remove();
+                    })
+                });
+                $(".add_tag").click(function () {
+                    if ($(".add-tag").css("display") == "none") {
+                        $(".add-tag").css("display", "inline");
+                        $(".submit_tag").click(function () {
+                            if ($("#tag").val() == "") {
+                                alert("请填写类型")
+                            } else {
+                                var tag = $("#tag").val();
+                                $.post("/backstage/add_tag/", {"tag": tag}, function (data) {
+                                    var tag_id = data.tag_id;
+                                    var tag_name = data.tag_name;
+                                    var html = '<input type="checkbox" name="article_tag" value="' + tag_id + '"><span>' + tag_name + '</span><span class="delete_tag" style="color: red;cursor: pointer">×</span>&nbsp;&nbsp;';
+                                    $(".tag_article").after(html);
+                                    $(".add-tag").css("display", "none")
+                                })
+                            }
+                        })
+                    } else {
+                        $(".add-tag").css("display", "none")
+                    }
+                });
+                $(".delete_tag").click(function () {
+                    var tag_id = $(this).prev().prev().val();
+                     var tag = $(this).attr("id");
+                    $.get("/backstage/add_tag/",{"tag_id":tag_id},function (data) {
+                        $("span[id="+tag+"]").prev().prev().remove();
+                        $("span[id="+tag+"]").prev().remove();
+                        $("span[id="+tag+"]").remove();
+                    })
+                });
         });
         tinymce.init({
             selector: ".content",
@@ -94,7 +174,7 @@
 
             menubar: false,
             toolbar_items_size: 'small',
-
+            images_upload_url: '/image/upload',
             style_formats: [
                 {title: 'Bold text', inline: 'b'},
                 {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
