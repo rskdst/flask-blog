@@ -40,7 +40,7 @@
         <hr>
         <ul>
           {% for article_obj in recommend.article %}
-              <li><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></li>
+              <li><a href="/detail/?article_id={{ article_obj.id }}" target="_blank">{{ article_obj.title }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -63,32 +63,32 @@
     </div>
     <div id="tagscloud" style="overflow: visible">
         <div>
-            <h2>标签云</h2>
+            <h2>猜你喜欢</h2>
             <hr>
-            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5" >网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc1" >网站常用代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">代码笔记</a>
-            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">jquery特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2" >网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc3" >网站常用代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc1">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">相册代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">jquery特效代码表</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc1" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc2" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc3" target="_blank">{{ random_article_list[2].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[3].id }}" class="tagc4" target="_blank">{{ random_article_list[3].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[4].id }}" class="tagc5" target="_blank">{{ random_article_list[4].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[5].id }}" class="tagc1" target="_blank">{{ random_article_list[5].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[6].id }}" class="tagc2" target="_blank">{{ random_article_list[6].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc3" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc4" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc5" target="_blank">{{ random_article_list[2].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[3].id }}" class="tagc1" target="_blank">{{ random_article_list[3].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[4].id }}" class="tagc2" target="_blank">{{ random_article_list[4].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[5].id }}" class="tagc3" target="_blank">{{ random_article_list[5].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[6].id }}" class="tagc4" target="_blank">{{ random_article_list[6].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc5" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc1" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc2" target="_blank">{{ random_article_list[2].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[3].id }}" class="tagc3" target="_blank">{{ random_article_list[3].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[4].id }}" class="tagc4" target="_blank">{{ random_article_list[4].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[5].id }}" class="tagc5" target="_blank">{{ random_article_list[5].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[6].id }}" class="tagc1" target="_blank">{{ random_article_list[6].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc2" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc3" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc4" target="_blank">{{ random_article_list[2].title }}</a>
         </div>
     </div>
     <div class="guanzhu" style="overflow: visible">
@@ -125,8 +125,12 @@
         <p class="diggit"><a class="like" href="/add_praise/?id={{ article_obj.id }}&praise={{ article_obj.article_praise }}"> 很赞哦！ </a>(<b id="diggnum">{{ article_obj.article_browse }}</b>)</p>
       </div>
       <div class="nextinfo">
-        <p>上一篇：<a href="/news/life/2018-03-13/804.html">作为一个设计师,如果遭到质疑你是否能恪守自己的原则?</a></p>
-        <p>下一篇：<a href="/news/life/">返回列表</a></p>
+          {% if prev_article_obj %}
+            <p>上一篇：<a href="/detail/?article_id={{ prev_article_obj.id }}">{{ prev_article_obj.title }}</a></p>
+          {% endif %}
+          {% if prev_article_obj %}
+            <p>下一篇：<a href="/detail/?article_id={{ next_article_obj.id }}">{{ next_article_obj.title }}</a></p>
+          {% endif %}
       </div>
       {% raw %}
       <div class="news_pl">
@@ -137,12 +141,12 @@
             <ul>
               <p class="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
               <p class="fbinfo">{{ message.parent_comment.content }}</p>
-              <a class="reply" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id" :reply_comment_id="message.parent_comment.id"><i class="iconfont icon-reply"></i>&nbsp;回复</a>
+              <a class="reply" style="margin-right: 73px" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id" :reply_comment_id="message.parent_comment.id"><i class="iconfont icon-reply"></i>&nbsp;回复</a>
                 <br>
               <div class="ecomment" v-if="message.son_comment!==undefined&&message.son_comment.length >0">
                   <div v-for="son_message in message.son_comment">
                     <span class="ecommentauthor">网友 {{ son_message.username }} 回复 {{ son_message.parent }}：&nbsp;&nbsp;&nbsp;&nbsp;{{ son_message.created_date }}</span>
-                    <p class="ecommenttext">{{ son_message.content }}</p><br>
+                    <p class="ecommenttext">{{ son_message.content }}</p>
                     <a class="reply" v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id" :reply_comment_id="son_message.id"><i class="iconfont icon-reply"></i>&nbsp;回复</a>
                       <br>
                   </div>

@@ -3,6 +3,7 @@ from flask import Flask,render_template,request,redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api,Resource
 from myblog.models import *
+import random
 article = Blueprint("article",__name__)
 api = Api(article)
 
@@ -25,7 +26,6 @@ def pagination(all_data):
     start = (current_page - 1) * 7
     end = current_page * 7
     data_list = all_data[start:end]
-
     tag_obj_list = Tag.query.all()
     recommend = Tag.query.filter_by(name="站长推荐").first()
     return locals()
@@ -35,6 +35,9 @@ def pagination(all_data):
 @article.route("/article/",methods=["get",])
 def main():
     all_article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
+    random_article_list = []
+    for i in range(7):
+        random_article_list.append(random.choice(all_article_obj_list))
     type_obj_list = Type.query.all()
     data = pagination(all_article_obj_list)
     return render_template("article.html",**locals())
@@ -50,6 +53,20 @@ def detail():
     tag_obj_list = Tag.query.all()
     Article.query.filter_by(id=article_id).update({"article_browse":article_browse})
     recommend = Tag.query.filter_by(name="站长推荐").first()
+    all_article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
+    article_index = all_article_obj_list.index(article_obj)
+    try:
+        next_article_obj = all_article_obj_list[article_index+1]
+    except:
+        next_article_obj = None
+    try:
+        prev_article_obj = all_article_obj_list[article_index-1]
+    except:
+        prev_article_obj = None
+    random_article_list = []
+    for i in range(7):
+        random_article_list.append(random.choice(all_article_obj_list))
+    type_obj_list = Type.query.all()
     return render_template("article_content.html",**locals())
 
 # 文章分类页
@@ -60,6 +77,9 @@ def article_type():
     type_obj_list = Type.query.all()
     all_article_obj_list = type_obj.article.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     data = pagination(all_article_obj_list)
+    random_article_list = []
+    for i in range(7):
+        random_article_list.append(random.choice(all_article_obj_list))
     return render_template("article.html",**locals())
 
 # 文章标签页
@@ -70,7 +90,11 @@ def article_tag():
     type_obj_list = Type.query.all()
     all_article_obj_list = tag_obj.article.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     data = pagination(all_article_obj_list)
+    random_article_list = []
+    for i in range(7):
+        random_article_list.append(random.choice(all_article_obj_list))
     return render_template("article.html", **locals())
+
 
 
 # 文章评论
@@ -149,7 +173,6 @@ class _Comment(Resource):
             if comment_dict:
                 comment_list.append(comment_dict)
         data["data"] = comment_list
-        print(data)
         return data
 
     def post(self):

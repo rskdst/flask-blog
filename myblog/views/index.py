@@ -7,7 +7,10 @@ index = Blueprint("index",__name__)
 
 @index.route("/index/",methods=["get",])
 def main():
-    article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).limit(10).all() # 首页文章列表
+    article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all() # 首页文章列表
+    sum_page = len([i + 1 for i in range((len(list(article_obj_list)) + 7 - 1) // 7)])
+    print(sum_page)
+    article_obj_list = article_obj_list[0:7]
     praise_show_list = Article.query.order_by("article_praise").limit(4).values(Article.id,Article.title,Article.article_picture,Article.description) # 轮播图文章列表
     hot_article_list = Article.query.order_by("article_praise").limit(5).values(Article.id,Article.title,Article.article_picture) # 热门文章列表
     type_obj_list = Type.query.all() # 文章类型列表
@@ -36,6 +39,8 @@ def search():
         type_obj_list = Type.query.all()
         tag_obj_list = Tag.query.all()
         return render_template("article.html",**locals())
+
+
 
 
 # 音乐

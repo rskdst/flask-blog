@@ -74,32 +74,32 @@
     </div>
     <div id="tagscloud" style="overflow: visible">
         <div>
-            <h2>标签云</h2>
+            <h2>猜你喜欢</h2>
             <hr>
-            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5" >网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc1" >网站常用代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">代码笔记</a>
-            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">jquery特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc1">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc2" >网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc3" >网站常用代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">js特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc5">jquery特效代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc1">网页小图标</a>
-            <a href="http://sc.chinaz.com/" class="tagc2">相册代码</a>
-            <a href="http://sc.chinaz.com/" class="tagc3">js特效代码表</a>
-            <a href="http://sc.chinaz.com/" class="tagc4">jquery特效代码表</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc1" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc2" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc3" target="_blank">{{ random_article_list[2].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[3].id }}" class="tagc4" target="_blank">{{ random_article_list[3].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[4].id }}" class="tagc5" target="_blank">{{ random_article_list[4].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[5].id }}" class="tagc1" target="_blank">{{ random_article_list[5].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[6].id }}" class="tagc2" target="_blank">{{ random_article_list[6].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc3" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc4" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc5" target="_blank">{{ random_article_list[2].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[3].id }}" class="tagc1" target="_blank">{{ random_article_list[3].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[4].id }}" class="tagc2" target="_blank">{{ random_article_list[4].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[5].id }}" class="tagc3" target="_blank">{{ random_article_list[5].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[6].id }}" class="tagc4" target="_blank">{{ random_article_list[6].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc5" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc1" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc2" target="_blank">{{ random_article_list[2].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[3].id }}" class="tagc3" target="_blank">{{ random_article_list[3].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[4].id }}" class="tagc4" target="_blank">{{ random_article_list[4].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[5].id }}" class="tagc5" target="_blank">{{ random_article_list[5].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[6].id }}" class="tagc1" target="_blank">{{ random_article_list[6].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[0].id }}" class="tagc2" target="_blank">{{ random_article_list[0].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[1].id }}" class="tagc3" target="_blank">{{ random_article_list[1].title }}</a>
+            <a href="/detail/?article_id={{ random_article_list[2].id }}" class="tagc4" target="_blank">{{ random_article_list[2].title }}</a>
         </div>
     </div>
     <div class="guanzhu" style="overflow: visible">
@@ -129,14 +129,14 @@
           <h3>抱歉，没有找到您想要的结果！</h3>
       {% else %}
       {% for article_obj in data.data_list %}
-      <li class="alt-list"><i><a href="/"><img class="article-image" src="/statics/images/article_picture/{{ article_obj.article_picture }}"></a></i>
-            <h4><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h4>
+      <li class="alt-list" id="art-list"><i><a href="/"><img class="article-image" src="/statics/images/article_picture/{{ article_obj.article_picture }}"></a></i>
+            <h4><a href="/detail/?article_id={{ article_obj.id }}" target="_blank">{{ article_obj.title }}</a></h4>
             <p>{{ article_obj.description }}</p><br>
             <hr>
               <span class="a-time"><i class="iconfont icon-time"></i>&nbsp;{{ article_obj.created_date }}</span>
               <span class="a-author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;{{ article_obj.author }}</span>
               <span class="a-view"><i class="iconfont icon-view"></i>&nbsp;{{ article_obj.article_browse }}浏览</span>
-              <span class="a-comment"><i class="iconfont icon-comment"></i>&nbsp;<a style="color: #00a67c" href="/detail/?article_id={{ article_obj.id }}/#plpost">{{ article_obj.comment.count() }}评论</a></span>
+              <span class="a-comment"><i class="iconfont icon-comment"></i>&nbsp;<a style="color: #00a67c" href="/detail/?article_id={{ article_obj.id }}/#plpost" target="_blank">{{ article_obj.comment.count() }}评论</a></span>
               <a style="cursor: pointer;color: #f78585"><span class="a-praise1 like1" id="{{ article_obj.id }}" value="{{ article_obj.article_praise }}"><i class="iconfont icon-praise1"></i>&nbsp;{{ article_obj.article_praise }}喜欢</span></a>
               <a style="color: #f78585;"><span style="display: none" class="a-praise like2"><i class="iconfont icon-praise"></i>&nbsp;{{ article_obj.article_praise+1 }}喜欢</span></a>
       </li>

@@ -17,7 +17,7 @@
               <h2>关于我</h2>
               <hr>
               <a style="left: 25px" href="https://weibo.com/liujing0824" target="_blank"><img src="/statics/images/weibo.png"></a>
-              <a style="left: 110px" href="#"><img src="/statics/images/email.png"></a></span>
+              <a style="left: 110px" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=liucjing@foxmail.com" target="_blank"><img src="/statics/images/email.png"></a></span>
               <a style="left: 195px" id="littleimg" onmouseleave="hoverHiddendiv()" onmouseenter="hoverShowDiv()" href=""><img src="/statics/images/weixin.png"></a>
               <a style="left: 280px" href="https://github.com/rskdst" target="_blank"><img src="/statics/images/Github.png"></a>
           </div>
@@ -76,7 +76,7 @@
             <hr>
             <ul>
               {% for article_obj in recommend.article %}
-                  <li><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></li>
+                  <li><a href="/detail/?article_id={{ article_obj.id }}" target="_blank">{{ article_obj.title }}</a></li>
               {% endfor %}
             </ul>
           </div>
@@ -108,16 +108,18 @@
         {% endfor %}
 		</ul>
     </div>
+  <input type="hidden" id="now_page" value="1">
+  <input type="hidden" id="sum_page" value="{{ sum_page }}">
   <div class="article-list">
      {% for article_obj in article_obj_list %}
       <li class="alt-list"><i><a href="/"><img class="article-image" src="/statics/images/article_picture/{{ article_obj.article_picture }}"></a></i>
-            <h4><a href="/detail/?article_id={{ article_obj.id }}">{{ article_obj.title }}</a></h4>
+            <h4><a href="/detail/?article_id={{ article_obj.id }}" target="_blank">{{ article_obj.title }}</a></h4>
             <p>{{ article_obj.description }}</p><br>
             <hr>
           <span class="a-time"><i class="iconfont icon-time"></i>&nbsp;{{ article_obj.created_date }}</span>
           <span class="a-author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;{{ article_obj.author }}</span>
           <span class="a-view"><i class="iconfont icon-view"></i>&nbsp;{{ article_obj.article_browse }}浏览</span>
-          <span class="a-comment"><i class="iconfont icon-comment"></i>&nbsp;<a style="color: #00a67c" href="/detail/?article_id={{ article_obj.id }}/#plpost">{{ article_obj.comment.count() }}评论</a></span>
+          <span class="a-comment"><i class="iconfont icon-comment"></i>&nbsp;<a style="color: #00a67c" href="/detail/?article_id={{ article_obj.id }}/#plpost" target="_blank">{{ article_obj.comment.count() }}评论</a></span>
           <a style="cursor: pointer;color: #f78585"><span class="a-praise1 like1" id="{{ article_obj.id }}" value="{{ article_obj.article_praise }}"><i class="iconfont icon-praise1"></i>&nbsp;{{ article_obj.article_praise }}喜欢</span></a>
           <a><span style="display: none;color: #f78585" class="a-praise like2"><i class="iconfont icon-praise"></i>&nbsp;{{ article_obj.article_praise+1 }}喜欢</span></a>
       </li>
@@ -164,6 +166,31 @@
                 hideClickBar : false,//不自动隐藏点选按键
                 clickBarRadius : 10
             });
+            var arrivedAtBottom = function () {
+                    return $(document).scrollTop() + $(window).height() == $(document).height();
+                };
+            $(window).scroll(function(){
+                 if(arrivedAtBottom()) {
+                     var now_page = parseInt($("#now_page").val())+1;
+                     var sum_page = parseInt($("#sum_page").val());
+                     console.log(now_page,sum_page)
+                     if(now_page <= sum_page){
+
+                         $.ajax({
+                         type:"get",
+                         url:"/article/?page="+now_page,
+                         dataType:"html",
+                         success:function (data) {
+                             $("#now_page").val(now_page);
+                             var result = $(data).find("#art-list");
+                             $(".article-list").append(result)
+                         }
+                     })
+                     }
+
+                 }
+            });
+
 
         });
     </script>
