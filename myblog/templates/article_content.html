@@ -137,12 +137,14 @@
             <ul>
               <p class="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
               <p class="fbinfo">{{ message.parent_comment.content }}</p>
-              <a class="reply" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id" :reply_comment_id="message.parent_comment.id">回复</a>
+              <a class="reply" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id" :reply_comment_id="message.parent_comment.id"><i class="iconfont icon-reply"></i>&nbsp;回复</a>
+                <br>
               <div class="ecomment" v-if="message.son_comment!==undefined&&message.son_comment.length >0">
                   <div v-for="son_message in message.son_comment">
                     <span class="ecommentauthor">网友 {{ son_message.username }} 回复 {{ son_message.parent }}：&nbsp;&nbsp;&nbsp;&nbsp;{{ son_message.created_date }}</span>
                     <p class="ecommenttext">{{ son_message.content }}</p><br>
-                      <a class="reply" v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id" :reply_comment_id="son_message.id">回复</a>
+                    <a class="reply" v-on:click="reply_to" :reply_id="son_message.reply_id" :article_id="son_message.article_id" :parent_id="son_message.parent_id" :reply_comment_id="son_message.id"><i class="iconfont icon-reply"></i>&nbsp;回复</a>
+                      <br>
                   </div>
 
               </div>

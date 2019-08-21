@@ -6,12 +6,11 @@
 {% block container %}
     <div style="padding: 10px" class="r_box">
       {% for music_obj in data.data_list %}
-          <li>
+          <li style="background: rgba(226, 218, 218, 0.8);padding: 10px">
             <h3>{{ music_obj.title }}</h3>
             <p>{{ music_obj.singer }}</p>
             <img style="width: 40px;height: 40px;" src="/statics/music/images/{{ music_obj.image }}">
-          </li>
-           <div style="margin-left: 600px;">
+            <div style="margin-left: 600px;">
                 <form method="post">
                     <input type="hidden" name="id" value="{{ music_obj.id }}">
                     <input type="hidden" name="image" value="{{ music_obj.image }}">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -19,6 +18,8 @@
                     <input type="submit" value="删除">
                 </form>
            </div>
+          </li>
+
           <hr>
 
       {% endfor %}

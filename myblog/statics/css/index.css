@@ -13,6 +13,9 @@
 .icon-tags:before { content: "\e627"; }
 .icon-view:before { content: "\e63a"; }
 .icon-comment:before { content: "\e635" }
+.icon-reply:before { content: "\e663";color: #5DD0C0; }
+.reply { float: right;margin-right: 100px }
+.reply span { font-size: 13px }
 .icon-praise:before { content: "\e633";color: red }
 .icon-praise1:before { content: "\e605";color: red }
 .hover-img { position: absolute;top: 60px;left: 60px;width: 300px;height: 300px;z-index: 9 }
@@ -114,10 +117,10 @@ img#plKeyImg { display: inline-block; }
 textarea#saytext { width: 100%; }
 #plpost input[type="button"] { display: block; background: #303030; color: #fff; border: 0; line-height: 30px; padding: 0 20px; border-radius: 5px; float: right; }
 textarea#saytext { width: 100%; }
-#plpost { margin: 0 20px }
+#plpost { margin: 40px 20px }
 .newsview { background: rgba(255,255,255,0.8); }
 .newsview .news_title { color: #444;font-weight: 400;font-size: 24px;line-height: 40px; }
-.article-header { padding: 2px 20px 12px;border-bottom: 1px solid #eee; }
+.article-header { padding: 2px 20px 12px;border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 .navigation { margin: 0 0 1px;padding: 9px 20px 7px;background-color: #fff;border-bottom: 1px solid #eee; }
 .article-header span { font-size: 13px;margin-right: 60px; }
 .article-header span img { width: 18px;height: 16px;display: inline;padding-right: 3px }
@@ -131,13 +134,14 @@ textarea#saytext { width: 100%; }
 .input-val { width: 200px;height: 32px;border: 1px solid #ddd;box-sizing: border-box; }
 #canvas {vertical-align: middle;box-sizing: border-box;border: 1px solid #ddd;cursor: pointer;}
 .reply{cursor: pointer;color: black;}
-.comment_manage { background: rgba(255,255,255,0.8);margin: 10px 10px 20px }
+.comment_manage { background: rgba(226, 218, 218, 0.8);margin: 10px 10px 20px }
 .editor { margin-left: 750px }
 .editor button { margin-right: 20px;border: 1px solid black }
 .editor input { margin-right: 20px;border: 1px solid black }
 .reply-content input { border: 1px solid black }
 .container-header { width: 100%;height: 30px;background: rgba(255,255,255,0.8);margin-bottom: 10px }
 .container-header p { padding: 4px 15px }
+
 
 
 
