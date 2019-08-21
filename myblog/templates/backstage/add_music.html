@@ -6,6 +6,7 @@
 
 {% block container %}
     <form method="post" enctype=multipart/form-data>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="input-group" style="padding: 10px;">
             <input class="form-control" type="text" name="title" placeholder="请添加标题">
         </div>

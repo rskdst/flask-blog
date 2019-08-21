@@ -12,6 +12,7 @@
             <img style="width: 40px;height: 40px;" src="/statics/music/images/{{ music_obj.image }}">
             <div style="margin-left: 600px;">
                 <form method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value="{{ music_obj.id }}">
                     <input type="hidden" name="image" value="{{ music_obj.image }}">&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="hidden" name="music" value="{{ music_obj.src }}">

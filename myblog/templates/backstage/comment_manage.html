@@ -40,6 +40,7 @@
                             <p class="ecommenttext">{{ son_comment.content }}</p><br>
                             <div class="editor" style="margin-left: 400px">
                                 <form method="post" style="display: inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="son_comment" value="{{ son_comment.id }}">
                                     <input type="hidden" name="parent_id" value="{{ comment.parent_comment.id }}">
                                     <input type="button" id="{{ son_comment.id }}" class="btn btn-default delete" name="submit" value="删除" data-toggle="modal" data-target="#myModal">

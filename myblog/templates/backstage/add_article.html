@@ -13,6 +13,7 @@
 {% block container %}
 
 <form method="post" enctype=multipart/form-data>
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <script src="/statics/js/tinymce_setup.js"></script>
     <script src="/statics/tinymce/js/tinymce/tinymce.min.js"></script>
     <link href="/statics/css/prism.css" rel="stylesheet" />
@@ -106,7 +107,7 @@
                             alert("请填写类型")
                         }else {
                             var type = $("#type").val();
-                            $.post("/backstage/add_type/",{"type":type},function (data) {
+                            $.post("/backstage/add_type/",{"type":type,"csrf_token":"{{ csrf_token() }}"},function (data) {
                                 var type_id = data.type_id;
                                 var type_name = data.type_name;
                                 var html = '<input type="radio" name="article_type" value="'+type_id+'"><span>'+type_name+'</span><span class="delete_type" style="color: red;cursor: pointer">×</span>&nbsp;&nbsp;';
@@ -136,7 +137,7 @@
                                 alert("请填写类型")
                             } else {
                                 var tag = $("#tag").val();
-                                $.post("/backstage/add_tag/", {"tag": tag}, function (data) {
+                                $.post("/backstage/add_tag/", {"tag": tag,"csrf_token":"{{ csrf_token() }}"}, function (data) {
                                     var tag_id = data.tag_id;
                                     var tag_name = data.tag_name;
                                     var html = '<input type="checkbox" name="article_tag" value="' + tag_id + '"><span>' + tag_name + '</span><span class="delete_tag" style="color: red;cursor: pointer">×</span>&nbsp;&nbsp;';

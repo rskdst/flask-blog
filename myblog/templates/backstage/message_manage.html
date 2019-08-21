@@ -8,6 +8,7 @@
 
     {% for messages in data.data_list %}
     <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="fb" style="background: rgba(226, 218, 218, 0.8)">
         <ul>
             <li class="fbtime"><span> {{ messages.message.created_date }} </span> {{ messages.message.user.username }}</li>

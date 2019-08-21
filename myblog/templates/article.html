@@ -13,6 +13,7 @@
   <aside class="l_box">
  <div class="search">
       <form action="/search/" method="get" name="searchform" id="searchform">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           {% if key_word %}
             <input name="keyboard" id="keyboard" class="input_text" value={{ key_word }} style="color: rgb(153, 153, 153);" onfocus="if(value=={{ key_word }}){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value={{ key_word }}" type="text">
           {% else %}
@@ -136,8 +137,8 @@
               <span class="a-author"><i class="iconfont icon-author"></i>&nbsp;&nbsp;{{ article_obj.author }}</span>
               <span class="a-view"><i class="iconfont icon-view"></i>&nbsp;{{ article_obj.article_browse }}浏览</span>
               <span class="a-comment"><i class="iconfont icon-comment"></i>&nbsp;<a style="color: #00a67c" href="/detail/?article_id={{ article_obj.id }}/#plpost">{{ article_obj.comment.count() }}评论</a></span>
-              <a style="cursor: pointer;color: red"><span class="a-praise1 like1" id="{{ article_obj.id }}" value="{{ article_obj.article_praise }}"><i class="iconfont icon-praise1"></i>&nbsp;{{ article_obj.article_praise }}喜欢</span></a>
-              <a style="color: red;"><span style="display: none" class="a-praise like2"><i class="iconfont icon-praise"></i>&nbsp;{{ article_obj.article_praise+1 }}喜欢</span></a>
+              <a style="cursor: pointer;color: #f78585"><span class="a-praise1 like1" id="{{ article_obj.id }}" value="{{ article_obj.article_praise }}"><i class="iconfont icon-praise1"></i>&nbsp;{{ article_obj.article_praise }}喜欢</span></a>
+              <a style="color: #f78585;"><span style="display: none" class="a-praise like2"><i class="iconfont icon-praise"></i>&nbsp;{{ article_obj.article_praise+1 }}喜欢</span></a>
       </li>
       {% endfor %}
       {% endif %}

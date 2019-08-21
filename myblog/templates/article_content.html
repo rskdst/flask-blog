@@ -167,14 +167,13 @@
               </p>
               <input name="nomember" type="hidden" id="nomember" value="1" checked="checked">
               <textarea name="content" rows="6" id="saytext"></textarea>
-              <input class="add_comment" name="imageField" type="button" value="提交" onclick="return validated()">
+               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input class="add_comment" name="imageField" type="button" value="提交">
                 <input name="article_id" type="hidden" id="article_id" value="{{ article_obj.id }}">
                 {% raw %}
               <input name="parent_id" type="hidden" id="parent_id" :value="parent_id">
               <input name="reply_comment_id" type="hidden" id="reply_comment_id" :value="reply_comment_id">
               <input name="reply_id" type="hidden" id="reply_id" :value="reply_id">
-              <input name="repid" type="hidden" id="repid" value="">
-              <input type="hidden" name="ecmsfrom" value="/joke/talk/2018-07-23/106.html">
             </div>
             </form>
         </div>
@@ -224,7 +223,6 @@
             created:function () {
                 var article_id = $("#article_id").val();
                 this.$http.get("/article/api/comment/",{params: {article_id:article_id}}).then(function (response) {
-                    console.log(response.data.data);
                     this.messages = response.data.data;
                 })
             },

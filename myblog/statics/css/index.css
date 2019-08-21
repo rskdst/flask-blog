@@ -13,11 +13,12 @@
 .icon-tags:before { content: "\e627"; }
 .icon-view:before { content: "\e63a"; }
 .icon-comment:before { content: "\e635" }
+.icon-search:before { content: "\e613"; }
 .icon-reply:before { content: "\e663";color: #5DD0C0; }
-.reply { float: right;margin-right: 100px }
-.reply span { font-size: 13px }
-.icon-praise:before { content: "\e633";color: red }
-.icon-praise1:before { content: "\e605";color: red }
+.reply span { font-size: 13px; }
+.input_submit { margin-left: 35px; border: 0;background-color: black }
+.icon-praise:before { content: "\e633";color: #f78585 }
+.icon-praise1:before { content: "\e605";color: #f78585 }
 .hover-img { position: absolute;top: 60px;left: 60px;width: 300px;height: 300px;z-index: 9 }
 .weixin { position: absolute;top:140px;left:130px;width: 160px;height: 160px;z-index: 10 }
 
@@ -133,7 +134,7 @@ textarea#saytext { width: 100%; }
 .infosbox img { width: auto;height: auto; }
 .input-val { width: 200px;height: 32px;border: 1px solid #ddd;box-sizing: border-box; }
 #canvas {vertical-align: middle;box-sizing: border-box;border: 1px solid #ddd;cursor: pointer;}
-.reply{cursor: pointer;color: black;}
+.reply{cursor: pointer;color: black;float: right;margin-right: 60px }
 .comment_manage { background: rgba(226, 218, 218, 0.8);margin: 10px 10px 20px }
 .editor { margin-left: 750px }
 .editor button { margin-right: 20px;border: 1px solid black }
@@ -141,7 +142,16 @@ textarea#saytext { width: 100%; }
 .reply-content input { border: 1px solid black }
 .container-header { width: 100%;height: 30px;background: rgba(255,255,255,0.8);margin-bottom: 10px }
 .container-header p { padding: 4px 15px }
-
+.add_message {
+    display: block;
+    background: #303030;
+    color: #fff;
+    border: 0;
+    line-height: 30px;
+    padding: 0 20px;
+    border-radius: 5px;
+    float: right;
+}
 
 
 

@@ -73,7 +73,7 @@
 <script>
 
     $(function () {
-        $.post("/music/",{},function (data) {
+        $.post("/music/",{"csrf_token":"{{ csrf_token() }}"},function (data) {
             var musicList = [];
             for (music of data) {
                 var musicDict = {

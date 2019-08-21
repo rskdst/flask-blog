@@ -123,6 +123,7 @@
     </div>
       <div class="gbox" id="msg">
         <form method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <p> <strong>来说点儿什么吧...</strong></p>
           <p class="yname"><span>昵&nbsp;&nbsp;&nbsp;&nbsp;称:</span>
             <input name="username" type="text" class="inputText" id="username" value="" size="16">
@@ -138,7 +139,7 @@
             <textarea name="content" cols="60" rows="12" id="lytext"></textarea>
           </p>
           <p>
-            <input type="submit" name="Submit3" value="提交">
+            <input type="button" class="add_message" name="submit" value="提交">
           </p>
         </form>
       </div>
@@ -185,14 +186,14 @@
                 draw(show_num);
             });
 
-            $(".add_comment").on('click',function(){
+            $(".add_message").on('click',function(){
                 var num = show_num.join("");
                 var val = $(".input-val").val().toLowerCase();
                 if($("#username").val().length == 0){
                    alert("请填写昵称");
                 }else if($("#email").val().length == 0){
                    alert("请填写电子邮箱");
-                }else if($("#saytext").val().length == 0){
+                }else if($("#lytext").val().length == 0){
                    alert("说两句在提交吧");
                 }else if(val==''){
                     alert('请输入验证码！');

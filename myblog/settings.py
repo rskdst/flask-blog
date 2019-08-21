@@ -1,6 +1,7 @@
 class BaseConfig(object):
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SECRET_KEY = "lj950824"
 
 
 class DebugConfig(BaseConfig):
