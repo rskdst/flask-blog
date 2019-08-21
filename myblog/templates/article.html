@@ -113,6 +113,17 @@
   </aside>
 
   <main class="r_box">
+    {% if request.path != "/article/" %}
+        {% if type_obj %}
+            <div class="container-header">
+                <p><a href="/article/">我的文章</a> >> {{ type_obj.name }}</p>
+            </div>
+        {% else %}
+            <div class="container-header">
+                <p><a href="/article/">我的文章</a> >> {{ tag_obj.name }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
       {% if data.data_list == [] %}
           <h3>抱歉，没有找到您想要的结果！</h3>
       {% else %}
