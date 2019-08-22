@@ -184,6 +184,15 @@
                              $("#now_page").val(now_page);
                              var result = $(data).find("#art-list");
                              $(".article-list").append(result)
+                              $(".like1").click(function () {
+                                var id = $(this).attr("id");
+                                var article_praise = $(this).attr("value");
+                                $(this).css("display","none");
+                                $(this).parent().next().children().css("display","inline");
+                                $.get("/add_praise/",{"id":id,"article_praise":article_praise},function (data) {
+                                    console.log(data)
+                                })
+                            });
                          }
                      })
                      }

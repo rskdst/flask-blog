@@ -79,7 +79,10 @@ def add_praise():
 
 
 
-
+# 关于我
+@index.route("/aboutme/",methods=["get","post"])
+def about_me():
+    return render_template("aboutme.html",**locals())
 
 
 

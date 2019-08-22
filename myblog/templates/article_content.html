@@ -140,7 +140,7 @@
 
           <div class="fb" v-for='message in messages'>
             <ul>
-              <p class="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
+              <p class="fbtime" id="fbtime"><span>{{ message.parent_comment.created_date }}</span>{{ message.parent_comment.username }}</p>
               <p class="fbinfo">{{ message.parent_comment.content }}</p>
               <a class="reply" style="margin-right: 73px" v-on:click="reply_to" :reply_id="message.parent_comment.reply_id" :article_id="message.parent_comment.article_id" :parent_id="message.parent_comment.id" :reply_comment_id="message.parent_comment.id"><i class="iconfont icon-reply"></i>&nbsp;回复</a>
                 <br>
@@ -252,10 +252,8 @@
                 var val = $(".input-val").val().toLowerCase();
                 if($("#username").val().length == 0){
                    alert("请填写昵称");
-                }else if($("#username").val() == "刘敬"){
-                    if($("#blogholder").val() == "None"){
-                        alert("此昵称博主专用哦~")
-                    }
+                }else if($("#username").val() == "刘敬" && $("#blogholder").val() == "None"){
+                    alert("此昵称博主专用哦~")
                 }else if($("#email").val().length == 0){
                    alert("请填写电子邮箱");
                 }else if($("#saytext").val().length == 0){
