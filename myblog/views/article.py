@@ -45,6 +45,7 @@ def main():
 # 文章详情页
 @article.route("/detail/",methods=["get","post"])
 def detail():
+    cookie = request.cookies.get("username")
     article_id = request.args.get("article_id")
     article_obj = Article.query.get(article_id)
     article_browse = article_obj.article_browse
