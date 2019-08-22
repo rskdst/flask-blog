@@ -4,8 +4,40 @@ from myblog.models import *
 from werkzeug.utils import secure_filename
 from myblog.views.article import pagination
 import os
+import hashlib
+from myblog.views.form import LoginForm
 
 backstage = Blueprint("backstage",__name__)
+
+# cookie加密
+def setUsername(username):
+    md5 = hashlib.md5()
+    md5.update(username.encode())
+    return md5.hexdigest()
+
+# 后台登录
+@backstage.route("/login/",methods=["get","post"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        response = redirect("/backstage/")
+        username = setUsername(form.username.data)
+        response.set_cookie("username",username)
+        return response
+    return render_template("backstage/login.html",**locals())
+
+
+# 后台cookie验证
+def loginValid(func):
+    def wrapper(*args,**kwargs):
+        cookie_username = request.cookies.get("username")
+        username = setUsername(Admin.query.first().username)
+        if cookie_username == username:
+            return func(*args,**kwargs)
+        else:
+            return redirect("/login")
+    return wrapper
+
 
 # 评论留言分类
 def comment_pagination(all_data):
@@ -122,12 +154,14 @@ def save_article(request):
 
 
 @backstage.route("/backstage/",methods=["get",])
+@loginValid
 def main():
     return render_template("/backstage/index.html")
 
 
 # 添加文章
-@backstage.route("/backstage/add_article/",methods=["get","post"])
+@backstage.route("/backstage/add_article/",methods=["get","post"],endpoint="add_article")
+@loginValid
 def add_article():
     if request.method == "GET":
         type_obj_list = Type.query.all()
@@ -145,7 +179,8 @@ def add_article():
             return redirect("/backstage/article_list/")
 
 # 添加类型
-@backstage.route("/backstage/add_type/",methods=["get","post"])
+@backstage.route("/backstage/add_type/",methods=["get","post"],endpoint="add_type")
+@loginValid
 def add_type():
     if request.method == "GET": # get请求删除类型
         type_id = int(request.args.get("type_id"))
@@ -161,7 +196,8 @@ def add_type():
 
 
 # 添加标签
-@backstage.route("/backstage/add_tag/",methods=["get","post"])
+@backstage.route("/backstage/add_tag/",methods=["get","post"],endpoint="add_tag")
+@loginValid
 def add_tag():
     if request.method == "GET": # get请求删除标签
         tag_id = int(request.args.get("tag_id"))
@@ -179,7 +215,8 @@ def add_tag():
 
 
 # 文章列表页
-@backstage.route("/backstage/article_list/",methods=["get","post"])
+@backstage.route("/backstage/article_list/",methods=["get","post"],endpoint="article_list")
+@loginValid
 def article_list():
     article_obj_list = Article.query.order_by(db.desc("created_date")).all()
     data = pagination(article_obj_list)
@@ -187,7 +224,8 @@ def article_list():
 
 
 # 文章详情页
-@backstage.route("/backstage/article_detail/",methods=["get","post"])
+@backstage.route("/backstage/article_detail/",methods=["get","post"],endpoint="article_detail")
+@loginValid
 def article_detail():
     if request.method == "GET":
         tag_obj_list = Tag.query.all()
@@ -224,7 +262,8 @@ def article_detail():
 
 
 # 留言管理
-@backstage.route("/manage/message/",methods=["get","post"])
+@backstage.route("/manage/message/",methods=["get","post"],endpoint="message_manage")
+@loginValid
 def message_manage():
     if request.method == "GET":
         message_list = []
@@ -268,7 +307,8 @@ def message_manage():
 
 
 # 评论管理
-@backstage.route("/manage/comment/",methods=["get","post"])
+@backstage.route("/manage/comment/",methods=["get","post"],endpoint="comment_manage")
+@loginValid
 def comment_manage():
     if request.method == "GET":
         all_article_id = Article.query.with_entities(Article.id,Article.title).all()
@@ -349,7 +389,8 @@ def comment_manage():
 
 
 # 添加音乐
-@backstage.route("/backstage/add_music/",methods=["get","post"])
+@backstage.route("/backstage/add_music/",methods=["get","post"],endpoint="add_music")
+@loginValid
 def add_music():
     if request.method == "GET":
         return render_template("/backstage/add_music.html")
@@ -375,7 +416,8 @@ def add_music():
 
 
 # 编辑音乐
-@backstage.route("/backstage/music_list/",methods=["get","post"])
+@backstage.route("/backstage/music_list/",methods=["get","post"],endpoint="editor_music")
+@loginValid
 def editor_music():
     if request.method == "GET":
         music_obj_list = Music.query.all()
@@ -397,7 +439,8 @@ def editor_music():
 
 
 # tinyMEC富文本编辑其图片上传
-@backstage.route("/image/upload",methods=["get","post"])
+@backstage.route("/image/upload",methods=["get","post"],endpoint="image_upload")
+@loginValid
 def image_upload():
     response = {}
     picture_obj = request.files.get("file")

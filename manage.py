@@ -2,10 +2,18 @@ from flask_script import Manager
 from flask_migrate import Migrate,MigrateCommand
 from myblog.models import db
 from myblog import app
+from myblog.views.register import *
 
-manage = Manager(app)
+manager = Manager(app)
 migrate = Migrate(app,db)
-manage.add_command("db",MigrateCommand)
+manager.add_command("db",MigrateCommand)
+
+# 创建后台管理者
+@manager.command
+def create_manager():
+    create_admin()
+
+
 
 if __name__ == "__main__":
-    manage.run()
+    manager.run()

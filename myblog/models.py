@@ -113,8 +113,15 @@ class LeaveMessage(BaseModel):
 
 # 音乐
 class Music(BaseModel):
+    __tablename__ = "music"
     title = db.Column(db.String(300))
     singer = db.Column(db.String(100))
     image = db.Column(db.String(200))
     src = db.Column(db.String(300))
 
+
+# 后台管理者信息
+class Admin(BaseModel):
+    __tablename__ = "admin"
+    username = db.Column(db.String(32))
+    password = db.Column(db.String(100))

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎来到刘敬的博客</title>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <style type="text/css">
+        ul{
+            display: inline;
+        }
+        li{
+            display: inline-block;
+        }
+    </style>
+</head>
+<body style="background: #5DD0C0">
+        <div style="margin-left: 40%;margin-top: 17%">
+            <form method="post" action="/login/" novalidate>
+                {{ form.csrf_token }}
+                <table >
+                    <tr>
+                        <th>{{ form.username.label }}:</th>
+                        <td>{{ form.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form.password.label }}:</th>
+                        <td>{{ form.password }}</td>
+                    </tr>
+                </table>
+                <div style="color: red">
+                    {% for error in form.errors.username %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                    {% for error in form.errors.password %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <input style="margin-left: 12%" type="submit" value="登录">
+            </form>
+        </div>
+
+<script>
+    $(function () {
+        $("#id_gender_0").attr("checked", "True");
+        $("a span").hover(function () {
+            $(this).css({"color": "red"});
+        }, function () {
+            $(this).css({"color": "blue"});
+        });
+    })
+</script>
+</body>
+</html>
