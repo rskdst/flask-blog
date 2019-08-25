@@ -39,7 +39,7 @@
 .l_box .search { border: 1px solid #000; background: #000; border-radius: 2em; position: relative; }
 .search input.input_submit { border: 0; background: 0; color: #fff; outline: none; position: absolute; top: 7px; right: 10% }
 .search input.input_text { border: 0; line-height: 36px; height: 36px; width: 72%; padding-left: 10px; outline: none }
-.r_box .alt-list { background: rgba(255,255,255,0.8); padding: 15px; overflow: hidden; color: #797b7c; margin-bottom: 20px;height: 220px }
+.r_box .alt-list { background: rgba(255,255,255,0.8); padding: 15px; overflow: hidden; color: #797b7c; margin-bottom: 20px; }
 .r_box li h3 { line-height: 25px; text-shadow: #FFF 1px 1px 1px }
 .r_box li h3 a:hover { color: #000; }
 .r_box li .article-image { float: right; clear: right; width: 200px;height: 123px; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; transition: all 0.5s; }
@@ -143,7 +143,6 @@ textarea#saytext { width: 100%; }
 .container-header { width: 100%;height: 30px;background: rgba(255,255,255,0.8);margin-bottom: 10px }
 .container-header p { padding: 4px 15px }
 .add_message { display: block;background: #303030;color: #fff;border: 0;line-height: 30px;padding: 0 20px;border-radius: 5px;float: right; }
-
 
 
 

@@ -48,7 +48,7 @@ def search():
 def music():
     if request.method == "GET":
         type_obj_list = Type.query.all()
-        return render_template("music.html",**locals())
+        return render_template("music.html", **locals())
     else:
         music_obj_list = Music.query.all()
         music_list = []
