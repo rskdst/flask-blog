@@ -13,11 +13,13 @@
         <ul>
             <li class="fbtime"><span> {{ messages.message.created_date }} </span> {{ messages.message.user.username }}</li>
             <li class="fbinfo">{{ messages.message.content }}</li>
+
             <li class="editor"><input type="button" id="{{ messages.message.id }}" class="btn btn-default user_delete" name="submit" value="删除1" data-toggle="modal" data-target="#myModal"><button type="button" value="{{ messages.message.id }}" class="btn btn-default reply_to">回复</button></li>
 
             <li class="reply-content{{ messages.message.id }}" style="display: none">
                 <input type="hidden" name="message_id" value="{{ messages.message.id }}">
                 <textarea name="reply" cols="70" rows="6"></textarea>
+
                 <input type="submit" class="btn" name="submit" value="回复">
             </li>
         </ul>

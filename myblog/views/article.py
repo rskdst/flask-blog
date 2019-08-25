@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import Flask,render_template,request,redirect
+from flask import Flask,render_template,request,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api,Resource
 from myblog.models import *
@@ -36,8 +36,12 @@ def pagination(all_data):
 def main():
     all_article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     random_article_list = []
+
     for i in range(7):
-        random_article_list.append(random.choice(all_article_obj_list))
+        if all_article_obj_list:
+            random_article_list.append(random.choice(all_article_obj_list))
+        else:
+            random_article_list.append(" ")
     type_obj_list = Type.query.all()
     data = pagination(all_article_obj_list)
     return render_template("article.html",**locals())
@@ -133,7 +137,7 @@ def add_comment():
         )
         db.session.add(comment)
         db.session.commit()
-    return redirect("/detail/?article_id={}/#article_conmment".format(article_id))
+    return redirect("/detail/?article_id={}#article_conmment".format(article_id))
 
 # 评论模块
 class _Comment(Resource):

@@ -17,6 +17,7 @@
                     <p class="fbinfo">{{ comment.parent_comment.content }}</p>
                     <div class="editor" style="margin-left: 400px">
                         <form method="post" style="display: inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="parent_comment" value="{{ comment.parent_comment.id }}">
                             <input type="button" id="{{ comment.parent_comment.id }}" class="btn btn-default delete" name="submit" value="删除" data-toggle="modal" data-target="#myModal">
                         </form>

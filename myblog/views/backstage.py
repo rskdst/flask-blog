@@ -35,7 +35,7 @@ def loginValid(func):
         if cookie_username == username:
             return func(*args,**kwargs)
         else:
-            return redirect("/login")
+            return redirect("/login/")
     return wrapper
 
 

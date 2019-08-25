@@ -6,6 +6,7 @@
 
 {% block container %}
     <form method="post" enctype=multipart/form-data>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="hidden" name="article_id" value="{{ article_obj.id }}">
     <script src="/statics/js/tinymce_setup.js"></script>
     <script src="/statics/tinymce/js/tinymce/tinymce.min.js"></script>
