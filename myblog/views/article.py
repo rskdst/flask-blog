@@ -81,10 +81,14 @@ def article_type():
     type_obj = Type.query.get(type_id)
     type_obj_list = Type.query.all()
     all_article_obj_list = type_obj.article.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
+    all_article_obj = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     data = pagination(all_article_obj_list)
     random_article_list = []
     for i in range(7):
-        random_article_list.append(random.choice(all_article_obj_list))
+        try:
+            random_article_list.append(random.choice(all_article_obj))
+        except:
+            pass
     return render_template("article.html",**locals())
 
 # 文章标签页
@@ -94,10 +98,14 @@ def article_tag():
     tag_obj = Tag.query.get(tag_id)
     type_obj_list = Type.query.all()
     all_article_obj_list = tag_obj.article.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
+    all_article_obj = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
     data = pagination(all_article_obj_list)
     random_article_list = []
     for i in range(7):
-        random_article_list.append(random.choice(all_article_obj_list))
+        try:
+            random_article_list.append(random.choice(all_article_obj))
+        except:
+            pass
     return render_template("article.html", **locals())
 
 
@@ -105,7 +113,6 @@ def article_tag():
 # 文章评论
 @article.route("/article/comment/",methods=["get","post"])
 def add_comment():
-    print(request.form)
     username = request.form.get("username")
     email = request.form.get("email")
     content = request.form.get("content")

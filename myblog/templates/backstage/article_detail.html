@@ -23,7 +23,7 @@
         <textarea type="text" class="form-control" name="description" aria-describedby="basic-addon2">{{ article_obj.description }}</textarea>
     </div>
     <div style="padding: 10px;">
-       <textarea class="content" name="content">{{ article_obj.content }}</textarea>
+        <textarea class="content" name="content" ></textarea>
     </div>
     <div style="padding: 10px;">
        <input type="file" class="article_img" name="article_picture">
@@ -94,6 +94,7 @@
 {% block script %}
     <script>
         $(function () {
+            $(".content").load("/statics/article/{{ article_obj.content }}");
             $(".back").click(function () {
                 var text_sure = $(this).val();
                 $(".text-sure").text(text_sure);

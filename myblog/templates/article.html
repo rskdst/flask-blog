@@ -119,9 +119,13 @@
             <div class="container-header">
                 <p><a href="/article/">我的文章</a> >> {{ type_obj.name }}</p>
             </div>
-        {% else %}
+        {% elif tag_obj %}
             <div class="container-header">
                 <p><a href="/article/">我的文章</a> >> {{ tag_obj.name }}</p>
+            </div>
+        {% else %}
+            <div class="container-header">
+                <p><a href="/article/">我的文章</a> >> 搜索结果 </p>
             </div>
         {% endif %}
     {% endif %}

@@ -12,6 +12,7 @@ def main():
     if request.method == "GET":
         message_list = []
         leave_message_obj_list = LeaveMessage.query.order_by(db.desc("created_date")).all()
+        leave_message_count = len(leave_message_obj_list)
         for leave_message_obj in leave_message_obj_list:
             message_dict = {}
             if leave_message_obj.reply_id == None:

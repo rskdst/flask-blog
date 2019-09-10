@@ -2,14 +2,16 @@ from flask import Blueprint
 from flask import Flask,render_template,request,jsonify,redirect
 from myblog.models import *
 from myblog.views.article import pagination
+import random
 
 index = Blueprint("index",__name__)
+
+
 
 @index.route("/index/",methods=["get",])
 def main():
     article_obj_list = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all() # 首页文章列表
     sum_page = len([i + 1 for i in range((len(list(article_obj_list)) + 7 - 1) // 7)])
-    print(sum_page)
     article_obj_list = article_obj_list[0:7]
     praise_show_list = Article.query.order_by("article_praise").limit(4).values(Article.id,Article.title,Article.article_picture,Article.description) # 轮播图文章列表
     hot_article_list = Article.query.order_by("article_praise").limit(5).values(Article.id,Article.title,Article.article_picture) # 热门文章列表
@@ -18,6 +20,9 @@ def main():
     tag_obj_list = Tag.query.all()
     return render_template("index.html",**locals())
 
+@index.route("/",methods=["get",])
+def main1():
+    return redirect("/index/")
 
 # 搜索
 @index.route("/search/",methods=["get","post"])
@@ -38,6 +43,13 @@ def search():
         data = pagination(article_obj_list)
         type_obj_list = Type.query.all()
         tag_obj_list = Tag.query.all()
+        all_article_obj = Article.query.filter_by(article_status="发布").order_by(db.desc("created_date")).all()
+        random_article_list = []
+        for i in range(7):
+            try:
+                random_article_list.append(random.choice(all_article_obj))
+            except:
+                pass
         return render_template("article.html",**locals())
 
 
@@ -82,6 +94,7 @@ def add_praise():
 # 关于我
 @index.route("/aboutme/",methods=["get","post"])
 def about_me():
+    type_obj_list = Type.query.all()
     return render_template("aboutme.html",**locals())
 
 

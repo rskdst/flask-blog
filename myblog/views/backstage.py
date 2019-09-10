@@ -7,6 +7,7 @@ import os
 import hashlib
 from myblog.views.form import LoginForm
 
+
 backstage = Blueprint("backstage",__name__)
 
 # cookie加密
@@ -60,7 +61,6 @@ def comment_pagination(all_data):
     return locals()
 
 
-
 # 图片上传
 def up_picture(image_obj):
     image = image_obj.filename
@@ -75,13 +75,27 @@ def up_picture(image_obj):
     return picture_name
 
 # 保存文章
-def save_article(request):
+def save_article(request,change=None):
     article_tag = request.form.getlist("article_tag")
     article_type = request.form.get("article_type")
     author = request.form.get("author")
     title = request.form.get("title")
     description = request.form.get("description")
     content = request.form.get("content")
+    content_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/article"))
+    article_title = title+".txt"
+    if change:
+        os.remove(os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/article/{}".format(article_title))))
+        with open(content_path+"/"+article_title,"w",encoding="utf-8") as f:
+            f.write(content)
+    else:
+        if os.path.exists(content_path+"/"+article_title):
+            with open(content_path+"/_"+article_title, "w", encoding="utf-8") as f:
+                f.write(content)
+                article_title = "_"+article_title
+        else:
+            with open(content_path+"/"+article_title,"w",encoding="utf-8") as f:
+                f.write(content)
     article_source = request.form.get("article_source")
     article_status = request.form.get("submit")
     if request.form.get("article_id"):
@@ -92,13 +106,19 @@ def save_article(request):
             article_obj.title = title
             article_obj.author = author
             article_obj.description = description
-            article_obj.content = content
+            article_obj.content = article_title
             article_obj.article_type = article_type
             article_obj.article_source = article_source
             article_obj.title = title
             if image_obj:
-                picture_name = up_picture(image_obj)
-                article_obj.article_picture = picture_name
+                picture_name = article_obj.article_picture
+                if picture_name is None:
+                    picture_name = up_picture(image_obj)
+                    article_obj.article_picture = picture_name
+                else:
+                    os.remove(os.path.abspath(os.path.join(os.path.dirname(__file__),"../statics/images/article_picture/{}".format(picture_name))))
+                    picture_name = up_picture(image_obj)
+                    article_obj.article_picture = picture_name
             else:
                 pass
             if article_status == "发布文章":
@@ -109,7 +129,7 @@ def save_article(request):
             article_obj.tag = tag_list
             db.session.commit()
         except Exception as e:
-            print(e)
+            pass
     else:
         image_obj = request.files.get("article_picture")
         if image_obj:
@@ -122,7 +142,7 @@ def save_article(request):
                     title=title,
                     author=author,
                     description=description,
-                    content=content,
+                    content=article_title,
                     article_type=article_type,
                     article_source=article_source,
                     article_status="发布",
@@ -133,7 +153,7 @@ def save_article(request):
                     title=title,
                     author=author,
                     description=description,
-                    content=content,
+                    content=article_title,
                     article_type=article_type,
                     article_source=article_source,
                     article_status="草稿",
@@ -144,7 +164,7 @@ def save_article(request):
             db.session.add_all([article_obj, ])
             db.session.commit()
         except Exception as e:
-            print(e)
+            pass
     data = {
         "title":title,
         "description":description,
@@ -201,7 +221,6 @@ def add_type():
 def add_tag():
     if request.method == "GET": # get请求删除标签
         tag_id = int(request.args.get("tag_id"))
-        print(tag_id)
         Tag.query.filter_by(id=tag_id).delete(synchronize_session=False)
         return "删除成功"
     else: # post请求增加标签
@@ -240,16 +259,23 @@ def article_detail():
         return render_template("/backstage/article_detail.html", **params)
     else:
         if request.form.get("submit") == "发布文章":
-            data = save_article(request)
+            data = save_article(request,1)
             return render_template("/backstage/article_result.html", **locals())
         elif request.form.get("submit") == "保存为草稿":
-            data = save_article(request)
+            data = save_article(request,1)
             return render_template("/backstage/article_result.html", **locals())
         elif request.form.get("submit") == "返回":
             return redirect("/backstage/article_list/")
         else:
             id = int(request.form.get("article_id"))
             article = Article.query.filter(Article.id==id).first()
+            article_title = article.content
+            article_picture = article.article_picture
+            try:
+                os.remove(os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/article/{}".format(article_title))))
+                os.remove(os.path.abspath(os.path.join(os.path.dirname(__file__), "../statics/images/article_picture/{}".format(article_picture))))
+            except:
+                pass
             Comment.query.filter(Comment.article_id==id).delete(synchronize_session=False)
             db.session.delete(article)
             db.session.commit()
@@ -373,7 +399,6 @@ def comment_manage():
             db.session.add(comment_obj)
             db.session.commit()
         else:
-            print(request.headers)
             if request.form.get("parent_comment"):
                 comment_id = request.form.get("parent_comment")
                 Comment.query.filter_by(id=comment_id).delete(synchronize_session=False)
@@ -424,7 +449,6 @@ def editor_music():
         data = comment_pagination(music_obj_list)
         return render_template("/backstage/music_list.html",**locals())
     else:
-        print(request.form)
         id = request.form.get("id")
         image = request.form.get("image")
         src = request.form.get("music")

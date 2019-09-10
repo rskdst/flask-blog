@@ -121,7 +121,7 @@
                 <span class="view"><i class="iconfont icon-view"></i>&nbsp;{{ article_obj.article_browse }}浏览</span>
         </header>
         </div>
-        <div class="news_con">{{ article_obj.content | safe }}</div>
+        <div class="news_con"></div>
       <div class="share">
         <p class="diggit"><a class="like" href="/add_praise/?id={{ article_obj.id }}&praise={{ article_obj.article_praise }}"> 很赞哦！ </a>(<b id="diggnum">{{ article_obj.article_browse }}</b>)</p>
       </div>
@@ -201,6 +201,7 @@
     <script src="/statics/js/jquery.min.js" type="text/javascript"></script>
     <script src='/statics/js/zzsc.js' type="text/javascript"></script>
     <script>
+
         $("#header a[href='/index/']").css("color","#00a67c");
         $("#header a[href='/article/']").css("color","#f65a8a");
         Vue.use(VueResource);
@@ -327,6 +328,7 @@
         var b = Math.floor(Math.random() * 256);
         return "rgb(" + r + "," + g + "," + b + ")";
     }
+    $(".news_con").load("/statics/article/{{ article_obj.content }}");
 
 
 
