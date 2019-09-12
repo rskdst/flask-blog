@@ -54,8 +54,8 @@ html,body{
 
 /*SMusic*/
 .grid-music-container{
-    width: 520px;
-    height: 276px;
+    width: 60%;
+    height: 50%;
     padding: 20px;
     position: relative;
     margin-top: 10%;
@@ -63,16 +63,18 @@ html,body{
     font-family: "Microsoft Yahei","微软雅黑","Helvetica Neue","Hiragino Sans GB",Helvetica,Tahoma,sans-serif;
     text-shadow: 1px 0 0 rgba(255,255,255,.7);
     margin-bottom: 100px;
+    margin-left: 5%;
 }
 
 .grid-music-container .m-music-play-wrap{
-    height: 150px;
+    width: 5%;
+    float: left;
+    height: 130px;
     position: relative;
     padding-left: 140px;
 }
 .grid-music-container .u-cover{
-    width: 121px;
-    height: 121px;
+    height: 100%;
     overflow: hidden;
     background: url(../img/music_icons.png) 0 0 no-repeat;
     position: absolute;
@@ -81,7 +83,6 @@ html,body{
 }
 .grid-music-container .u-cover img{
     display: block;
-    width: 100%;
     height: auto;
     max-height: 100%;
     border-radius: 50%;
@@ -113,22 +114,24 @@ html,body{
 
 .grid-music-container .m-now-info{
     height: 100%;
+    margin-left: 5%;
+    float: left;
 }
 .grid-music-container .m-now-info h1{
     font-weight: normal;
 }
 .grid-music-container .m-now-info h1 strong{
-    font-size: 18px;
+    font-size: 1.2em;
     color: #111210;
     font-weight: normal;
 }
 .grid-music-container .m-now-info h1 small{
     margin-left: 20px;
-    font-size: 14px;
+    font-size: 0.8em;
     color: #313230;
 }
 .grid-music-container .m-now-controls{
-    padding-top: 30px;
+    padding-top: 5%;
     position: relative;
 }
 .grid-music-container .m-now-controls .u-control{
@@ -138,7 +141,7 @@ html,body{
     overflow: hidden;
 }
 .grid-music-container .m-now-controls .u-process{
-    width: 220px;
+    width: 60%;
     height: 4px;
     position: relative;
     background-color: #cecfd4;
@@ -158,15 +161,14 @@ html,body{
     background-color: #c1c2c0;
 }
 .grid-music-container .m-now-controls .u-time{
-    margin-left: 10px;
-    font-size: 12px;
+    margin-left: 3%;
+    font-size: 0.6em;
     color: #585957;
 }
 .grid-music-container .m-now-controls .u-volume{
     overflow: visible;
     text-align: center;
     position: relative;
-    margin-left: 20px;
 }
 .grid-music-container .u-volume .volume-process{
     width: 3px;
@@ -236,8 +238,7 @@ html,body{
     background-position: -158px -98px;
 }
 .grid-music-container .m-music-list-wrap{
-    margin-left: 135px;
-    margin-right: 25px;
+    margin-top: 30%;
     height: 120px;
     border: 1px solid rgba(255,255,255,.7);
     overflow-x: hidden;
@@ -264,7 +265,7 @@ html,body{
     background-color: transparent;
 }
 .grid-music-container .m-play-controls{
-    margin-top: 10px;
+    margin-top: 7%;
 }
 .grid-music-container .m-play-controls a{
     display: inline-block;
